@@ -13,7 +13,6 @@ export default function HeroSection() {
   const animate = isClient && !prefersReduced;
   const glowRef = useMouseGlow<HTMLElement>();
 
-  // SSR-safe reveal: nothing is hidden on first paint.
   const reveal = (delay = 0) =>
     animate
       ? {
@@ -31,30 +30,22 @@ export default function HeroSection() {
       aria-label="Introduction"
       className="relative min-h-screen overflow-hidden flex items-center justify-center px-6 lg:px-24 py-24"
     >
-      {/* Interactive abstract background */}
       <InteractiveHeroOrb />
-
-      {/* Ambient light field — follows the pointer behind the content */}
       <div aria-hidden className="hero-light-field" />
 
-      {/* Handwritten side note — desktop, offset left */}
       <motion.p
         {...reveal(0.5)}
         aria-hidden
-        className="hidden lg:block absolute left-[5%] xl:left-[7%] top-[14%] font-hand text-[#3DBA8C]/85 text-2xl xl:text-3xl leading-tight max-w-[190px] select-none z-10"
+        className="hidden lg:block absolute left-[5%] xl:left-[7%] top-[14%] font-hand text-[#3DBA8C]/85 text-2xl xl:text-3xl leading-tight max-w-[210px] select-none z-10"
       >
-        {/* rotate on inner span so it isn't overridden by Framer's transform */}
         <span className="inline-block -rotate-6">
-          I build growth systems,
+          I build operating companies,
           <br />
-          not just campaigns.
+          not just job titles.
         </span>
       </motion.p>
 
-      {/* Centered hero content */}
       <div className="relative z-10 flex flex-col items-center text-center gap-6 max-w-5xl">
-
-        {/* Availability chip — subtle senior signal above the name */}
         <motion.span
           {...reveal(0.04)}
           className="inline-flex items-center gap-2 rounded-full border border-[#3DBA8C]/30 bg-[#3DBA8C]/[0.08] px-3 py-1 text-[11px] sm:text-xs font-medium text-[#3DBA8C] tracking-wide"
@@ -63,32 +54,20 @@ export default function HeroSection() {
           {hero.statusChip}
         </motion.span>
 
-        {/* Name — MOHAMED + [portrait · YEHIA] group. The portrait stays beside
-            YEHIA so on mobile it wraps as: line 1 "MOHAMED", line 2 "[photo] YEHIA". */}
         <motion.h1
           {...reveal(0.08)}
           aria-label={hero.name}
           className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1 font-display text-[#E8EDF2] leading-[0.92] tracking-[0.01em] text-6xl sm:text-7xl lg:text-8xl xl:text-[7.5rem]"
         >
-          <span aria-hidden>Mohamed</span>
+          <span aria-hidden>Abdulrahman</span>
           <span aria-hidden className="inline-flex items-center gap-x-5">
-            <span className="relative inline-flex shrink-0">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/images/mohamed-yehia-hero.png"
-                alt=""
-                width={230}
-                height={230}
-                loading="eager"
-                decoding="async"
-                className="h-14 w-14 sm:h-16 sm:w-16 lg:h-20 lg:w-20 xl:h-24 xl:w-24 rounded-full object-cover object-center bg-[#0F1724] ring-1 ring-[#3DBA8C]/40 shadow-[0_0_34px_rgba(61,186,140,0.28)]"
-              />
+            <span className="relative inline-flex shrink-0 h-14 w-14 sm:h-16 sm:w-16 lg:h-20 lg:w-20 xl:h-24 xl:w-24 rounded-full bg-[#0F1724] ring-1 ring-[#3DBA8C]/40 shadow-[0_0_34px_rgba(61,186,140,0.28)] items-center justify-center text-[#3DBA8C] text-xl sm:text-2xl lg:text-3xl font-semibold tracking-wide">
+              AZ
             </span>
-            <span>Yehia</span>
+            <span>Zaid</span>
           </span>
         </motion.h1>
 
-        {/* Title — supporting line directly under the name */}
         <motion.p
           {...reveal(0.18)}
           className="text-sm sm:text-base lg:text-lg font-medium text-[#3DBA8C] tracking-wide max-w-xl"
@@ -96,7 +75,6 @@ export default function HeroSection() {
           {hero.title}
         </motion.p>
 
-        {/* Value statement — senior positioning line */}
         <motion.p
           {...reveal(0.24)}
           className="text-base sm:text-lg text-[#94A3B8] leading-relaxed max-w-2xl"
@@ -104,7 +82,6 @@ export default function HeroSection() {
           {hero.valueStatement}
         </motion.p>
 
-        {/* Primary CTAs */}
         <motion.div
           {...reveal(0.32)}
           className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto mt-1"
@@ -117,24 +94,21 @@ export default function HeroSection() {
           </a>
           <a
             href={hero.ctas.secondary.href}
-            download
             className="soft-light-sweep inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold border border-white/[0.14] bg-white/[0.03] text-[#E8EDF2] hover:border-[#3DBA8C]/40 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3DBA8C]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1220]"
           >
             {hero.ctas.secondary.label}
           </a>
         </motion.div>
 
-        {/* Handwritten note — mobile inline (offset hidden on lg) */}
         <motion.p
           {...reveal(0.4)}
           aria-hidden
           className="lg:hidden font-hand text-[#3DBA8C]/85 text-2xl leading-tight mt-1 select-none"
         >
-          I build growth systems, not just campaigns.
+          I build operating companies, not just job titles.
         </motion.p>
       </div>
 
-      {/* Scroll-down button — above the location, points to the next section */}
       <div className="absolute bottom-[88px] sm:bottom-24 inset-x-0 z-10 flex justify-center">
         <motion.a
           {...reveal(0.42)}
@@ -146,8 +120,6 @@ export default function HeroSection() {
         </motion.a>
       </div>
 
-      {/* Location — calm geographic signature, lower-centre of the hero.
-          Flex wrapper centres it (avoids Framer overriding -translate-x-1/2). */}
       <div className="absolute bottom-8 sm:bottom-10 inset-x-0 z-10 flex justify-center px-6">
         <motion.div
           {...reveal(0.5)}
