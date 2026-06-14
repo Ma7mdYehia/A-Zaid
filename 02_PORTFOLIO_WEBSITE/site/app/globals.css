@@ -26,6 +26,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html[dir="rtl"] body {
+  font-family: var(--font-arabic-body), var(--font-arabic-display), system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
 /* Display + handwritten type */
 .font-display {
   font-family: var(--font-bebas), "Arial Narrow", system-ui, sans-serif;
@@ -33,6 +38,26 @@ body {
 }
 .font-hand {
   font-family: var(--font-caveat), ui-rounded, cursive;
+}
+
+html[dir="rtl"] .font-display {
+  font-family: var(--font-arabic-display), var(--font-arabic-body), system-ui, sans-serif;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+html[dir="rtl"] .font-hand {
+  font-family: var(--font-arabic-display), var(--font-arabic-body), system-ui, sans-serif;
+  font-weight: 700;
+}
+
+html[dir="rtl"] [class*="tracking-"] {
+  letter-spacing: 0 !important;
+}
+
+html[dir="rtl"] [class*="uppercase"] {
+  text-transform: none !important;
 }
 
 /* Glass panel utility — light ivory with backdrop blur */
