@@ -16,9 +16,9 @@ const learningIcons: Record<LearningCard["icon"], LucideIcon> = {
 
 function CurrentChip() {
   return (
-    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-[#E0A458]/30 bg-[#E0A458]/[0.08]" aria-label="Current role">
-      <span className="w-1 h-1 rounded-full bg-[#E0A458]" />
-      <span className="text-[10px] font-medium text-[#E0A458] tracking-wide uppercase">Current</span>
+    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-[#B88746]/35 bg-[#B88746]/[0.08]" aria-label="Current role">
+      <span className="w-1 h-1 rounded-full bg-[#B88746]" />
+      <span className="text-[10px] font-medium text-[#B88746] tracking-wide uppercase">Current</span>
     </span>
   );
 }
@@ -37,16 +37,16 @@ export default function ProfessionalJourney() {
       : ({} as const);
 
   return (
-    <section ref={glowRef} id="experience" aria-label="Professional journey" className="px-6 lg:px-24 py-24 border-t border-white/[0.06]">
+    <section ref={glowRef} id="experience" aria-label="Professional journey" className="px-6 lg:px-24 py-24 border-t border-[#DDD4C5]">
       <div className="max-w-6xl mx-auto flex flex-col gap-12">
         <div className="flex flex-col gap-3 max-w-2xl">
-          <motion.p {...reveal(0)} className="text-xs text-[#3DBA8C] tracking-[0.22em] uppercase font-medium">
+          <motion.p {...reveal(0)} className="text-xs text-[#2F7D5C] tracking-[0.22em] uppercase font-medium">
             {journeyEyebrow}
           </motion.p>
-          <motion.h2 {...reveal(0.06)} className="text-3xl sm:text-4xl font-semibold text-[#E8EDF2] leading-tight tracking-tight">
+          <motion.h2 {...reveal(0.06)} className="text-3xl sm:text-4xl font-semibold text-[#172033] leading-tight tracking-tight">
             {journeyHeading}
           </motion.h2>
-          <motion.p {...reveal(0.12)} className="text-base sm:text-lg text-[#94A3B8] leading-relaxed">
+          <motion.p {...reveal(0.12)} className="text-base sm:text-lg text-[#5F6B7A] leading-relaxed">
             {journeyIntro}
           </motion.p>
         </div>
@@ -56,17 +56,17 @@ export default function ProfessionalJourney() {
           {learningCards.filter((c) => c.size !== "compact").map((card, i) => {
             const Icon = learningIcons[card.icon];
             return (
-              <motion.div key={card.title} {...reveal(0.1 + i * 0.06)} className="rounded-2xl border border-white/[0.08] bg-[#0F1724] hover:border-white/[0.14] transition-colors duration-200 p-5 sm:p-6 flex flex-col gap-4">
+              <motion.div key={card.title} {...reveal(0.1 + i * 0.06)} className="rounded-2xl border border-[#DDD4C5] bg-white hover:border-[#C8BFB0] transition-colors duration-200 p-5 sm:p-6 flex flex-col gap-4">
                 <div className="flex items-start gap-3">
-                  <span className="flex-none w-10 h-10 rounded-xl bg-[#3DBA8C]/[0.08] border border-[#3DBA8C]/20 flex items-center justify-center text-[#3DBA8C]">
+                  <span className="flex-none w-10 h-10 rounded-xl bg-[#2F7D5C]/[0.07] border border-[#2F7D5C]/20 flex items-center justify-center text-[#2F7D5C]">
                     <Icon size={18} strokeWidth={1.7} aria-hidden />
                   </span>
                   <div className="flex flex-col min-w-0 gap-0.5">
-                    <p className="text-sm font-semibold text-[#E8EDF2] leading-snug">{card.title}</p>
-                    <p className="text-[11px] text-[#3DBA8C]/80">{card.detail}</p>
+                    <p className="text-sm font-semibold text-[#172033] leading-snug">{card.title}</p>
+                    <p className="text-[11px] text-[#2F7D5C]/80">{card.detail}</p>
                   </div>
                 </div>
-                <p className="text-[13px] text-[#94A3B8] leading-relaxed">{card.description}</p>
+                <p className="text-[13px] text-[#5F6B7A] leading-relaxed">{card.description}</p>
               </motion.div>
             );
           })}
@@ -77,40 +77,43 @@ export default function ProfessionalJourney() {
           {learningCards.filter((c) => c.size === "compact").map((card, i) => {
             const Icon = learningIcons[card.icon];
             return (
-              <motion.div key={card.title} {...reveal(0.28 + i * 0.05)} className="rounded-xl border border-white/[0.07] bg-white/[0.02] hover:border-white/[0.12] transition-colors duration-200 p-4 flex items-start gap-3">
-                <span className="flex-none w-8 h-8 rounded-lg bg-[#3DBA8C]/[0.06] border border-[#3DBA8C]/15 flex items-center justify-center text-[#3DBA8C]">
+              <motion.div key={card.title} {...reveal(0.28 + i * 0.05)} className="rounded-xl border border-[#DDD4C5]/80 bg-[#F7F3EA] hover:border-[#C8BFB0] transition-colors duration-200 p-4 flex items-start gap-3">
+                <span className="flex-none w-8 h-8 rounded-lg bg-[#2F7D5C]/[0.06] border border-[#2F7D5C]/15 flex items-center justify-center text-[#2F7D5C]">
                   <Icon size={14} strokeWidth={1.9} aria-hidden />
                 </span>
                 <div className="flex flex-col min-w-0 gap-0.5">
-                  <p className="text-sm font-medium text-[#E8EDF2] leading-snug">{card.title}</p>
-                  <p className="text-xs text-[#94A3B8]/70 leading-relaxed">{card.description}</p>
+                  <p className="text-sm font-medium text-[#172033] leading-snug">{card.title}</p>
+                  <p className="text-xs text-[#7C8794] leading-relaxed">{card.description}</p>
                 </div>
               </motion.div>
             );
           })}
         </div>
 
-        <motion.div data-glow {...reveal(0.16)} className="mouse-glow-panel relative rounded-3xl border border-[#3DBA8C]/20 bg-white/[0.03] overflow-hidden">
-          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#3DBA8C]/[0.06] to-transparent" />
+        {/* Timeline panel */}
+        <motion.div data-glow {...reveal(0.16)} className="mouse-glow-panel relative rounded-3xl border border-[#2F7D5C]/20 bg-white overflow-hidden">
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#2F7D5C]/[0.05] to-transparent" />
           <div className="relative grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr]">
+
+            {/* Left — role list */}
             <div className="p-5 sm:p-6 lg:p-7">
               <div className="relative">
-                <div aria-hidden className="absolute left-[17px] top-4 bottom-4 w-px bg-gradient-to-b from-white/[0.04] via-white/[0.12] to-white/[0.04]" />
+                <div aria-hidden className="absolute left-[17px] top-4 bottom-4 w-px bg-gradient-to-b from-[#DDD4C5]/30 via-[#DDD4C5] to-[#DDD4C5]/30" />
                 <ul role="tablist" aria-label="Career roles" className="flex flex-col gap-1">
                   {journeyItems.map((item, i) => {
                     const isActive = active === i;
                     return (
                       <li key={item.id}>
-                        <button type="button" role="tab" aria-selected={isActive} onClick={() => setActive(i)} onMouseEnter={() => setActive(i)} className={["relative w-full text-left pl-10 pr-3 py-3 rounded-xl transition-colors duration-200", isActive ? "bg-white/[0.05]" : "hover:bg-white/[0.025]"].join(" ")}>
-                          <span aria-hidden className={["absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 bg-[#0F1724] flex items-center justify-center", isActive ? item.current ? "border-[#E0A458]" : "border-[#3DBA8C]" : "border-white/20"].join(" ")}>
-                            {isActive && <span className={["block w-1.5 h-1.5 rounded-full", item.current ? "bg-[#E0A458]" : "bg-[#3DBA8C]"].join(" ")} />}
+                        <button type="button" role="tab" aria-selected={isActive} onClick={() => setActive(i)} onMouseEnter={() => setActive(i)} className={["relative w-full text-left pl-10 pr-3 py-3 rounded-xl transition-colors duration-200", isActive ? "bg-[#172033]/[0.04]" : "hover:bg-[#172033]/[0.025]"].join(" ")}>
+                          <span aria-hidden className={["absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 bg-white flex items-center justify-center", isActive ? item.current ? "border-[#B88746]" : "border-[#2F7D5C]" : "border-[#DDD4C5]"].join(" ")}>
+                            {isActive && <span className={["block w-1.5 h-1.5 rounded-full", item.current ? "bg-[#B88746]" : "bg-[#2F7D5C]"].join(" ")} />}
                           </span>
                           <div className="flex items-center justify-between gap-2">
-                            <span className={["text-sm font-semibold leading-snug", isActive ? "text-[#E8EDF2]" : "text-[#94A3B8]"].join(" ")}>{item.company}</span>
+                            <span className={["text-sm font-semibold leading-snug", isActive ? "text-[#172033]" : "text-[#5F6B7A]"].join(" ")}>{item.company}</span>
                             {item.current && <CurrentChip />}
                           </div>
-                          <div className="text-xs text-[#94A3B8]/80 mt-0.5">{item.role}</div>
-                          <div className="text-[11px] text-[#94A3B8]/50 mt-0.5">{item.years}{item.category && <span> · {item.category}</span>}</div>
+                          <div className="text-xs text-[#7C8794] mt-0.5">{item.role}</div>
+                          <div className="text-[11px] text-[#7C8794]/70 mt-0.5">{item.years}{item.category && <span> · {item.category}</span>}</div>
                         </button>
                       </li>
                     );
@@ -119,34 +122,35 @@ export default function ProfessionalJourney() {
               </div>
             </div>
 
-            <div className="p-5 sm:p-6 lg:p-7 border-t border-white/[0.07] lg:border-t-0 lg:border-l lg:border-white/[0.08]">
-              <motion.div key={role.id} {...detailPanelSlide(shouldAnimate)} className="relative rounded-2xl border border-white/[0.08] bg-white/[0.02] p-6 sm:p-7 flex flex-col gap-5 min-h-[300px] lg:h-full lg:min-h-[520px]">
-                <span aria-hidden className="absolute top-5 right-6 font-display text-5xl text-white/[0.06] leading-none select-none">{String(active + 1).padStart(2, "0")}</span>
+            {/* Right — detail panel */}
+            <div className="p-5 sm:p-6 lg:p-7 border-t border-[#DDD4C5] lg:border-t-0 lg:border-l lg:border-[#DDD4C5]">
+              <motion.div key={role.id} {...detailPanelSlide(shouldAnimate)} className="relative rounded-2xl border border-[#DDD4C5] bg-[#F7F3EA]/60 p-6 sm:p-7 flex flex-col gap-5 min-h-[300px] lg:h-full lg:min-h-[520px]">
+                <span aria-hidden className="absolute top-5 right-6 font-display text-5xl text-[#172033]/[0.06] leading-none select-none">{String(active + 1).padStart(2, "0")}</span>
                 <div className="flex flex-col gap-1 pr-12">
                   <div className="flex items-center gap-2.5 flex-wrap">
-                    <span className="text-[11px] text-[#94A3B8]/70 tracking-widest uppercase">{role.years}{role.market && <span> · {role.market}</span>}</span>
+                    <span className="text-[11px] text-[#7C8794] tracking-widest uppercase">{role.years}{role.market && <span> · {role.market}</span>}</span>
                     {role.current && <CurrentChip />}
                   </div>
-                  <h3 className="text-lg sm:text-xl font-semibold text-[#E8EDF2] leading-snug">{role.role}</h3>
-                  <p className="text-sm text-[#3DBA8C] font-medium">{role.company}</p>
+                  <h3 className="text-lg sm:text-xl font-semibold text-[#172033] leading-snug">{role.role}</h3>
+                  <p className="text-sm text-[#2F7D5C] font-medium">{role.company}</p>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <p className="text-[10.5px] text-[#3DBA8C]/80 tracking-[0.18em] uppercase font-medium">Operating focus</p>
-                  <p className="text-sm text-[#94A3B8] leading-relaxed">{role.achievement}</p>
+                  <p className="text-[10.5px] text-[#2F7D5C]/80 tracking-[0.18em] uppercase font-medium">Operating focus</p>
+                  <p className="text-sm text-[#5F6B7A] leading-relaxed">{role.achievement}</p>
                 </div>
                 {role.bullets && role.bullets.length > 0 && (
                   <ul className="flex flex-col gap-2">
                     {role.bullets.map((b) => (
                       <li key={b} className="flex items-start gap-2.5">
-                        <span aria-hidden className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#3DBA8C]/70 flex-none" />
-                        <span className="text-sm text-[#E8EDF2]/90 leading-snug">{b}</span>
+                        <span aria-hidden className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#2F7D5C]/60 flex-none" />
+                        <span className="text-sm text-[#172033]/90 leading-snug">{b}</span>
                       </li>
                     ))}
                   </ul>
                 )}
                 {role.focus && role.focus.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
-                    {role.focus.map((f) => <span key={f} className="text-[11px] text-[#94A3B8]/80 bg-white/[0.03] border border-white/[0.07] rounded-full px-2.5 py-1">{f}</span>)}
+                    {role.focus.map((f) => <span key={f} className="text-[11px] text-[#7C8794] bg-white border border-[#DDD4C5] rounded-full px-2.5 py-1">{f}</span>)}
                   </div>
                 )}
               </motion.div>
@@ -154,7 +158,7 @@ export default function ProfessionalJourney() {
           </div>
         </motion.div>
 
-        <motion.p {...reveal(0.2)} className="text-xs text-[#94A3B8]/50 italic leading-relaxed max-w-2xl">
+        <motion.p {...reveal(0.2)} className="text-xs text-[#7C8794]/70 italic leading-relaxed max-w-2xl">
           {journeyNote}
         </motion.p>
       </div>

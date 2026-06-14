@@ -58,7 +58,7 @@ export default function WhatIDoOperatingPanel() {
     <section
       id="capabilities"
       aria-label="What he builds"
-      className="px-6 lg:px-24 py-24 border-t border-white/[0.06]"
+      className="px-6 lg:px-24 py-24 border-t border-[#DDD4C5]"
     >
       <div className="max-w-6xl mx-auto flex flex-col gap-14">
 
@@ -66,23 +66,23 @@ export default function WhatIDoOperatingPanel() {
         <div className="flex flex-col gap-5 max-w-3xl">
           <motion.p
             {...reveal(0)}
-            className="text-xs text-[#3DBA8C] tracking-[0.22em] uppercase font-medium"
+            className="text-xs text-[#2F7D5C] tracking-[0.22em] uppercase font-medium"
           >
             {whatIDo.label}
           </motion.p>
           <motion.h2
             {...reveal(0.06)}
-            className="text-3xl sm:text-4xl font-semibold text-[#E8EDF2] tracking-tight leading-tight"
+            className="text-3xl sm:text-4xl font-semibold text-[#172033] tracking-tight leading-tight"
           >
             A practical operating model across markets.
           </motion.h2>
           <motion.p
             {...reveal(0.12)}
-            className="text-base sm:text-lg text-[#94A3B8] leading-relaxed"
+            className="text-base sm:text-lg text-[#5F6B7A] leading-relaxed"
           >
             {whatIDo.intro.map((seg, i) =>
               seg.accent ? (
-                <span key={i} className="text-[#E8EDF2] font-medium">
+                <span key={i} className="text-[#172033] font-medium">
                   {seg.text}
                 </span>
               ) : (
@@ -98,21 +98,21 @@ export default function WhatIDoOperatingPanel() {
             <motion.div
               key={card.id}
               {...reveal(0.08 + i * 0.07)}
-              className="flex flex-col gap-5 p-6 rounded-2xl border border-white/[0.08] bg-white/[0.02] hover:border-white/[0.14] hover:bg-white/[0.035] transition-colors duration-300"
+              className="flex flex-col gap-5 p-6 rounded-2xl border border-[#DDD4C5] bg-white hover:border-[#C8BFB0] hover:bg-[#F7F3EA] transition-colors duration-300"
             >
               {/* Monogram badge */}
-              <div className="w-10 h-10 rounded-xl border border-[#3DBA8C]/30 bg-[#3DBA8C]/[0.08] flex items-center justify-center flex-none">
-                <span className="text-[10px] font-bold text-[#3DBA8C] tracking-widest">
+              <div className="w-10 h-10 rounded-xl border border-[#2F7D5C]/25 bg-[#2F7D5C]/[0.07] flex items-center justify-center flex-none">
+                <span className="text-[10px] font-bold text-[#2F7D5C] tracking-widest">
                   {card.monogram}
                 </span>
               </div>
 
               {/* Title and description */}
               <div className="flex flex-col gap-2 flex-1">
-                <p className="text-sm font-semibold text-[#E8EDF2] leading-snug">
+                <p className="text-sm font-semibold text-[#172033] leading-snug">
                   {card.title}
                 </p>
-                <p className="text-[13px] text-[#94A3B8] leading-relaxed">
+                <p className="text-[13px] text-[#5F6B7A] leading-relaxed">
                   {card.description}
                 </p>
               </div>
@@ -122,7 +122,7 @@ export default function WhatIDoOperatingPanel() {
                 {card.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-[10.5px] text-[#94A3B8]/65 bg-white/[0.04] border border-white/[0.07] rounded-full px-2.5 py-1 leading-none"
+                    className="text-[10.5px] text-[#7C8794] bg-[#F7F3EA] border border-[#DDD4C5] rounded-full px-2.5 py-1 leading-none"
                   >
                     {tag}
                   </span>

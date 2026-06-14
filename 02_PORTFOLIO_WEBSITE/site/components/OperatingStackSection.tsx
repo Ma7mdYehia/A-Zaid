@@ -13,12 +13,9 @@ import { useIsClient } from "@/lib/useIsClient";
 interface StripTool {
   name: string;
   categoryLabel: string;
-  /** Optional path to an official logo (public/), to be supplied later. */
   logo?: string;
 }
 
-/* Flatten categories into a single deduped tool list (a tool keeps the
-   category it first appears under, e.g. Canva → Creative). */
 function flattenTools(): StripTool[] {
   const seen = new Set<string>();
   const out: StripTool[] = [];
@@ -58,31 +55,31 @@ export default function OperatingStackSection() {
       <motion.div
         data-glow
         {...reveal(0)}
-        className="mouse-glow-panel max-w-6xl mx-auto relative rounded-2xl border border-white/[0.08] bg-white/[0.02] overflow-hidden"
+        className="mouse-glow-panel max-w-6xl mx-auto relative rounded-2xl border border-[#DDD4C5] bg-[#F7F3EA]/80 overflow-hidden"
       >
-        {/* Header row — compact, single line on desktop */}
+        {/* Header row */}
         <div className="relative px-5 sm:px-7 pt-5 pb-4 flex flex-col sm:flex-row sm:items-baseline gap-1.5 sm:gap-4">
-          <span className="text-[10.5px] text-[#3DBA8C] tracking-[0.22em] uppercase font-medium flex-none">
+          <span className="text-[10.5px] text-[#2F7D5C] tracking-[0.22em] uppercase font-medium flex-none">
             {operatingStackStrip.eyebrow}
           </span>
-          <h2 className="text-sm font-semibold text-[#E8EDF2] leading-snug flex-none">
+          <h2 className="text-sm font-semibold text-[#172033] leading-snug flex-none">
             {operatingStackStrip.title}
           </h2>
-          <p className="text-xs text-[#94A3B8] leading-relaxed sm:truncate">
+          <p className="text-xs text-[#5F6B7A] leading-relaxed sm:truncate">
             {operatingStackStrip.line}
           </p>
         </div>
 
         {/* Scrolling chip track with edge fades */}
-        <div className="relative border-t border-white/[0.06]">
+        <div className="relative border-t border-[#DDD4C5]">
           {/* Edge fades */}
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 left-0 w-10 z-10 bg-gradient-to-r from-[#0B1220] to-transparent"
+            className="pointer-events-none absolute inset-y-0 left-0 w-10 z-10 bg-gradient-to-r from-[#F7F3EA] to-transparent"
           />
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 right-0 w-10 z-10 bg-gradient-to-l from-[#0B1220] to-transparent"
+            className="pointer-events-none absolute inset-y-0 right-0 w-10 z-10 bg-gradient-to-l from-[#F7F3EA] to-transparent"
           />
 
           <motion.ul
@@ -94,7 +91,7 @@ export default function OperatingStackSection() {
               <motion.li
                 key={tool.name}
                 {...staggerItem(animate)}
-                className="flex-none flex items-center gap-2.5 rounded-xl border border-white/[0.08] bg-white/[0.03] hover:border-[#3DBA8C]/35 transition-colors duration-200 pl-1.5 pr-3.5 py-1.5"
+                className="flex-none flex items-center gap-2.5 rounded-xl border border-[#DDD4C5] bg-white hover:border-[#2F7D5C]/35 transition-colors duration-200 pl-1.5 pr-3.5 py-1.5"
               >
                 {tool.logo ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
@@ -107,16 +104,16 @@ export default function OperatingStackSection() {
                 ) : (
                   <span
                     aria-hidden
-                    className="flex-none w-7 h-7 rounded-lg bg-[#3DBA8C]/[0.08] border border-[#3DBA8C]/20 flex items-center justify-center text-[9.5px] font-semibold text-[#3DBA8C] tracking-wide select-none"
+                    className="flex-none w-7 h-7 rounded-lg bg-[#2F7D5C]/[0.07] border border-[#2F7D5C]/20 flex items-center justify-center text-[9.5px] font-semibold text-[#2F7D5C] tracking-wide select-none"
                   >
                     {monogram(tool.name)}
                   </span>
                 )}
                 <span className="flex flex-col leading-none gap-0.5">
-                  <span className="text-[12.5px] font-medium text-[#E8EDF2] whitespace-nowrap">
+                  <span className="text-[12.5px] font-medium text-[#172033] whitespace-nowrap">
                     {tool.name}
                   </span>
-                  <span className="text-[9.5px] text-[#94A3B8]/70 uppercase tracking-[0.12em]">
+                  <span className="text-[9.5px] text-[#7C8794] uppercase tracking-[0.12em]">
                     {tool.categoryLabel}
                   </span>
                 </span>

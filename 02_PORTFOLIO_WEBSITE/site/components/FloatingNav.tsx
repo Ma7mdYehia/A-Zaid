@@ -1,27 +1,33 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
-import { Home, User, Layers, Boxes, Briefcase, Route, Workflow, Mail, Menu, X } from "lucide-react";
-
-const SIDE: "left" | "right" = "right";
+import { AnimatePresence, motion } from "framer-motion";
+import { Menu, X } from "lucide-react";
 
 const navItems = [
-  { id: "home", label: "Home", icon: Home, href: "#home" },
-  { id: "about", label: "Profile", icon: User, href: "#about" },
-  { id: "capabilities", label: "What he builds", icon: Layers, href: "#capabilities" },
-  { id: "tools", label: "Operating stack", icon: Boxes, href: "#tools" },
-  { id: "work", label: "Business portfolio", icon: Briefcase, href: "#work" },
-  { id: "experience", label: "Journey", icon: Route, href: "#experience" },
-  { id: "how", label: "How he operates", icon: Workflow, href: "#how" },
-  { id: "contact", label: "Contact", icon: Mail, href: "#contact" },
+  { id: "home",         label: "Home",             href: "#home" },
+  { id: "about",        label: "Profile",           href: "#about" },
+  { id: "capabilities", label: "What he builds",    href: "#capabilities" },
+  { id: "tools",        label: "Operating stack",   href: "#tools" },
+  { id: "work",         label: "Business portfolio",href: "#work" },
+  { id: "experience",   label: "Journey",           href: "#experience" },
+  { id: "how",          label: "How he operates",   href: "#how" },
+  { id: "contact",      label: "Contact",           href: "#contact" },
 ];
 
 export default function FloatingNav() {
-  const [active, setActive] = useState("home");
+  const [active, setActive]       = useState("home");
   const [mobileOpen, setMobileOpen] = useState(false);
-  const prefersReduced = useReducedMotion();
+  const [scrolled, setScrolled]   = useState(false);
 
+  /* Shadow / border intensifies slightly on scroll */
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  /* Highlight the active section via IntersectionObserver */
   useEffect(() => {
     const sections = navItems
       .map((i) => document.getElementById(i.id))
@@ -34,99 +40,110 @@ export default function FloatingNav() {
           if (entry.isIntersecting) setActive(entry.target.id);
         }
       },
-      { rootMargin: "-45% 0px -45% 0px", threshold: 0 }
+      { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
     );
 
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
   }, []);
 
-  const railSide = SIDE === "right" ? "right-5" : "left-5";
-  const labelSide = SIDE === "right" ? "right-12 flex-row-reverse" : "left-12";
+  /* Close mobile menu on resize to desktop */
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth >= 1024) setMobileOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
   return (
     <>
-      <nav aria-label="Site navigation" className={`fixed ${railSide} top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col gap-2`}>
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = active === item.id;
-          return (
-            <div key={item.id} className="relative group flex items-center">
-              <a
-                href={item.href}
-                aria-label={item.label}
-                aria-current={isActive ? "true" : undefined}
-                onClick={() => setActive(item.id)}
-                className={[
-                  "relative flex items-center justify-center w-10 h-10 rounded-xl transition-colors duration-200 glass glass-hover",
-                  isActive ? "text-[#3DBA8C]" : "text-[#94A3B8] hover:text-[#E8EDF2]",
-                ].join(" ")}
-              >
-                {isActive && (
-                  <motion.span
-                    layoutId="navActivePill"
-                    aria-hidden
-                    className="absolute inset-0 rounded-xl border border-[#3DBA8C]/60 bg-[#3DBA8C]/10"
-                    transition={prefersReduced ? { duration: 0 } : { type: "spring", stiffness: 460, damping: 38 }}
-                  />
-                )}
-                <Icon size={17} strokeWidth={1.75} className="relative z-10" />
-              </a>
-              <span
-                aria-hidden
-                className={[
-                  "absolute top-1/2 -translate-y-1/2 pointer-events-none",
-                  labelSide,
-                  "glass whitespace-nowrap rounded-lg px-2.5 py-1",
-                  "font-display text-sm tracking-wider text-[#E8EDF2]",
-                  "opacity-0 group-hover:opacity-100 transition-opacity duration-200",
-                ].join(" ")}
-              >
-                {item.label}
-              </span>
-            </div>
-          );
-        })}
-      </nav>
+      {/* ── Fixed header ─────────────────────────────────────────────────── */}
+      <header
+        className={[
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+          scrolled
+            ? "bg-[#F7F3EA]/96 backdrop-blur-md border-b border-[#DDD4C5] shadow-[0_1px_12px_rgba(23,32,51,0.08)]"
+            : "bg-[#F7F3EA]/85 backdrop-blur-sm border-b border-[#DDD4C5]/70",
+        ].join(" ")}
+      >
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
 
-      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 px-5 py-3 flex items-center justify-between glass border-b border-white/[0.08]">
-        <span className="font-display text-lg tracking-wider text-[#E8EDF2]">Abdulrahman Zaid</span>
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          aria-expanded={mobileOpen}
-          className="p-2 rounded-lg glass text-[#94A3B8] hover:text-[#E8EDF2] transition-colors"
-        >
-          {mobileOpen ? <X size={18} /> : <Menu size={18} />}
-        </button>
-      </div>
-
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.nav
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2 }}
-            aria-label="Mobile navigation"
-            className="lg:hidden fixed top-[52px] left-0 right-0 z-40 glass border-b border-white/[0.08] px-5 py-4 flex flex-col gap-1"
+          {/* Name / logo */}
+          <a
+            href="#home"
+            onClick={() => setActive("home")}
+            className="text-[15px] font-semibold text-[#172033] tracking-tight hover:text-[#2F7D5C] transition-colors duration-200"
           >
+            Abdulrahman Zaid
+          </a>
+
+          {/* Desktop links */}
+          <nav aria-label="Site navigation" className="hidden lg:flex items-center gap-0.5">
             {navItems.map((item) => {
-              const Icon = item.icon;
+              const isActive  = active === item.id;
+              const isContact = item.id === "contact";
               return (
                 <a
                   key={item.id}
                   href={item.href}
-                  onClick={() => {
-                    setActive(item.id);
-                    setMobileOpen(false);
-                  }}
+                  aria-current={isActive ? "page" : undefined}
+                  onClick={() => setActive(item.id)}
                   className={[
-                    "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors",
-                    active === item.id ? "text-[#3DBA8C] bg-[#3DBA8C]/10" : "text-[#94A3B8] hover:text-[#E8EDF2]",
+                    "px-3 py-2 rounded-lg text-[13px] font-medium transition-colors duration-200",
+                    isContact
+                      ? "ml-2 px-4 border border-[#2F7D5C] text-[#2F7D5C] hover:bg-[#2F7D5C] hover:text-white"
+                      : isActive
+                        ? "text-[#2F7D5C] bg-[#2F7D5C]/[0.08]"
+                        : "text-[#5F6B7A] hover:text-[#172033] hover:bg-[#172033]/[0.04]",
                   ].join(" ")}
                 >
-                  <Icon size={15} strokeWidth={1.75} />
+                  {item.label}
+                </a>
+              );
+            })}
+          </nav>
+
+          {/* Mobile burger */}
+          <button
+            type="button"
+            onClick={() => setMobileOpen((o) => !o)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            className="lg:hidden p-2 rounded-lg text-[#5F6B7A] hover:text-[#172033] hover:bg-[#172033]/[0.05] transition-colors"
+          >
+            {mobileOpen ? <X size={20} strokeWidth={1.9} /> : <Menu size={20} strokeWidth={1.9} />}
+          </button>
+        </div>
+      </header>
+
+      {/* ── Mobile dropdown ──────────────────────────────────────────────── */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.nav
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.18, ease: "easeOut" }}
+            aria-label="Mobile navigation"
+            className="lg:hidden fixed top-16 left-0 right-0 z-40 bg-[#F7F3EA]/98 backdrop-blur-md border-b border-[#DDD4C5] px-5 py-2 flex flex-col shadow-[0_4px_16px_rgba(23,32,51,0.08)]"
+          >
+            {navItems.map((item) => {
+              const isContact = item.id === "contact";
+              return (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  onClick={() => { setActive(item.id); setMobileOpen(false); }}
+                  className={[
+                    "px-3 py-3 rounded-lg text-sm transition-colors",
+                    isContact
+                      ? "mt-1 mb-1 font-semibold text-[#2F7D5C]"
+                      : active === item.id
+                        ? "font-medium text-[#2F7D5C] bg-[#2F7D5C]/[0.07]"
+                        : "text-[#5F6B7A] hover:text-[#172033]",
+                  ].join(" ")}
+                >
                   {item.label}
                 </a>
               );

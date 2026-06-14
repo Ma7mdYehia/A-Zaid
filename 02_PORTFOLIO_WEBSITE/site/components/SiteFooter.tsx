@@ -17,14 +17,13 @@ export default function SiteFooter() {
   return (
     <footer
       role="contentinfo"
-      className="px-6 lg:px-24 py-10 border-t border-white/[0.06]"
+      className="px-6 lg:px-24 py-10 border-t border-[#DDD4C5]"
     >
       <div className="max-w-6xl mx-auto flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs text-[#94A3B8]/50 leading-relaxed order-2 sm:order-1 text-center sm:text-left">
+        <p className="text-xs text-[#7C8794] leading-relaxed order-2 sm:order-1 text-center sm:text-left">
           {siteFooter.copyright}
         </p>
 
-        {/* Compact link row */}
         <nav
           aria-label="Footer links"
           className="order-1 sm:order-2 flex flex-wrap items-center justify-center gap-1.5"
@@ -35,7 +34,7 @@ export default function SiteFooter() {
               <a
                 key={link.label}
                 {...contactAnchorProps(link)}
-                className="w-9 h-9 rounded-lg glass glass-hover flex items-center justify-center text-[#94A3B8] hover:text-[#E8EDF2] transition-colors"
+                className="w-9 h-9 rounded-lg border border-[#DDD4C5] bg-white hover:border-[#C8BFB0] hover:bg-[#F7F3EA] flex items-center justify-center text-[#7C8794] hover:text-[#172033] transition-colors"
               >
                 <Icon size={15} strokeWidth={1.9} aria-hidden />
               </a>
@@ -44,7 +43,7 @@ export default function SiteFooter() {
           <a
             href="#home"
             aria-label="Back to top"
-            className="ml-3 sm:ml-4 w-11 h-11 rounded-xl border border-[#3DBA8C]/40 bg-[#3DBA8C]/12 flex items-center justify-center text-[#3DBA8C] hover:bg-[#3DBA8C]/20 hover:text-[#D9F7EA] transition-colors shadow-[0_12px_34px_rgba(61,186,140,0.10)]"
+            className="ml-3 sm:ml-4 w-11 h-11 rounded-xl border border-[#2F7D5C]/40 bg-[#2F7D5C]/[0.07] flex items-center justify-center text-[#2F7D5C] hover:bg-[#2F7D5C]/[0.15] hover:text-[#1F5F46] transition-colors shadow-[0_4px_16px_rgba(47,125,92,0.10)]"
           >
             <span aria-hidden className="text-lg leading-none">↑</span>
           </a>
