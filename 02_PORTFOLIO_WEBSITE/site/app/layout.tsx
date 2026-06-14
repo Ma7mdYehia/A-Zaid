@@ -12,14 +12,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Body / UI text
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
 });
 
-// Large condensed display — hero name, strong labels
 const bebasNeue = Bebas_Neue({
   variable: "--font-bebas",
   weight: "400",
@@ -27,7 +25,6 @@ const bebasNeue = Bebas_Neue({
   display: "swap",
 });
 
-// Handwritten side note
 const caveat = Caveat({
   variable: "--font-caveat",
   subsets: ["latin"],
@@ -35,14 +32,14 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Mohamed Yehia — Growth Marketing & AI Transformation Lead",
+  title: "Abdulrahman Zaid — MENA Industrial Entrepreneur & Operating Leader",
   description:
-    "15+ years turning marketing and e-commerce into measurable revenue across UAE, KSA, and Egypt.",
-  metadataBase: new URL("https://yehia.digital"),
+    "Digital profile and business portfolio for Abdulrahman Zaid, focused on manufacturing, trading, food industries, and regional operations across Egypt, Saudi Arabia, and the UAE.",
+  metadataBase: new URL("https://a-zaid.com"),
   openGraph: {
-    title: "Mohamed Yehia — Growth Marketing & AI Transformation Lead",
+    title: "Abdulrahman Zaid — MENA Industrial Entrepreneur & Operating Leader",
     description:
-      "15+ years turning marketing and e-commerce into measurable revenue across UAE, KSA, and Egypt.",
+      "Manufacturing, trading, food industries, import, distribution, and business operations across Egypt, Saudi Arabia, and the UAE.",
     type: "website",
     locale: "en_US",
   },
