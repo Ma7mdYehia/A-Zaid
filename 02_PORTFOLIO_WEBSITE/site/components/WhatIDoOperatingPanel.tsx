@@ -1,45 +1,11 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { whatIDo } from "@/content/homepage";
 import { useIsClient } from "@/lib/useIsClient";
-
-const CAPABILITY_CARDS = [
-  {
-    id: "manufacturing",
-    monogram: "MO",
-    title: "Manufacturing & Operations",
-    description:
-      "Production planning, operational efficiency, quality follow-up, cost control, and daily factory coordination.",
-    tags: ["Production", "Quality", "Efficiency"],
-  },
-  {
-    id: "food",
-    monogram: "FP",
-    title: "Food Production & Private Label",
-    description:
-      "Food manufacturing operations positioned for B2B production, private label discussions, and third-party manufacturing opportunities.",
-    tags: ["Food Industry", "Private Label", "B2B"],
-  },
-  {
-    id: "trade",
-    monogram: "TD",
-    title: "Trade, Import & Distribution",
-    description:
-      "Supplier relationships, import operations, commercial contracts, distribution network development, and customer-base expansion.",
-    tags: ["Suppliers", "Import", "Distribution"],
-  },
-  {
-    id: "regional",
-    monogram: "RB",
-    title: "Regional Business Development",
-    description:
-      "Turning business opportunities into working companies across Egypt, Saudi Arabia, and the UAE through teams, partnerships, and execution.",
-    tags: ["Egypt", "KSA", "UAE"],
-  },
-] as const;
+import { useContent } from "@/lib/i18n";
 
 export default function WhatIDoOperatingPanel() {
+  const { whatIDo, whatIDoHeading, whatIDoCards } = useContent();
   const isClient = useIsClient();
   const prefersReduced = useReducedMotion();
   const animate = isClient && !prefersReduced;
@@ -74,7 +40,7 @@ export default function WhatIDoOperatingPanel() {
             {...reveal(0.06)}
             className="text-3xl sm:text-4xl font-semibold text-[#172033] tracking-tight leading-tight"
           >
-            A practical operating model across markets.
+            {whatIDoHeading}
           </motion.h2>
           <motion.p
             {...reveal(0.12)}
@@ -94,7 +60,7 @@ export default function WhatIDoOperatingPanel() {
 
         {/* Capability cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {CAPABILITY_CARDS.map((card, i) => (
+          {whatIDoCards.map((card, i) => (
             <motion.div
               key={card.id}
               {...reveal(0.08 + i * 0.07)}

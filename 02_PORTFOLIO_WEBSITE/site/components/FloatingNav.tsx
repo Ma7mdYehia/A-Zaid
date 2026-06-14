@@ -3,22 +3,63 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import { useLanguage, type Locale } from "@/lib/i18n";
 
-const navItems = [
-  { id: "home",         label: "Home",             href: "#home" },
-  { id: "about",        label: "Profile",           href: "#about" },
-  { id: "capabilities", label: "What he builds",    href: "#capabilities" },
-  { id: "tools",        label: "Operating stack",   href: "#tools" },
-  { id: "work",         label: "Business portfolio",href: "#work" },
-  { id: "experience",   label: "Journey",           href: "#experience" },
-  { id: "how",          label: "How he operates",   href: "#how" },
-  { id: "contact",      label: "Contact",           href: "#contact" },
-];
+/* Compact EN / AR language switcher */
+function LanguageSwitch({
+  locale,
+  setLocale,
+  ariaLabel,
+  className = "",
+}: {
+  locale: Locale;
+  setLocale: (l: Locale) => void;
+  ariaLabel: string;
+  className?: string;
+}) {
+  const options: { value: Locale; label: string }[] = [
+    { value: "en", label: "EN" },
+    { value: "ar", label: "AR" },
+  ];
+  return (
+    <div
+      role="group"
+      aria-label={ariaLabel}
+      className={[
+        "inline-flex items-center gap-0.5 rounded-lg border border-[#DDD4C5] bg-white p-0.5",
+        className,
+      ].join(" ")}
+    >
+      {options.map((opt) => {
+        const isActive = locale === opt.value;
+        return (
+          <button
+            key={opt.value}
+            type="button"
+            onClick={() => setLocale(opt.value)}
+            aria-pressed={isActive}
+            className={[
+              "px-2.5 py-1 rounded-md text-[12px] font-semibold tracking-wide transition-colors duration-200",
+              isActive
+                ? "bg-[#2F7D5C] text-white"
+                : "text-[#5F6B7A] hover:text-[#172033] hover:bg-[#172033]/[0.05]",
+            ].join(" ")}
+          >
+            {opt.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 
 export default function FloatingNav() {
-  const [active, setActive]       = useState("home");
+  const { content, locale, setLocale } = useLanguage();
+  const navItems = content.ui.nav;
+
+  const [active, setActive]         = useState("home");
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled]   = useState(false);
+  const [scrolled, setScrolled]     = useState(false);
 
   /* Shadow / border intensifies slightly on scroll */
   useEffect(() => {
@@ -45,7 +86,7 @@ export default function FloatingNav() {
 
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
-  }, []);
+  }, [navItems]);
 
   /* Close mobile menu on resize to desktop */
   useEffect(() => {
@@ -75,7 +116,7 @@ export default function FloatingNav() {
             onClick={() => setActive("home")}
             className="text-[15px] font-semibold text-[#172033] tracking-tight hover:text-[#2F7D5C] transition-colors duration-200"
           >
-            Abdulrahman Zaid
+            {content.ui.name}
           </a>
 
           {/* Desktop links */}
@@ -92,7 +133,7 @@ export default function FloatingNav() {
                   className={[
                     "px-3 py-2 rounded-lg text-[13px] font-medium transition-colors duration-200",
                     isContact
-                      ? "ml-2 px-4 border border-[#2F7D5C] text-[#2F7D5C] hover:bg-[#2F7D5C] hover:text-white"
+                      ? "ms-2 px-4 border border-[#2F7D5C] text-[#2F7D5C] hover:bg-[#2F7D5C] hover:text-white"
                       : isActive
                         ? "text-[#2F7D5C] bg-[#2F7D5C]/[0.08]"
                         : "text-[#5F6B7A] hover:text-[#172033] hover:bg-[#172033]/[0.04]",
@@ -102,18 +143,33 @@ export default function FloatingNav() {
                 </a>
               );
             })}
+
+            {/* Language switcher */}
+            <LanguageSwitch
+              locale={locale}
+              setLocale={setLocale}
+              ariaLabel={content.ui.languageLabel}
+              className="ms-3"
+            />
           </nav>
 
-          {/* Mobile burger */}
-          <button
-            type="button"
-            onClick={() => setMobileOpen((o) => !o)}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileOpen}
-            className="lg:hidden p-2 rounded-lg text-[#5F6B7A] hover:text-[#172033] hover:bg-[#172033]/[0.05] transition-colors"
-          >
-            {mobileOpen ? <X size={20} strokeWidth={1.9} /> : <Menu size={20} strokeWidth={1.9} />}
-          </button>
+          {/* Mobile: switcher + burger */}
+          <div className="lg:hidden flex items-center gap-2">
+            <LanguageSwitch
+              locale={locale}
+              setLocale={setLocale}
+              ariaLabel={content.ui.languageLabel}
+            />
+            <button
+              type="button"
+              onClick={() => setMobileOpen((o) => !o)}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              className="p-2 rounded-lg text-[#5F6B7A] hover:text-[#172033] hover:bg-[#172033]/[0.05] transition-colors"
+            >
+              {mobileOpen ? <X size={20} strokeWidth={1.9} /> : <Menu size={20} strokeWidth={1.9} />}
+            </button>
+          </div>
         </div>
       </header>
 

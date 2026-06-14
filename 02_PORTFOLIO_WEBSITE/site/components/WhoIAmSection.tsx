@@ -2,9 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
-import { whoIAm } from "@/content/homepage";
 import { useIsClient } from "@/lib/useIsClient";
 import { useMouseGlow } from "@/lib/useMouseGlow";
+import { useContent } from "@/lib/i18n";
 
 /* Parse a metric like "~USD 2.5M" / "+250M" into prefix · number · suffix. */
 function parseMetric(value: string) {
@@ -49,6 +49,7 @@ function MetricValue({ value, play }: { value: string; play: boolean }) {
 }
 
 export default function WhoIAmSection() {
+  const { whoIAm } = useContent();
   const isClient = useIsClient();
   const prefersReduced = useReducedMotion();
   const animate = isClient && !prefersReduced;

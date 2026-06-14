@@ -1,10 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { howIWork } from "@/content/homepage";
 import { useReveal } from "@/lib/motion";
+import { useContent } from "@/lib/i18n";
 
 export default function HowIWorkSection() {
+  const { howIWork, ui } = useContent();
   const reveal = useReveal();
   const subheading = howIWork.body[0];
 
@@ -70,7 +71,7 @@ export default function HowIWorkSection() {
           className="flex flex-col gap-3"
         >
           <p className="text-[10.5px] text-[#7C8794] uppercase tracking-[0.18em] font-medium">
-            Principles
+            {ui.principles}
           </p>
           <div className="flex flex-wrap gap-2">
             {howIWork.badges.map((badge) => (

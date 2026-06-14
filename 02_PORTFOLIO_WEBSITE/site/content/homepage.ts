@@ -17,7 +17,7 @@ export interface ResultCard { value: string; label: string; }
 
 export const whoIAm = {
   label: "Who he is",
-  headingLines: ["Build", "Operate", "Scale"] as const,
+  headingLines: ["Build", "Operate", "Scale"] as string[],
   accentLineIndex: 1,
   introParagraphs: [
     [{ text: "Abdulrahman Zaid is an Egyptian business operator and entrepreneur with more than " }, { text: "20 years of regional experience", accent: true }, { text: " across Egypt, Saudi Arabia, and the United Arab Emirates." }],
@@ -153,3 +153,86 @@ export interface ContactLink { label: string; type: "email" | "cv" | "social" | 
 export const contactLinks: ContactLink[] = [{ label: "Email", type: "email", href: "mailto:gm@nanoline.ae", icon: "mail", isPrimary: true, isPlaceholder: false }, { label: "WhatsApp", type: "whatsapp", href: "https://wa.me/971545130344", icon: "whatsapp", isPrimary: true, isPlaceholder: false, external: true }, { label: "LinkedIn", type: "social", href: "#contact", icon: "linkedin", isPrimary: true, isPlaceholder: true }, { label: "CV / Profile", type: "cv", href: "#contact", icon: "download", isPrimary: false, isPlaceholder: true }];
 export const siteFooter = { copyright: "© Abdulrahman Zaid · MENA Industrial Entrepreneur & Operating Leader · Egypt · Saudi Arabia · UAE" };
 export const placeholderSections: { id: string; label: string }[] = [];
+
+/* -------------------------------------------------------------------------- */
+/*  Component-embedded content (moved here so it can be localized)             */
+/* -------------------------------------------------------------------------- */
+
+export interface CapabilityCard { id: string; monogram: string; title: string; description: string; tags: string[]; }
+export const whatIDoHeading = "A practical operating model across markets.";
+export const whatIDoCards: CapabilityCard[] = [
+  { id: "manufacturing", monogram: "MO", title: "Manufacturing & Operations", description: "Production planning, operational efficiency, quality follow-up, cost control, and daily factory coordination.", tags: ["Production", "Quality", "Efficiency"] },
+  { id: "food", monogram: "FP", title: "Food Production & Private Label", description: "Food manufacturing operations positioned for B2B production, private label discussions, and third-party manufacturing opportunities.", tags: ["Food Industry", "Private Label", "B2B"] },
+  { id: "trade", monogram: "TD", title: "Trade, Import & Distribution", description: "Supplier relationships, import operations, commercial contracts, distribution network development, and customer-base expansion.", tags: ["Suppliers", "Import", "Distribution"] },
+  { id: "regional", monogram: "RB", title: "Regional Business Development", description: "Turning business opportunities into working companies across Egypt, Saudi Arabia, and the UAE through teams, partnerships, and execution.", tags: ["Egypt", "KSA", "UAE"] },
+];
+
+export interface WorkItem { id: string; title: string; subtitle: string; role: string; sector: string; location: string; year: string; priority: "hero" | "standard"; logoText: string; line: string; description: string; tags: string[]; }
+export const work = {
+  eyebrow: "Business portfolio",
+  heading: "Ventures, markets, and operating roles.",
+  intro: "A curated view of Abdulrahman Zaid's business footprint across manufacturing, food industries, trading, import, distribution, and regional operations.",
+  currentFocus: "Current Focus",
+  logoBanner: "Logo / Banner",
+  meta: { role: "Role", sector: "Sector", location: "Location", year: "Year" },
+  items: [
+    { id: "al-shehail-food-industries", title: "Al Shehail Food Industries", subtitle: "Food Manufacturing / Contract Manufacturing", role: "General Manager / Operating Leadership", sector: "Bakery & Food Production", location: "United Arab Emirates", year: "2023 – Present", priority: "hero", logoText: "ASF", line: "Food manufacturing operation positioned for B2B bakery production, private label discussions, and third-party manufacturing opportunities.", description: "The key current portfolio project — the manufacturing backbone behind food production, bakery operations, and partner-brand production discussions. Built around distribution readiness and commercial contract opportunities in contract manufacturing, private label, and B2B bakery production.", tags: ["Current Focus", "Food Manufacturing", "Private Label", "B2B Bakery", "UAE"] },
+    { id: "nano-line", title: "Nano Line Trading Company", subtitle: "Trading, Import & Technical Support", role: "Maintenance & Technical Support Manager", sector: "Trading & Equipment", location: "United Arab Emirates", year: "2022 – Present", priority: "standard", logoText: "NL", line: "Commercial, logistics, import, technical support, and product-development operations.", description: "A trading and equipment-focused operation covering commercial activity, logistics, import, technical support, marketing division support, industrial equipment, and product portfolio development.", tags: ["Trading", "Import", "Equipment", "UAE"] },
+    { id: "nano-line-industrial", title: "Nano Line Industrial", subtitle: "Bakery Production Lines & Industrial Solutions", role: "Industrial Solutions & Production Lines Development", sector: "Bakery Production Lines", location: "United Arab Emirates / Egypt", year: "Current Focus", priority: "standard", logoText: "NLI", line: "Designing and developing production-line concepts for bread, bakery, and food-manufacturing operations.", description: "An industrial solutions project focused on bakery and bread production lines, production-flow design, machinery coordination, factory layout thinking, and practical manufacturing solutions for bakeries and food producers.", tags: ["Production Lines", "Bakery Equipment", "Industrial Solutions", "Bread Manufacturing"] },
+    { id: "halsa-bake", title: "Halsa Bake", subtitle: "Healthy Bakery Brand", role: "General Manager / Business Expansion", sector: "Healthy Bread & Clean-Label Bakery", location: "United Arab Emirates", year: "2023 – Present", priority: "standard", logoText: "HB", line: "A healthy bakery brand focused on clean-label breads and market-facing food products.", description: "The consumer-facing healthy bakery direction within the food-industry portfolio — product communication, market presence, promotional activity, and distribution growth.", tags: ["Healthy Bakery", "Clean Label", "Bread Brand", "UAE"] },
+    { id: "silicon-star", title: "Silicon Star", subtitle: "Silicone & Resin Industrial Products", role: "General Manager", sector: "Industrial Manufacturing", location: "Riyadh, Saudi Arabia", year: "2024 – Present", priority: "standard", logoText: "SS", line: "Industrial manufacturing and specialized silicone/resin product operations.", description: "General management across production planning, manufacturing efficiency, specialized imports, financial and administrative operations, customer relationships, and team capability development.", tags: ["Manufacturing", "Silicone", "Resin", "KSA"] },
+    { id: "nano-food-machines", title: "Nano Food Machines", subtitle: "Food Machinery Sales & Administration", role: "Administrative Manager & Sales Director", sector: "Machinery & Sales", location: "Egypt", year: "2019 – Present", priority: "standard", logoText: "NFM", line: "Sales leadership, supplier relationships, customer-network expansion, and market research.", description: "A food-machinery business role focused on sales team leadership, annual growth targets, customer satisfaction, supplier relationships, market research, and sales operations.", tags: ["Machinery", "Sales", "Suppliers", "Egypt"] },
+    { id: "zaid-sanitary", title: "Zaid Sanitary Ware & Ceramics", subtitle: "Retail, Supply & Operations", role: "General Manager", sector: "Sanitary Ware & Ceramics", location: "Delta Region, Egypt", year: "2015 – Present", priority: "standard", logoText: "ZC", line: "Daily operations, supplier/client relationships, product development, and profitability follow-up.", description: "A regional retail and supply operation focused on daily operating structure, market share growth, supplier and client relationships, product development, and financial performance.", tags: ["Retail", "Supply", "Operations", "Egypt"] },
+    { id: "al-shohail-foundation", title: "Al Shohail Foundation", subtitle: "Commercial Contracts & Supplier Relations", role: "Executive Director", sector: "Trading & Contracts", location: "Saudi Arabia", year: "2021", priority: "standard", logoText: "ASH", line: "Supplier relationships, commercial contracts, supply-chain operations, and process redesign.", description: "A business leadership role across marketing strategies, international supplier relationships, exclusive European commercial contracts, supply-chain operations, process redesign, and consulting.", tags: ["Contracts", "Suppliers", "KSA", "Europe"] },
+    { id: "abraj-wasat-delta", title: "Abraj Wasat Al-Delta", subtitle: "Business Development & Projects", role: "Partner & Business Developer", sector: "Business Development", location: "Egypt", year: "2012 – 2015", priority: "standard", logoText: "AWD", line: "Business development plans, operations, negotiations, and project execution.", description: "A partner and business development role covering business plans, daily operations, team supervision, negotiation support, and contribution to more than 10 successful projects.", tags: ["Projects", "Development", "Operations", "Egypt"] },
+    { id: "al-jazeera-pomegranate", title: "Al Jazeera Pomegranate Company", subtitle: "Import, Branches & Field Teams", role: "Executive Director", sector: "Import & Branch Development", location: "Riyadh, Saudi Arabia", year: "2004 – 2012", priority: "standard", logoText: "AJP", line: "Market development, spare-parts import, branch expansion, and field-team leadership.", description: "Early regional leadership experience in Saudi Arabia, covering market opening, spare-parts import, branch expansion for fitness-equipment imports, and field-team/project leadership.", tags: ["Import", "Branches", "Teams", "KSA"] },
+  ] as WorkItem[],
+};
+
+export const heroPills = ["Manufacturing", "Food Production", "Private Label", "Import & Distribution", "Regional Growth"];
+export const heroStats = [
+  { value: "20+", label: "Years experience" },
+  { value: "3", label: "Core markets" },
+  { value: "10+", label: "Ventures & roles" },
+];
+export const heroHeadingLines = ["Build operating", "companies", "across markets."];
+
+export interface NavItem { id: string; label: string; href: string; }
+export const ui = {
+  name: "Abdulrahman Zaid",
+  nav: [
+    { id: "home", label: "Home", href: "#home" },
+    { id: "about", label: "Profile", href: "#about" },
+    { id: "capabilities", label: "What he builds", href: "#capabilities" },
+    { id: "tools", label: "Operating stack", href: "#tools" },
+    { id: "work", label: "Business portfolio", href: "#work" },
+    { id: "experience", label: "Journey", href: "#experience" },
+    { id: "how", label: "How he operates", href: "#how" },
+    { id: "contact", label: "Contact", href: "#contact" },
+  ] as NavItem[],
+  currentChip: "Current",
+  operatingFocus: "Operating focus",
+  principles: "Principles",
+  comingSoon: "coming soon",
+  notAvailable: "not available",
+  scroll: "Scroll",
+  scrollToProfile: "Scroll to profile",
+  languageLabel: "Language",
+};
+
+/* English aggregate bundle */
+export const en = {
+  hero, whoIAm, about, whatIDo,
+  whatIDoHeading: whatIDoHeading as string, whatIDoCards,
+  operatingStackMeta, operatingStackStrip, stackCategoryShortLabels, operatingStackCategories, tools,
+  proofVoices,
+  journeyEyebrow: journeyEyebrow as string,
+  journeyHeading: journeyHeading as string,
+  journeyIntro: journeyIntro as string,
+  journeyNote: journeyNote as string,
+  learningCards, journeyItems,
+  howIWork, contactCTA, contactLinks, siteFooter,
+  work, heroPills, heroStats, heroHeadingLines, ui,
+};
+
+export type SiteContent = typeof en;

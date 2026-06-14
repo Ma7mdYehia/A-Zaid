@@ -1,5 +1,7 @@
-import { siteFooter, contactLinks } from "@/content/homepage";
+"use client";
+
 import { contactIcons, contactAnchorProps } from "@/lib/contactIcons";
+import { useContent } from "@/lib/i18n";
 
 const footerOrder = [
   "Instagram",
@@ -10,6 +12,7 @@ const footerOrder = [
 ];
 
 export default function SiteFooter() {
+  const { siteFooter, contactLinks } = useContent();
   const orderedLinks = footerOrder
     .map((label) => contactLinks.find((link) => link.label === label))
     .filter((link): link is (typeof contactLinks)[number] => Boolean(link));

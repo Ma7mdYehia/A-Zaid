@@ -1,12 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { contactCTA, contactLinks, type ContactLink } from "@/content/homepage";
+import { type ContactLink } from "@/content/homepage";
 import { contactIcons, contactAnchorProps } from "@/lib/contactIcons";
 import { useReveal } from "@/lib/motion";
 import { useMouseGlow } from "@/lib/useMouseGlow";
+import { useContent } from "@/lib/i18n";
 
 export default function ContactCTA() {
+  const { contactCTA, contactLinks, ui } = useContent();
   const reveal = useReveal();
   const glowRef = useMouseGlow<HTMLElement>();
 
@@ -61,7 +63,7 @@ export default function ContactCTA() {
                   <span
                     key={link.label}
                     aria-disabled="true"
-                    aria-label={`${link.label} — coming soon`}
+                    aria-label={`${link.label} — ${ui.comingSoon}`}
                     className="inline-flex cursor-not-allowed items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold border border-[#DDD4C5] bg-[#F7F3EA] text-[#7C8794]/60"
                   >
                     <Icon size={16} strokeWidth={2} aria-hidden />

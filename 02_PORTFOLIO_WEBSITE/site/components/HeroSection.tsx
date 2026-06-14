@@ -3,25 +3,20 @@
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { hero } from "@/content/homepage";
 import { useIsClient } from "@/lib/useIsClient";
+import { useContent } from "@/lib/i18n";
 
-/* Pills repositioned to clear the face (upper-center area) */
-const PILLS = [
-  { label: "Manufacturing",         pos: "top-[5%]  left-[-2%]",   float: "hero-float-a", dot: "#2F7D5C" },
-  { label: "Food Production",       pos: "top-[12%] right-[-4%]",  float: "hero-float-b", dot: "#B88746" },
-  { label: "Private Label",         pos: "top-[38%] right-[-6%]",  float: "hero-float-c", dot: "#2F7D5C" },
-  { label: "Import & Distribution", pos: "top-[56%] left-[-6%]",   float: "hero-float-a", dot: "#1F5F46" },
-  { label: "Regional Growth",       pos: "top-[72%] right-[-2%]",  float: "hero-float-b", dot: "#B88746" },
-] as const;
-
-const STATS = [
-  { value: "20+", label: "Years experience" },
-  { value: "3",   label: "Core markets" },
-  { value: "10+", label: "Ventures & roles" },
+/* Pill placement / float config — labels come from localized content */
+const PILL_STYLE = [
+  { pos: "top-[5%]  left-[-2%]",  float: "hero-float-a", dot: "#2F7D5C" },
+  { pos: "top-[12%] right-[-4%]", float: "hero-float-b", dot: "#B88746" },
+  { pos: "top-[38%] right-[-6%]", float: "hero-float-c", dot: "#2F7D5C" },
+  { pos: "top-[56%] left-[-6%]",  float: "hero-float-a", dot: "#1F5F46" },
+  { pos: "top-[72%] right-[-2%]", float: "hero-float-b", dot: "#B88746" },
 ] as const;
 
 export default function HeroSection() {
+  const { hero, heroPills, heroStats, heroHeadingLines, ui } = useContent();
   const isClient = useIsClient();
   const prefersReduced = useReducedMotion();
   const animate = isClient && !prefersReduced;
@@ -97,7 +92,7 @@ export default function HeroSection() {
       <div className="relative z-10 w-full max-w-[1320px] mx-auto grid grid-cols-1 lg:grid-cols-[46fr_54fr] gap-10 lg:gap-4 items-end">
 
         {/* ── Left — content ──────────────────────────────────────────────── */}
-        <div className="flex flex-col items-start gap-6 text-left order-last lg:order-none pb-12 lg:pb-16">
+        <div className="flex flex-col items-start gap-6 text-start order-last lg:order-none pb-12 lg:pb-16">
 
           <motion.span
             {...reveal(0.1)}
@@ -111,9 +106,14 @@ export default function HeroSection() {
             {...reveal(0.18)}
             className="font-display text-[#172033] text-5xl sm:text-6xl xl:text-7xl leading-[0.93] tracking-[0.01em]"
           >
-            <span className="block">Build operating</span>
-            <span className="block">companies</span>
-            <span className="block text-[#2F7D5C]">across markets.</span>
+            {heroHeadingLines.map((line, i) => (
+              <span
+                key={i}
+                className={["block", i === heroHeadingLines.length - 1 ? "text-[#2F7D5C]" : ""].join(" ")}
+              >
+                {line}
+              </span>
+            ))}
           </motion.h1>
 
           <motion.p
@@ -146,7 +146,7 @@ export default function HeroSection() {
             {...reveal(0.42)}
             className="flex items-center gap-5 sm:gap-8 pt-4 mt-1 border-t border-[#DDD4C5]/70 w-full sm:w-auto"
           >
-            {STATS.map((s, i) => (
+            {heroStats.map((s, i) => (
               <div key={s.label} className={`flex flex-col gap-0.5 ${i > 0 ? "pl-5 sm:pl-8 border-l border-[#DDD4C5]/70" : ""}`}>
                 <span className="font-display text-3xl sm:text-4xl text-[#172033] leading-none">{s.value}</span>
                 <span className="text-[10px] sm:text-xs text-[#7C8794] tracking-wide uppercase">{s.label}</span>
@@ -191,25 +191,28 @@ export default function HeroSection() {
             </motion.div>
 
             {/* Floating pill labels — clear of the face (upper third) */}
-            {PILLS.map((pill, i) => (
-              <motion.div
-                key={pill.label}
-                {...popIn(0.3 + i * 0.08)}
-                className={`absolute ${pill.pos} ${pill.float} z-10`}
-                style={{ willChange: "transform" }}
-              >
-                <div className="flex items-center gap-2 rounded-full bg-white border border-[#DDD4C5] px-3.5 py-1.5 shadow-[0_8px_24px_-8px_rgba(23,32,51,0.18)] whitespace-nowrap">
-                  <span
-                    aria-hidden
-                    className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: pill.dot }}
-                  />
-                  <span className="text-[11px] sm:text-xs font-semibold text-[#172033]">
-                    {pill.label}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
+            {heroPills.map((label, i) => {
+              const style = PILL_STYLE[i % PILL_STYLE.length];
+              return (
+                <motion.div
+                  key={label}
+                  {...popIn(0.3 + i * 0.08)}
+                  className={`absolute ${style.pos} ${style.float} z-10`}
+                  style={{ willChange: "transform" }}
+                >
+                  <div className="flex items-center gap-2 rounded-full bg-white border border-[#DDD4C5] px-3.5 py-1.5 shadow-[0_8px_24px_-8px_rgba(23,32,51,0.18)] whitespace-nowrap">
+                    <span
+                      aria-hidden
+                      className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: style.dot }}
+                    />
+                    <span className="text-[11px] sm:text-xs font-semibold text-[#172033]">
+                      {label}
+                    </span>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -221,10 +224,10 @@ export default function HeroSection() {
       >
         <a
           href="#about"
-          aria-label="Scroll to profile"
+          aria-label={ui.scrollToProfile}
           className="flex flex-col items-center gap-1.5 text-[#7C8794] hover:text-[#2F7D5C] transition-colors group"
         >
-          <span className="text-[10px] uppercase tracking-[0.18em] font-medium">Scroll</span>
+          <span className="text-[10px] uppercase tracking-[0.18em] font-medium">{ui.scroll}</span>
           {/* Animated chevron bob */}
           <span aria-hidden className="scroll-bob flex items-center justify-center w-7 h-7 rounded-full border border-[#DDD4C5] bg-white/70 group-hover:border-[#2F7D5C]/40 transition-colors shadow-sm text-xs leading-none">
             ↓

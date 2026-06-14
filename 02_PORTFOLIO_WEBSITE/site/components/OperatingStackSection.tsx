@@ -1,14 +1,11 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import {
-  operatingStackCategories,
-  operatingStackStrip,
-  stackCategoryShortLabels,
-} from "@/content/homepage";
+import type { ToolStackCategory } from "@/content/homepage";
 import { useReveal, staggerContainer, staggerItem } from "@/lib/motion";
 import { useMouseGlow } from "@/lib/useMouseGlow";
 import { useIsClient } from "@/lib/useIsClient";
+import { useContent } from "@/lib/i18n";
 
 interface StripTool {
   name: string;
@@ -16,11 +13,14 @@ interface StripTool {
   logo?: string;
 }
 
-function flattenTools(): StripTool[] {
+function flattenTools(
+  categories: ToolStackCategory[],
+  shortLabels: Record<string, string>
+): StripTool[] {
   const seen = new Set<string>();
   const out: StripTool[] = [];
-  for (const category of operatingStackCategories) {
-    const label = stackCategoryShortLabels[category.id] ?? category.title;
+  for (const category of categories) {
+    const label = shortLabels[category.id] ?? category.title;
     for (const name of category.tools) {
       if (seen.has(name)) continue;
       seen.add(name);
@@ -36,9 +36,9 @@ function monogram(name: string): string {
   return (words[0][0] + words[1][0]).toUpperCase();
 }
 
-const stripTools = flattenTools();
-
 export default function OperatingStackSection() {
+  const { operatingStackCategories, operatingStackStrip, stackCategoryShortLabels } = useContent();
+  const stripTools = flattenTools(operatingStackCategories, stackCategoryShortLabels);
   const reveal = useReveal();
   const glowRef = useMouseGlow<HTMLElement>();
   const isClient = useIsClient();

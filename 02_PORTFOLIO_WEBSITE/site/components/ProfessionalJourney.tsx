@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { GraduationCap, Clock, type LucideIcon } from "lucide-react";
-import { journeyEyebrow, journeyHeading, journeyIntro, journeyItems, journeyNote, learningCards, type LearningCard } from "@/content/homepage";
+import type { LearningCard } from "@/content/homepage";
 import { useIsClient } from "@/lib/useIsClient";
 import { useMouseGlow } from "@/lib/useMouseGlow";
 import { detailPanelSlide } from "@/lib/motion";
+import { useContent } from "@/lib/i18n";
 
 const learningIcons: Record<LearningCard["icon"], LucideIcon> = {
   university: GraduationCap,
@@ -14,16 +15,17 @@ const learningIcons: Record<LearningCard["icon"], LucideIcon> = {
   hours: Clock,
 };
 
-function CurrentChip() {
+function CurrentChip({ label }: { label: string }) {
   return (
-    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-[#B88746]/35 bg-[#B88746]/[0.08]" aria-label="Current role">
+    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-[#B88746]/35 bg-[#B88746]/[0.08]" aria-label={label}>
       <span className="w-1 h-1 rounded-full bg-[#B88746]" />
-      <span className="text-[10px] font-medium text-[#B88746] tracking-wide uppercase">Current</span>
+      <span className="text-[10px] font-medium text-[#B88746] tracking-wide uppercase">{label}</span>
     </span>
   );
 }
 
 export default function ProfessionalJourney() {
+  const { journeyEyebrow, journeyHeading, journeyIntro, journeyItems, journeyNote, learningCards, ui } = useContent();
   const isClient = useIsClient();
   const prefersReduced = useReducedMotion();
   const shouldAnimate = isClient && !prefersReduced;
@@ -110,7 +112,7 @@ export default function ProfessionalJourney() {
                           </span>
                           <div className="flex items-center justify-between gap-2">
                             <span className={["text-sm font-semibold leading-snug", isActive ? "text-[#172033]" : "text-[#5F6B7A]"].join(" ")}>{item.company}</span>
-                            {item.current && <CurrentChip />}
+                            {item.current && <CurrentChip label={ui.currentChip} />}
                           </div>
                           <div className="text-xs text-[#7C8794] mt-0.5">{item.role}</div>
                           <div className="text-[11px] text-[#7C8794]/70 mt-0.5">{item.years}{item.category && <span> · {item.category}</span>}</div>
@@ -129,13 +131,13 @@ export default function ProfessionalJourney() {
                 <div className="flex flex-col gap-1 pr-12">
                   <div className="flex items-center gap-2.5 flex-wrap">
                     <span className="text-[11px] text-[#7C8794] tracking-widest uppercase">{role.years}{role.market && <span> · {role.market}</span>}</span>
-                    {role.current && <CurrentChip />}
+                    {role.current && <CurrentChip label={ui.currentChip} />}
                   </div>
                   <h3 className="text-lg sm:text-xl font-semibold text-[#172033] leading-snug">{role.role}</h3>
                   <p className="text-sm text-[#2F7D5C] font-medium">{role.company}</p>
                 </div>
                 <div className="flex flex-col gap-1.5">
-                  <p className="text-[10.5px] text-[#2F7D5C]/80 tracking-[0.18em] uppercase font-medium">Operating focus</p>
+                  <p className="text-[10.5px] text-[#2F7D5C]/80 tracking-[0.18em] uppercase font-medium">{ui.operatingFocus}</p>
                   <p className="text-sm text-[#5F6B7A] leading-relaxed">{role.achievement}</p>
                 </div>
                 {role.bullets && role.bullets.length > 0 && (
