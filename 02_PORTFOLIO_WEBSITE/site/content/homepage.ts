@@ -2,10 +2,8 @@ export const hero = {
   name: "Abdulrahman Zaid",
   title: "MENA Industrial Entrepreneur & Operating Leader",
   location: "Egypt · Saudi Arabia · United Arab Emirates",
-  valueStatement:
-    "20+ years building, operating, and developing manufacturing, food industries, trading, import, distribution, and commercial ventures across Egypt, Saudi Arabia, and the UAE.",
-  credibilityLine:
-    "Egypt · KSA · UAE · Manufacturing · Food Industries · Import · Distribution · Operations",
+  valueStatement: "20+ years building, operating, and developing manufacturing, food industries, trading, import, distribution, and commercial ventures across Egypt, Saudi Arabia, and the UAE.",
+  credibilityLine: "Egypt · KSA · UAE · Manufacturing · Food Industries · Import · Distribution · Operations",
   statusChip: "Regional business portfolio",
   profileSummary: "Manufacturing · Trade · Food Industries · Operations",
   ctas: {
@@ -14,36 +12,17 @@ export const hero = {
   },
 };
 
-export interface TextSegment {
-  text: string;
-  accent?: boolean;
-}
-
-export interface ResultCard {
-  value: string;
-  label: string;
-}
+export interface TextSegment { text: string; accent?: boolean; }
+export interface ResultCard { value: string; label: string; }
 
 export const whoIAm = {
   label: "Who he is",
   headingLines: ["Build", "Operate", "Scale"] as const,
   accentLineIndex: 1,
   introParagraphs: [
-    [
-      { text: "Abdulrahman Zaid is an Egyptian business operator and entrepreneur with more than " },
-      { text: "20 years of regional experience", accent: true },
-      { text: " across Egypt, Saudi Arabia, and the United Arab Emirates." },
-    ],
-    [
-      { text: "His work sits at the intersection of " },
-      { text: "manufacturing, food production, import, trading, distribution, and commercial operations", accent: true },
-      { text: " — turning business opportunities into working companies, teams, and market presence." },
-    ],
-    [
-      { text: "This profile presents him as a " },
-      { text: "MENA industrial entrepreneur and operating leader", accent: true },
-      { text: " with a practical portfolio of ventures, partnerships, and leadership roles across multiple markets." },
-    ],
+    [{ text: "Abdulrahman Zaid is an Egyptian business operator and entrepreneur with more than " }, { text: "20 years of regional experience", accent: true }, { text: " across Egypt, Saudi Arabia, and the United Arab Emirates." }],
+    [{ text: "His work sits at the intersection of " }, { text: "manufacturing, food production, import, trading, distribution, and commercial operations", accent: true }, { text: " — turning business opportunities into working companies, teams, and market presence." }],
+    [{ text: "This profile presents him as a " }, { text: "MENA industrial entrepreneur and operating leader", accent: true }, { text: " with a practical portfolio of ventures, partnerships, and leadership roles across multiple markets." }],
   ] as TextSegment[][],
   resultsLabel: "Regional footprint",
   resultCards: [
@@ -55,23 +34,30 @@ export const whoIAm = {
   ] as ResultCard[],
 };
 
+export const about = {
+  heading: "An operator who builds businesses across markets.",
+  body: "Abdulrahman Zaid connects strategy with daily execution: production planning, supplier networks, commercial contracts, sales teams, logistics, and market expansion.",
+  cta: { label: "View the journey", href: "#experience" },
+  credential: {
+    role: "Industrial Entrepreneur & Operating Leader",
+    markets: "Egypt · Saudi Arabia · UAE",
+    focus: ["Manufacturing", "Food Industries", "Trading", "Operations"],
+    languages: [{ lang: "Arabic", level: "Native" }, { lang: "English", level: "Professional" }],
+  },
+};
+
+export const capabilities = [
+  { id: "manufacturing", icon: "growth", title: "Manufacturing & Operations", body: "Build production plans, improve efficiency, monitor quality, and coordinate daily operations across industrial teams.", tags: ["Production", "Quality", "Efficiency"] },
+  { id: "trade", icon: "ecommerce", title: "Trade, Import & Distribution", body: "Develop supplier relationships, import specialized products, expand distribution networks, and build commercial contracts.", tags: ["Import", "Suppliers", "Contracts"] },
+  { id: "leadership", icon: "ai", title: "Regional Team Leadership", body: "Lead and coordinate multi-country teams across Egypt, Saudi Arabia, and the UAE with a hands-on operating mindset.", tags: ["Teams", "Execution", "Growth"] },
+];
+
 export interface WhatIDoCapability { title: string; body: string; }
-export interface WhatIDoMode {
-  id: string;
-  label: string;
-  cardTitle: string;
-  cardDescription: string;
-  capabilities: WhatIDoCapability[];
-  tools: string[];
-}
+export interface WhatIDoMode { id: string; label: string; cardTitle: string; cardDescription: string; capabilities: WhatIDoCapability[]; tools: string[]; }
 
 export const whatIDo = {
   label: "What he builds",
-  intro: [
-    { text: "A practical operating model across " },
-    { text: "manufacturing, food production, import, distribution, and regional business development", accent: true },
-    { text: " — built around execution, supplier networks, team leadership, and commercial growth." },
-  ] as TextSegment[],
+  intro: [{ text: "A practical operating model across " }, { text: "manufacturing, food production, import, distribution, and regional business development", accent: true }, { text: " — built around execution, supplier networks, team leadership, and commercial growth." }] as TextSegment[],
   badge: "Industrial ventures & operating systems",
   modes: [
     {
@@ -107,18 +93,9 @@ export const whatIDo = {
 
 export type ToolStackLane = "manufacturing" | "trade" | "shared";
 export interface ToolStackCategory { id: string; title: string; lane: ToolStackLane; laneLabel: string; purpose: string; tools: string[]; }
-export const operatingStackStrip = {
-  eyebrow: "Operating stack",
-  title: "Tools that keep the business moving",
-  line: "A compact stack across production, import, CRM, ERP, reporting, team coordination, and commercial execution.",
-};
-export const stackCategoryShortLabels: Record<string, string> = {
-  "production-operations": "Production",
-  "supplier-import": "Import",
-  "commercial-sales": "Sales",
-  "reporting-systems": "Systems",
-  "team-coordination": "Teams",
-};
+export const operatingStackMeta = { eyebrow: "Operating stack", heading: "The stack behind the business model.", intro: "A practical mix of production operations, commercial tools, supplier networks, reporting, ERP/CRM, and team coordination.", note: "An operating stack across people, suppliers, production, customers, and reporting.", lanes: [{ id: "manufacturing" as ToolStackLane, label: "Manufacturing & Operations" }, { id: "trade" as ToolStackLane, label: "Trade & Distribution" }, { id: "shared" as ToolStackLane, label: "Management Layer" }] };
+export const operatingStackStrip = { eyebrow: "Operating stack", title: "Tools that keep the business moving", line: "A compact stack across production, import, CRM, ERP, reporting, team coordination, and commercial execution." };
+export const stackCategoryShortLabels: Record<string, string> = { "production-operations": "Production", "supplier-import": "Import", "commercial-sales": "Sales", "reporting-systems": "Systems", "team-coordination": "Teams" };
 export const operatingStackCategories: ToolStackCategory[] = [
   { id: "production-operations", title: "Production & Operations", lane: "manufacturing", laneLabel: "Manufacturing & Operations", purpose: "Production planning, quality follow-up, manufacturing efficiency, and operational discipline.", tools: ["Production Planning", "Quality Control", "Operational KPIs", "Cost Control"] },
   { id: "supplier-import", title: "Supplier & Import Network", lane: "trade", laneLabel: "Trade & Distribution", purpose: "Supplier relations, import operations, product sourcing, and market-ready materials.", tools: ["International Suppliers", "Import Operations", "Supplier Agreements", "Product Sourcing"] },
@@ -126,6 +103,22 @@ export const operatingStackCategories: ToolStackCategory[] = [
   { id: "reporting-systems", title: "Reporting & Business Systems", lane: "shared", laneLabel: "Management Layer", purpose: "Financial follow-up, management reporting, ERP tools, and business visibility.", tools: ["ERP", "Financial Statements", "Dashboards", "Microsoft Office"] },
   { id: "team-coordination", title: "Team Coordination", lane: "shared", laneLabel: "Management Layer", purpose: "Team leadership, task follow-up, department coordination, and execution rhythm.", tools: ["ClickUp", "Trello", "Asana", "Team Meetings"] },
 ];
+export const tools = [
+  { name: "ERP", use: "Business operations and reporting" },
+  { name: "CRM", use: "Customer and sales follow-up" },
+  { name: "ClickUp", use: "Task flow and team coordination" },
+  { name: "Trello", use: "Project and workflow tracking" },
+  { name: "Asana", use: "Team planning and execution" },
+  { name: "Microsoft Office", use: "Reporting and business documents" },
+  { name: "Google Analytics", use: "Digital visibility and traffic signals" },
+];
+
+export interface ProofVoice { sector: string; status: string; text: string; project: string; initials: string; }
+export const proofVoices = { label: "Proof", heading: "Business proof and portfolio signals.", subtitle: "A compact view of sectors, markets, and business activities behind Abdulrahman's regional operating profile.", voices: [
+  { sector: "Food Manufacturing", status: "Profile evidence", text: "Production operations, market expansion, quality, distribution, and commercial contracts.", project: "Halsa Food Industries / Al Shehail Food Industries", initials: "HF" },
+  { sector: "Industrial Manufacturing", status: "Profile evidence", text: "Manufacturing efficiency, specialized silicone and resin import, and operational leadership.", project: "Silicon Star", initials: "SS" },
+  { sector: "Trading & Equipment", status: "Profile evidence", text: "Commercial, logistics, import, marketing, and technical support operations.", project: "Nano Line / Nano Food Machines", initials: "NL" },
+] as ProofVoice[], projectOverviewLabel: "Portfolio overview", projectOverview: ["Food Industries", "Industrial Manufacturing", "Import", "Distribution", "Trading", "Retail", "Commercial Contracts", "Regional Operations"] };
 
 export interface JourneyItem { id: string; years: string; role: string; company: string; market?: string; achievement: string; category?: string; bullets?: string[]; focus?: string[]; current?: boolean; isGroup?: boolean; underGroup?: string; }
 export interface LearningCard { title: string; detail: string; description: string; icon: "university" | "apple" | "hours"; }
@@ -149,30 +142,9 @@ export const journeyItems: JourneyItem[] = [
   { id: "al-jazeera-pomegranate", years: "2004 – 2012", role: "Executive Director", company: "Al Jazeera Pomegranate Company", market: "Riyadh, Saudi Arabia", category: "Early regional leadership", achievement: "Opened markets, imported spare parts, expanded branches for fitness-equipment imports, and led field teams and projects.", bullets: ["Developed markets and business opportunities.", "Imported spare parts and expanded related branches.", "Led field teams and project execution."], focus: ["Saudi Arabia", "Import", "Branches", "Teams"] },
 ];
 
-export const howIWork = {
-  eyebrow: "How he operates",
-  heading: "Strategy first. Operations always.",
-  body: [
-    "Abdulrahman's operating style connects business opportunity with the daily discipline required to make it work: suppliers, production, people, customers, contracts, reporting, and cash-flow awareness.",
-    "He is strongest where strategy needs to become operations — building teams, opening channels, coordinating suppliers, improving systems, and creating a clearer business rhythm across markets.",
-    "The website should show ventures, countries, sectors, and operating proof — not only a list of job titles.",
-  ],
-  model: [
-    { id: "strategy", title: "Strategy", phrase: "Define the business opportunity." },
-    { id: "operations", title: "Operations", phrase: "Build the operating system." },
-    { id: "teams", title: "Teams", phrase: "Lead people across markets." },
-    { id: "growth", title: "Growth", phrase: "Expand contracts and distribution." },
-  ],
-  badges: ["Manufacturing-led", "Partnership-driven", "Team-based", "Regionally focused"],
-};
-
+export const howIWork = { eyebrow: "How he operates", heading: "Strategy first. Operations always.", body: ["Abdulrahman's operating style connects business opportunity with the daily discipline required to make it work: suppliers, production, people, customers, contracts, reporting, and cash-flow awareness.", "He is strongest where strategy needs to become operations — building teams, opening channels, coordinating suppliers, improving systems, and creating a clearer business rhythm across markets.", "The website should show ventures, countries, sectors, and operating proof — not only a list of job titles."], model: [{ id: "strategy", title: "Strategy", phrase: "Define the business opportunity." }, { id: "operations", title: "Operations", phrase: "Build the operating system." }, { id: "teams", title: "Teams", phrase: "Lead people across markets." }, { id: "growth", title: "Growth", phrase: "Expand contracts and distribution." }], badges: ["Manufacturing-led", "Partnership-driven", "Team-based", "Regionally focused"] };
 export const contactCTA = { eyebrow: "Partnerships", headline: "Build with Abdulrahman.", body: "For manufacturing partnerships, food production opportunities, private label discussions, distribution, import, trading, and regional business development across MENA.", location: "Egypt · Saudi Arabia · United Arab Emirates" };
 export interface ContactLink { label: string; type: "email" | "cv" | "social" | "whatsapp"; href: string; icon: "mail" | "linkedin" | "download" | "github" | "instagram" | "behance" | "whatsapp"; isPrimary: boolean; isPlaceholder: boolean; external?: boolean; }
-export const contactLinks: ContactLink[] = [
-  { label: "Email", type: "email", href: "mailto:gm@nanoline.ae", icon: "mail", isPrimary: true, isPlaceholder: false },
-  { label: "WhatsApp", type: "whatsapp", href: "https://wa.me/971545130344", icon: "whatsapp", isPrimary: true, isPlaceholder: false, external: true },
-  { label: "LinkedIn", type: "social", href: "#contact", icon: "linkedin", isPrimary: false, isPlaceholder: true },
-  { label: "CV / Profile", type: "cv", href: "#contact", icon: "download", isPrimary: false, isPlaceholder: true },
-];
+export const contactLinks: ContactLink[] = [{ label: "Email", type: "email", href: "mailto:gm@nanoline.ae", icon: "mail", isPrimary: true, isPlaceholder: false }, { label: "WhatsApp", type: "whatsapp", href: "https://wa.me/971545130344", icon: "whatsapp", isPrimary: true, isPlaceholder: false, external: true }, { label: "LinkedIn", type: "social", href: "#contact", icon: "linkedin", isPrimary: false, isPlaceholder: true }, { label: "CV / Profile", type: "cv", href: "#contact", icon: "download", isPrimary: false, isPlaceholder: true }];
 export const siteFooter = { copyright: "© Abdulrahman Zaid · MENA Industrial Entrepreneur & Operating Leader · Egypt · Saudi Arabia · UAE" };
 export const placeholderSections: { id: string; label: string }[] = [];
