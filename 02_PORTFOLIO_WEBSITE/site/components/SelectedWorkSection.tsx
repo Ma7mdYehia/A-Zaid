@@ -214,10 +214,7 @@ const workItems: WorkItem[] = [
   },
 ];
 
-/* ---------------------------------------------------------------------------
-   Social / contact icon row. Each slot renders a clickable anchor when a
-   link exists, otherwise a muted, non-interactive span (aria-disabled).
---------------------------------------------------------------------------- */
+/* ── Social / contact icon row ─────────────────────────────────────────────── */
 type LinkSlot = {
   key: keyof ProjectLinkSet;
   label: string;
@@ -226,17 +223,12 @@ type LinkSlot = {
 };
 
 const LINK_SLOTS: LinkSlot[] = [
-  { key: "website", label: "Website", icon: Globe, href: (v) => v },
-  { key: "instagram", label: "Instagram", icon: Instagram, href: (v) => v },
-  { key: "linkedin", label: "LinkedIn", icon: Linkedin, href: (v) => v },
-  { key: "youtube", label: "YouTube", icon: Youtube, href: (v) => v },
-  { key: "email", label: "Email", icon: Mail, href: (v) => `mailto:${v}` },
-  {
-    key: "whatsapp",
-    label: "WhatsApp / Phone",
-    icon: MessageCircle,
-    href: (v) => v,
-  },
+  { key: "website",   label: "Website",          icon: Globe,          href: (v) => v },
+  { key: "instagram", label: "Instagram",         icon: Instagram,      href: (v) => v },
+  { key: "linkedin",  label: "LinkedIn",          icon: Linkedin,       href: (v) => v },
+  { key: "youtube",   label: "YouTube",           icon: Youtube,        href: (v) => v },
+  { key: "email",     label: "Email",             icon: Mail,           href: (v) => `mailto:${v}` },
+  { key: "whatsapp",  label: "WhatsApp / Phone",  icon: MessageCircle,  href: (v) => v },
 ];
 
 function SocialRow({ links, title }: { links: ProjectLinkSet; title: string }) {
@@ -244,7 +236,6 @@ function SocialRow({ links, title }: { links: ProjectLinkSet; title: string }) {
     <div className="flex items-center gap-2 pt-1">
       {LINK_SLOTS.map((slot) => {
         const Icon = slot.icon;
-        // WhatsApp slot falls back to phone if whatsapp is not provided.
         const raw =
           slot.key === "whatsapp"
             ? links.whatsapp ?? links.phone
@@ -263,10 +254,8 @@ function SocialRow({ links, title }: { links: ProjectLinkSet; title: string }) {
               key={slot.key}
               href={href}
               aria-label={`${title} — ${slot.label}`}
-              {...(external
-                ? { target: "_blank", rel: "noopener noreferrer" }
-                : {})}
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.03] text-[#94A3B8] transition-colors hover:border-[#3DBA8C]/40 hover:text-[#3DBA8C]"
+              {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#DDD4C5] bg-[#F7F3EA] text-[#7C8794] transition-colors hover:border-[#2F7D5C]/40 hover:text-[#2F7D5C]"
             >
               <Icon className="h-4 w-4" aria-hidden />
             </a>
@@ -278,7 +267,7 @@ function SocialRow({ links, title }: { links: ProjectLinkSet; title: string }) {
             key={slot.key}
             aria-disabled="true"
             aria-label={`${slot.label} — not available`}
-            className="flex h-8 w-8 cursor-not-allowed items-center justify-center rounded-lg border border-white/[0.05] bg-white/[0.015] text-white/15"
+            className="flex h-8 w-8 cursor-not-allowed items-center justify-center rounded-lg border border-[#DDD4C5]/60 bg-[#F7F3EA] text-[#172033]/18"
           >
             <Icon className="h-4 w-4" aria-hidden />
           </span>
@@ -288,7 +277,7 @@ function SocialRow({ links, title }: { links: ProjectLinkSet; title: string }) {
   );
 }
 
-/* Banner / logo placeholder — ready to later accept a logo or banner image. */
+/* Banner / logo placeholder */
 function BannerPlaceholder({
   logoText,
   hero = false,
@@ -300,22 +289,22 @@ function BannerPlaceholder({
     <div
       aria-hidden
       className={[
-        "relative flex items-center justify-center overflow-hidden rounded-xl border border-white/[0.07]",
-        "bg-gradient-to-br from-[#11202b] via-[#0F1724] to-[#0c1410]",
+        "relative flex items-center justify-center overflow-hidden rounded-xl border border-[#DDD4C5]",
+        "bg-gradient-to-br from-[#EFE7DA] via-[#F7F3EA] to-[#E8DFCF]",
         hero ? "h-40 sm:h-full sm:min-h-[220px]" : "h-28",
       ].join(" ")}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(61,186,140,0.10),transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(47,125,92,0.08),transparent_60%)]" />
       <div className="flex flex-col items-center gap-2">
         <span
           className={[
-            "flex items-center justify-center rounded-xl border border-[#3DBA8C]/25 bg-[#3DBA8C]/[0.08] font-bold tracking-widest text-[#3DBA8C]",
+            "flex items-center justify-center rounded-xl border border-[#2F7D5C]/25 bg-[#2F7D5C]/[0.07] font-bold tracking-widest text-[#2F7D5C]",
             hero ? "h-16 w-16 text-lg" : "h-12 w-12 text-sm",
           ].join(" ")}
         >
           {logoText}
         </span>
-        <span className="text-[10px] uppercase tracking-[0.2em] text-white/25">
+        <span className="text-[10px] uppercase tracking-[0.2em] text-[#172033]/25">
           Logo / Banner
         </span>
       </div>
@@ -326,10 +315,10 @@ function BannerPlaceholder({
 function MetaRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <span className="text-[10px] uppercase tracking-[0.16em] text-white/35">
+      <span className="text-[10px] uppercase tracking-[0.16em] text-[#7C8794]">
         {label}
       </span>
-      <span className="text-[13px] text-[#E8EDF2]">{value}</span>
+      <span className="text-[13px] text-[#172033]">{value}</span>
     </div>
   );
 }
@@ -342,67 +331,68 @@ export default function SelectedWorkSection() {
     <section
       id="work"
       aria-label="Business portfolio"
-      className="px-6 lg:px-24 py-24 border-t border-white/[0.06]"
+      className="px-6 lg:px-24 py-24 border-t border-[#DDD4C5]"
     >
       <div className="max-w-6xl mx-auto flex flex-col gap-12">
+
         {/* Header */}
         <div className="flex flex-col gap-4 max-w-3xl">
           <motion.p
             {...reveal(0)}
-            className="text-xs text-[#3DBA8C] tracking-[0.22em] uppercase font-medium"
+            className="text-xs text-[#2F7D5C] tracking-[0.22em] uppercase font-medium"
           >
             Business portfolio
           </motion.p>
           <motion.h2
             {...reveal(0.06)}
-            className="text-3xl sm:text-4xl font-semibold text-[#E8EDF2] leading-tight tracking-tight"
+            className="text-3xl sm:text-4xl font-semibold text-[#172033] leading-tight tracking-tight"
           >
             Ventures, markets, and operating roles.
           </motion.h2>
           <motion.p
             {...reveal(0.12)}
-            className="text-base sm:text-lg text-[#94A3B8] leading-relaxed"
+            className="text-base sm:text-lg text-[#5F6B7A] leading-relaxed"
           >
             {workIntro}
           </motion.p>
         </div>
 
-        {/* Hero project — Al Shehail Food Industries */}
+        {/* Hero project */}
         <motion.article
           {...reveal(0.16)}
-          className="group relative overflow-hidden rounded-3xl border border-[#3DBA8C]/25 bg-[#0F1724]"
+          className="group relative overflow-hidden rounded-3xl border border-[#2F7D5C]/20 bg-white"
         >
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#3DBA8C]/[0.06] to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#2F7D5C]/[0.05] to-transparent" />
           <div className="relative grid grid-cols-1 sm:grid-cols-[0.85fr_1.15fr] gap-6 p-6 sm:p-8">
             <BannerPlaceholder logoText={hero.logoText} hero />
 
             <div className="flex flex-col gap-5">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex flex-col gap-1">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-[#3DBA8C]/90 font-medium">
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-[#2F7D5C]/90 font-medium">
                     {hero.year}
                   </p>
-                  <h3 className="text-2xl font-semibold leading-tight text-[#E8EDF2]">
+                  <h3 className="text-2xl font-semibold leading-tight text-[#172033]">
                     {hero.title}
                   </h3>
-                  <p className="text-sm text-[#94A3B8]">{hero.subtitle}</p>
+                  <p className="text-sm text-[#5F6B7A]">{hero.subtitle}</p>
                 </div>
-                <span className="flex-none rounded-full border border-[#E0A458]/40 bg-[#E0A458]/[0.10] px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#E0A458]">
+                <span className="flex-none rounded-full border border-[#B88746]/40 bg-[#B88746]/[0.09] px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#B88746]">
                   Current Focus
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 gap-x-6 gap-y-4 border-y border-white/[0.07] py-4">
-                <MetaRow label="Role" value={hero.role} />
-                <MetaRow label="Sector" value={hero.sector} />
+              <div className="grid grid-cols-2 gap-x-6 gap-y-4 border-y border-[#DDD4C5] py-4">
+                <MetaRow label="Role"     value={hero.role} />
+                <MetaRow label="Sector"   value={hero.sector} />
                 <MetaRow label="Location" value={hero.location} />
-                <MetaRow label="Year" value={hero.year} />
+                <MetaRow label="Year"     value={hero.year} />
               </div>
 
-              <p className="text-sm font-medium text-[#E8EDF2] leading-relaxed">
+              <p className="text-sm font-medium text-[#172033] leading-relaxed">
                 {hero.line}
               </p>
-              <p className="text-sm text-[#94A3B8] leading-relaxed">
+              <p className="text-sm text-[#5F6B7A] leading-relaxed">
                 {hero.description}
               </p>
 
@@ -410,7 +400,7 @@ export default function SelectedWorkSection() {
                 {hero.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-white/[0.07] bg-white/[0.03] px-2.5 py-1 text-[11px] text-[#94A3B8]/80"
+                    className="rounded-full border border-[#DDD4C5] bg-[#F7F3EA] px-2.5 py-1 text-[11px] text-[#7C8794]"
                   >
                     {tag}
                   </span>
@@ -422,36 +412,36 @@ export default function SelectedWorkSection() {
           </div>
         </motion.article>
 
-        {/* Standard projects */}
+        {/* Standard project cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           {rest.map((item, i) => (
             <motion.article
               key={item.id}
               {...reveal(0.06 + i * 0.05)}
-              className="group flex flex-col gap-4 rounded-2xl border border-white/[0.08] bg-[#0F1724] p-5 transition-colors hover:border-[#3DBA8C]/35"
+              className="group flex flex-col gap-4 rounded-2xl border border-[#DDD4C5] bg-white p-5 transition-colors hover:border-[#2F7D5C]/30 hover:shadow-[0_2px_16px_rgba(47,125,92,0.08)]"
             >
               <BannerPlaceholder logoText={item.logoText} />
 
               <div className="flex flex-col gap-1">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-[#3DBA8C]/90 font-medium">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[#2F7D5C]/90 font-medium">
                   {item.year}
                 </p>
-                <h3 className="text-lg font-semibold leading-tight text-[#E8EDF2]">
+                <h3 className="text-lg font-semibold leading-tight text-[#172033]">
                   {item.title}
                 </h3>
-                <p className="text-xs text-[#94A3B8]">{item.subtitle}</p>
+                <p className="text-xs text-[#5F6B7A]">{item.subtitle}</p>
               </div>
 
-              <div className="h-px bg-white/[0.07]" />
+              <div className="h-px bg-[#DDD4C5]" />
 
               <div className="flex flex-col gap-1.5">
-                <p className="text-[13px] text-[#E8EDF2]">{item.role}</p>
-                <p className="text-xs text-[#94A3B8]/70">
+                <p className="text-[13px] text-[#172033]">{item.role}</p>
+                <p className="text-xs text-[#7C8794]">
                   {item.sector} · {item.location}
                 </p>
               </div>
 
-              <p className="text-[13px] text-[#94A3B8] leading-relaxed">
+              <p className="text-[13px] text-[#5F6B7A] leading-relaxed">
                 {item.description}
               </p>
 
@@ -459,7 +449,7 @@ export default function SelectedWorkSection() {
                 {item.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-white/[0.07] bg-white/[0.03] px-2.5 py-1 text-[11px] text-[#94A3B8]/80"
+                    className="rounded-full border border-[#DDD4C5] bg-[#F7F3EA] px-2.5 py-1 text-[11px] text-[#7C8794]"
                   >
                     {tag}
                   </span>
@@ -470,6 +460,7 @@ export default function SelectedWorkSection() {
             </motion.article>
           ))}
         </div>
+
       </div>
     </section>
   );

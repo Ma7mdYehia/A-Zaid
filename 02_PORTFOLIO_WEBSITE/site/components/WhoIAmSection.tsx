@@ -15,12 +15,6 @@ function parseMetric(value: string) {
   return { prefix, target: parseFloat(num), decimals, suffix };
 }
 
-/**
- * Result-card number with a once-only count-up.
- * SSR-safe: renders the final value on the server and the first client render
- * (so hydration matches), then counts up from 0 after mount when `play` is true.
- * Honours reduced motion by skipping the animation.
- */
 function MetricValue({ value, play }: { value: string; play: boolean }) {
   const isClient = useIsClient();
   const prefersReduced = useReducedMotion();
@@ -45,7 +39,7 @@ function MetricValue({ value, play }: { value: string; play: boolean }) {
       const eased = 1 - Math.pow(1 - p, 3);
       setDisplay(format(parsed.target * eased));
       if (p < 1) raf = requestAnimationFrame(tick);
-      else setDisplay(value); // exact approved string at the end
+      else setDisplay(value);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
@@ -59,7 +53,6 @@ export default function WhoIAmSection() {
   const prefersReduced = useReducedMotion();
   const animate = isClient && !prefersReduced;
 
-  // Trigger the counters once the results grid enters the viewport.
   const resultsRef = useRef<HTMLDivElement>(null);
   const resultsInView = useInView(resultsRef, { once: true, margin: "-80px" });
   const glowRef = useMouseGlow<HTMLElement>();
@@ -79,7 +72,7 @@ export default function WhoIAmSection() {
       ref={glowRef}
       id="about"
       aria-label="Who I am"
-      className="px-6 lg:px-24 py-24 lg:py-28 border-t border-white/[0.06]"
+      className="px-6 lg:px-24 py-24 lg:py-28 border-t border-[#DDD4C5]"
     >
       <div className="max-w-6xl mx-auto flex flex-col gap-16 lg:gap-20">
 
@@ -90,21 +83,21 @@ export default function WhoIAmSection() {
           <div className="flex flex-col gap-5">
             <motion.p
               {...reveal(0)}
-              className="text-xs text-[#3DBA8C] tracking-[0.22em] uppercase font-medium"
+              className="text-xs text-[#2F7D5C] tracking-[0.22em] uppercase font-medium"
             >
               {whoIAm.label}
             </motion.p>
 
             <motion.h2
               {...reveal(0.06)}
-              className="font-display text-[#E8EDF2] leading-[0.9] tracking-[0.01em] text-6xl sm:text-7xl lg:text-[5.5rem]"
+              className="font-display text-[#172033] leading-[0.9] tracking-[0.01em] text-6xl sm:text-7xl lg:text-[5.5rem]"
             >
               {whoIAm.headingLines.map((line, i) => (
                 <span
                   key={line}
                   className={[
                     "block",
-                    i === whoIAm.accentLineIndex ? "text-[#3DBA8C]" : "",
+                    i === whoIAm.accentLineIndex ? "text-[#2F7D5C]" : "",
                   ].join(" ")}
                 >
                   {line}
@@ -119,11 +112,11 @@ export default function WhoIAmSection() {
               <motion.p
                 key={i}
                 {...reveal(0.12 + i * 0.07)}
-                className="text-base sm:text-lg text-[#94A3B8] leading-relaxed"
+                className="text-base sm:text-lg text-[#5F6B7A] leading-relaxed"
               >
                 {segments.map((seg, j) =>
                   seg.accent ? (
-                    <span key={j} className="text-[#3DBA8C] font-medium">
+                    <span key={j} className="text-[#2F7D5C] font-medium">
                       {seg.text}
                     </span>
                   ) : (
@@ -135,24 +128,22 @@ export default function WhoIAmSection() {
           </div>
         </div>
 
-        {/* Selected results — aggregate totals across sectors and client work */}
+        {/* Metrics */}
         <div className="flex flex-col gap-7">
           <motion.p
             {...reveal(0.05)}
-            className="text-xs text-[#94A3B8]/60 tracking-[0.2em] uppercase font-medium"
+            className="text-xs text-[#7C8794] tracking-[0.2em] uppercase font-medium"
           >
             {whoIAm.resultsLabel}
           </motion.p>
 
-          {/* group/cards drives the soft reactive glow behind the grid */}
           <div ref={resultsRef} className="relative group/cards">
-            {/* Soft sage glow — brightens slightly when a card is hovered */}
             <div
               aria-hidden
               className="pointer-events-none absolute -inset-6 rounded-[2rem] opacity-0 group-hover/cards:opacity-100 transition-opacity duration-500"
               style={{
                 background:
-                  "radial-gradient(55% 55% at 50% 40%, rgba(61,186,140,0.10), transparent 70%)",
+                  "radial-gradient(55% 55% at 50% 40%, rgba(47,125,92,0.07), transparent 70%)",
               }}
             />
 
@@ -164,22 +155,19 @@ export default function WhoIAmSection() {
                   {...reveal(0.1 + i * 0.06)}
                   whileHover={animate ? { y: -3 } : undefined}
                   className={[
-                    "mouse-glow-border rounded-2xl border border-white/[0.08] bg-[#0F1724]",
-                    "hover:border-[#3DBA8C]/35 hover:shadow-[0_0_26px_-6px_rgba(61,186,140,0.22)]",
+                    "mouse-glow-border rounded-2xl border border-[#DDD4C5] bg-white",
+                    "hover:border-[#2F7D5C]/35 hover:shadow-[0_0_26px_-6px_rgba(47,125,92,0.20)]",
                     "transition-[border-color,box-shadow] duration-300",
                     "px-6 py-7 flex flex-col gap-3",
-                    // Balanced 3-over-2 layout on desktop (centred second row)
                     "lg:col-span-2",
                     i === 3 ? "lg:col-start-2" : "",
                   ].join(" ")}
                 >
-                  {/* Restrained sage accent rule */}
-                  <span aria-hidden className="block w-6 h-px bg-[#3DBA8C]/60" />
-
-                  <span className="font-display text-4xl sm:text-5xl text-[#E8EDF2] leading-none tracking-[0.01em] tabular-nums">
+                  <span aria-hidden className="block w-6 h-px bg-[#2F7D5C]/50" />
+                  <span className="font-display text-4xl sm:text-5xl text-[#172033] leading-none tracking-[0.01em] tabular-nums">
                     <MetricValue value={card.value} play={resultsInView} />
                   </span>
-                  <p className="text-sm text-[#94A3B8] leading-snug">{card.label}</p>
+                  <p className="text-sm text-[#5F6B7A] leading-snug">{card.label}</p>
                 </motion.div>
               ))}
             </div>

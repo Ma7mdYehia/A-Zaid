@@ -3,18 +3,19 @@
 @tailwind utilities;
 
 :root {
-  --color-base: #0B1220;
-  --color-surface: #0F1724;
-  --color-accent: #3DBA8C;
-  --color-amber: #E0A458;
-  --color-text-primary: #E8EDF2;
-  --color-text-secondary: #94A3B8;
-  --color-glass: rgba(255, 255, 255, 0.06);
-  --color-border: rgba(255, 255, 255, 0.10);
+  --color-base: #F7F3EA;
+  --color-surface: #FFFFFF;
+  --color-accent: #2F7D5C;
+  --color-amber: #B88746;
+  --color-text-primary: #172033;
+  --color-text-secondary: #5F6B7A;
+  --color-glass: rgba(247, 243, 234, 0.90);
+  --color-border: rgba(184, 168, 145, 0.50);
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 4.5rem;
 }
 
 body {
@@ -34,16 +35,16 @@ body {
   font-family: var(--font-caveat), ui-rounded, cursive;
 }
 
-/* Glass panel utility */
+/* Glass panel utility — light ivory with backdrop blur */
 .glass {
   background: var(--color-glass);
   border: 1px solid var(--color-border);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .glass-hover:hover {
-  border-color: rgba(255, 255, 255, 0.18);
+  border-color: rgba(140, 120, 95, 0.65);
 }
 
 /* Focus visible */
@@ -61,7 +62,6 @@ body {
 /* -------------------------------------------------------------------------- */
 /*  Interactive hero orb                                                       */
 /*  Layered radial glows that parallax with the pointer via --mx / --my.       */
-/*  Restrained sage glow over the dark base — not neon.                        */
 /* -------------------------------------------------------------------------- */
 .hero-orb {
   --mx: 0;
@@ -82,15 +82,15 @@ body {
   transform: translate3d(-50%, -50%, 0);
 }
 
-/* Main sage core — soft, heavily blurred */
+/* Main sage core */
 .hero-orb__core {
   width: min(70vw, 620px);
   height: min(70vw, 620px);
   background: radial-gradient(
     circle at 50% 45%,
-    rgba(61, 186, 140, 0.24) 0%,
-    rgba(61, 186, 140, 0.11) 32%,
-    rgba(61, 186, 140, 0) 68%
+    rgba(47, 125, 92, 0.18) 0%,
+    rgba(47, 125, 92, 0.07) 32%,
+    rgba(47, 125, 92, 0) 68%
   );
   filter: blur(52px);
   transform: translate3d(
@@ -100,14 +100,14 @@ body {
   );
 }
 
-/* Defined ring — gives the orb structure */
+/* Defined ring */
 .hero-orb__ring {
   width: min(58vw, 480px);
   height: min(58vw, 480px);
-  border: 1px solid rgba(61, 186, 140, 0.14);
+  border: 1px solid rgba(47, 125, 92, 0.16);
   box-shadow:
-    0 0 60px 0 rgba(61, 186, 140, 0.08) inset,
-    0 0 40px 0 rgba(61, 186, 140, 0.05);
+    0 0 60px 0 rgba(47, 125, 92, 0.06) inset,
+    0 0 40px 0 rgba(47, 125, 92, 0.04);
   filter: blur(0.5px);
   transform: translate3d(
     calc(-50% + var(--mx) * 44px),
@@ -116,14 +116,14 @@ body {
   );
 }
 
-/* Faint amber ambient highlight — depth, offset */
+/* Faint amber ambient highlight */
 .hero-orb__ambient {
   width: min(50vw, 420px);
   height: min(50vw, 420px);
   background: radial-gradient(
     circle at 50% 50%,
-    rgba(224, 164, 88, 0.10) 0%,
-    rgba(224, 164, 88, 0) 70%
+    rgba(184, 135, 70, 0.10) 0%,
+    rgba(184, 135, 70, 0) 70%
   );
   filter: blur(60px);
   transform: translate3d(
@@ -133,14 +133,14 @@ body {
   );
 }
 
-/* Vignette to keep edges premium and text legible */
+/* Vignette — fades hero to the page ivory at edges */
 .hero-orb__vignette {
   position: absolute;
   inset: 0;
   background: radial-gradient(
     120% 90% at 50% 40%,
-    rgba(11, 18, 32, 0) 40%,
-    rgba(11, 18, 32, 0.55) 100%
+    rgba(247, 243, 234, 0) 38%,
+    rgba(247, 243, 234, 0.70) 100%
   );
 }
 
@@ -153,7 +153,7 @@ body {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Systems-visual node pulse (What I do panel) — very subtle                  */
+/*  Systems-visual node pulse                                                   */
 /* -------------------------------------------------------------------------- */
 @keyframes sys-pulse {
   0%, 100% { opacity: 0.25; }
@@ -197,15 +197,8 @@ body {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Premium lighting + mouse-follow glow                                       */
-/*  Driven by --mouse-x / --mouse-y (written by useMouseGlow). All layers are  */
-/*  pointer-events:none and cause no layout shift. Fallbacks keep a soft,      */
-/*  centred glow when JS is off / touch / reduced motion.                      */
+/*  Mouse-follow glow — adapted for light background                           */
 /* -------------------------------------------------------------------------- */
-
-/* Soft spotlight that follows the cursor inside a panel. The pseudo sits at
-   stack level 0; panel content lives in `relative` wrappers, so it always
-   paints behind the text. */
 .mouse-glow-panel {
   position: relative;
 }
@@ -220,7 +213,7 @@ body {
   transition: opacity 0.45s ease;
   background: radial-gradient(
     360px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(61, 186, 140, 0.10),
+    rgba(47, 125, 92, 0.07),
     transparent 62%
   );
 }
@@ -228,8 +221,6 @@ body {
   opacity: 1;
 }
 
-/* Border-only glow that brightens toward the cursor — for cards. Uses the
-   mask trick so only the 1px edge lights up. */
 .mouse-glow-border {
   position: relative;
 }
@@ -245,7 +236,7 @@ body {
   transition: opacity 0.35s ease;
   background: radial-gradient(
     220px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-    rgba(61, 186, 140, 0.55),
+    rgba(47, 125, 92, 0.45),
     transparent 60%
   );
   -webkit-mask:
@@ -258,7 +249,7 @@ body {
   opacity: 1;
 }
 
-/* One-pass light sweep on hover — for buttons. */
+/* One-pass light sweep on hover — for buttons */
 .soft-light-sweep {
   position: relative;
   overflow: hidden;
@@ -271,7 +262,7 @@ body {
   background: linear-gradient(
     120deg,
     transparent 30%,
-    rgba(255, 255, 255, 0.16) 50%,
+    rgba(255, 255, 255, 0.20) 50%,
     transparent 70%
   );
   transform: translateX(-130%);
@@ -281,8 +272,7 @@ body {
   transform: translateX(130%);
 }
 
-/* Hero ambient light field — soft sage/amber wash that tracks the pointer.
-   Sits above the orb, below the centred content. */
+/* Hero ambient light field */
 .hero-light-field {
   position: absolute;
   inset: 0;
@@ -290,8 +280,8 @@ body {
   pointer-events: none;
   background: radial-gradient(
     560px circle at var(--mouse-x, 50%) var(--mouse-y, 42%),
-    rgba(61, 186, 140, 0.12),
-    rgba(224, 164, 88, 0.04) 42%,
+    rgba(47, 125, 92, 0.09),
+    rgba(184, 135, 70, 0.03) 42%,
     transparent 70%
   );
 }
@@ -302,7 +292,7 @@ body {
   }
 }
 
-/* Scrollbar */
+/* Scrollbar — warm light style */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -310,9 +300,9 @@ body {
   background: var(--color-base);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.12);
+  background: rgba(23, 32, 51, 0.14);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255,255,255,0.20);
+  background: rgba(23, 32, 51, 0.24);
 }
