@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Bebas_Neue, Inter, Caveat } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Bebas_Neue,
+  Inter,
+  Caveat,
+  Alexandria,
+  IBM_Plex_Sans_Arabic,
+} from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/lib/i18n";
 
@@ -32,6 +40,19 @@ const caveat = Caveat({
   display: "swap",
 });
 
+const arabicDisplay = Alexandria({
+  variable: "--font-arabic-display",
+  subsets: ["arabic", "latin"],
+  display: "swap",
+});
+
+const arabicBody = IBM_Plex_Sans_Arabic({
+  variable: "--font-arabic-body",
+  subsets: ["arabic"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Abdulrahman Zaid — MENA Industrial Entrepreneur & Operating Leader",
   description:
@@ -54,7 +75,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${bebasNeue.variable} ${caveat.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${bebasNeue.variable} ${caveat.variable} ${arabicDisplay.variable} ${arabicBody.variable}`}
     >
       <body className="antialiased">
         <LanguageProvider>{children}</LanguageProvider>
