@@ -2,7 +2,6 @@ import { siteFooter, contactLinks } from "@/content/homepage";
 import { contactIcons, contactAnchorProps } from "@/lib/contactIcons";
 
 const footerOrder = [
-  "LinkedIn",
   "Instagram",
   "GitHub",
   "Behance",

@@ -3,27 +3,25 @@
 import { motion } from "framer-motion";
 import { howIWork } from "@/content/homepage";
 import { useReveal } from "@/lib/motion";
-import { useMouseGlow } from "@/lib/useMouseGlow";
 
 export default function HowIWorkSection() {
   const reveal = useReveal();
-  const glowRef = useMouseGlow<HTMLElement>();
-
-  // Preserve existing copy: first paragraph as intro, the rest as the method narrative.
-  const [intro, ...methodParagraphs] = howIWork.body;
+  const subheading = howIWork.body[0];
 
   return (
     <section
-      ref={glowRef}
       id="how"
-      aria-label="How I work"
+      aria-label="How he operates"
       className="px-6 lg:px-24 py-24 border-t border-white/[0.06]"
     >
-      <div className="max-w-6xl mx-auto flex flex-col gap-10">
+      <div className="max-w-6xl mx-auto flex flex-col gap-12">
 
         {/* Header */}
-        <div className="flex flex-col gap-3 max-w-2xl">
-          <motion.p {...reveal(0)} className="text-xs text-[#3DBA8C] tracking-[0.22em] uppercase font-medium">
+        <div className="flex flex-col gap-4 max-w-3xl">
+          <motion.p
+            {...reveal(0)}
+            className="text-xs text-[#3DBA8C] tracking-[0.22em] uppercase font-medium"
+          >
             {howIWork.eyebrow}
           </motion.p>
           <motion.h2
@@ -32,92 +30,60 @@ export default function HowIWorkSection() {
           >
             {howIWork.heading}
           </motion.h2>
-          <motion.p {...reveal(0.12)} className="text-base sm:text-lg text-[#94A3B8] leading-relaxed">
-            {intro}
+          <motion.p
+            {...reveal(0.12)}
+            className="text-base sm:text-lg text-[#94A3B8] leading-relaxed"
+          >
+            {subheading}
           </motion.p>
         </div>
 
-        {/* Operating-rhythm panel */}
-        <motion.div
-          data-glow
-          {...reveal(0.16)}
-          className="mouse-glow-panel relative rounded-3xl border border-[#3DBA8C]/20 bg-white/[0.03] overflow-hidden"
-        >
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#3DBA8C]/[0.06] to-transparent"
-          />
-
-          <div className="relative grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr]">
-
-            {/* Left — the method */}
-            <div className="p-7 lg:p-8 flex flex-col gap-5 lg:border-r lg:border-white/[0.08]">
-              <p className="text-[11px] text-[#3DBA8C] tracking-[0.18em] uppercase font-medium">
-                The method
-              </p>
-
-              <div className="flex flex-col gap-4">
-                {methodParagraphs.map((paragraph, i) => (
-                  <p key={i} className="text-sm sm:text-[15px] text-[#94A3B8] leading-relaxed">
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
-
-              {/* Principle chips */}
-              <div className="pt-5 mt-auto border-t border-white/[0.07] flex flex-col gap-2.5">
-                <p className="text-[10.5px] text-[#94A3B8]/50 uppercase tracking-[0.18em] font-medium">
-                  Principles
-                </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {howIWork.badges.map((badge) => (
-                    <span
-                      key={badge}
-                      className="text-[11px] font-medium text-[#94A3B8]/80 bg-white/[0.03] border border-white/[0.07] rounded-full px-2.5 py-1"
-                    >
-                      {badge}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Right — operating model steps */}
-            <div className="p-7 lg:p-8 flex flex-col gap-6 border-t border-white/[0.07] lg:border-t-0">
-              <header className="flex items-center justify-between gap-3">
-                <p className="text-[11px] text-[#94A3B8]/70 tracking-[0.18em] uppercase font-medium">
-                  Operating model
-                </p>
-                <span className="text-[10.5px] text-[#94A3B8]/40 tracking-wide">
-                  Four working modes
+        {/* 4 pillars */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {howIWork.model.map((step, i) => (
+            <motion.div
+              key={step.id}
+              {...reveal(0.1 + i * 0.07)}
+              className="flex flex-col gap-4 p-6 rounded-2xl border border-white/[0.08] bg-white/[0.02] hover:border-white/[0.14] hover:bg-white/[0.035] transition-colors duration-300"
+            >
+              <div className="flex items-center gap-3">
+                <span
+                  aria-hidden
+                  className="flex-none font-semibold text-xs text-[#3DBA8C] bg-[#3DBA8C]/[0.10] border border-[#3DBA8C]/25 rounded-lg w-8 h-8 flex items-center justify-center tabular-nums tracking-wide"
+                >
+                  {String(i + 1).padStart(2, "0")}
                 </span>
-              </header>
+                <h3 className="text-sm font-semibold text-[#E8EDF2] leading-snug">
+                  {step.title}
+                </h3>
+              </div>
+              <p className="text-[13px] text-[#94A3B8] leading-relaxed">
+                {step.phrase}
+              </p>
+            </motion.div>
+          ))}
+        </div>
 
-              <ol className="flex flex-col gap-5">
-                {howIWork.model.map((step, i) => (
-                  <motion.li
-                    key={step.id}
-                    {...reveal(0.22 + i * 0.05)}
-                    className="flex items-start gap-4"
-                  >
-                    <span
-                      aria-hidden
-                      className="flex-none font-display text-2xl leading-none text-[#3DBA8C]/80 tabular-nums w-9 pt-0.5"
-                    >
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <div className="flex flex-col gap-1 min-w-0">
-                      <h3 className="text-sm font-semibold text-[#E8EDF2] leading-snug">
-                        {step.title}
-                      </h3>
-                      <p className="text-[13px] text-[#94A3B8] leading-relaxed">{step.phrase}</p>
-                    </div>
-                  </motion.li>
-                ))}
-              </ol>
-            </div>
+        {/* Principles */}
+        <motion.div
+          {...reveal(0.38)}
+          className="flex flex-col gap-3"
+        >
+          <p className="text-[10.5px] text-[#94A3B8]/50 uppercase tracking-[0.18em] font-medium">
+            Principles
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {howIWork.badges.map((badge) => (
+              <span
+                key={badge}
+                className="text-[11px] font-medium text-[#94A3B8]/80 bg-white/[0.03] border border-white/[0.07] rounded-full px-3 py-1.5"
+              >
+                {badge}
+              </span>
+            ))}
           </div>
         </motion.div>
+
       </div>
     </section>
   );

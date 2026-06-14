@@ -42,6 +42,7 @@ const workIntro =
   "A curated view of Abdulrahman Zaid's business footprint across manufacturing, food industries, trading, import, distribution, and regional operations.";
 
 const workItems: WorkItem[] = [
+  // 1 — Hero
   {
     id: "al-shehail-food-industries",
     title: "Al Shehail Food Industries",
@@ -58,38 +59,7 @@ const workItems: WorkItem[] = [
     tags: ["Current Focus", "Food Manufacturing", "Private Label", "B2B Bakery", "UAE"],
     links: {},
   },
-  {
-    id: "halsa-bake",
-    title: "Halsa Bake",
-    subtitle: "Healthy Bakery Brand",
-    role: "General Manager / Business Expansion",
-    sector: "Healthy Bread & Clean-Label Bakery",
-    location: "United Arab Emirates",
-    year: "2023 – Present",
-    priority: "standard",
-    logoText: "HB",
-    line: "A healthy bakery brand focused on clean-label breads and market-facing food products.",
-    description:
-      "The consumer-facing healthy bakery direction within the food-industry portfolio — product communication, market presence, promotional activity, and distribution growth.",
-    tags: ["Healthy Bakery", "Clean Label", "Bread Brand", "UAE"],
-    links: {},
-  },
-  {
-    id: "silicon-star",
-    title: "Silicon Star",
-    subtitle: "Silicone & Resin Industrial Products",
-    role: "General Manager",
-    sector: "Industrial Manufacturing",
-    location: "Riyadh, Saudi Arabia",
-    year: "2024 – Present",
-    priority: "standard",
-    logoText: "SS",
-    line: "Industrial manufacturing and specialized silicone/resin product operations.",
-    description:
-      "General management across production planning, manufacturing efficiency, specialized imports, financial and administrative operations, customer relationships, and team capability development.",
-    tags: ["Manufacturing", "Silicone", "Resin", "KSA"],
-    links: {},
-  },
+  // 2
   {
     id: "nano-line",
     title: "Nano Line Trading Company",
@@ -106,6 +76,58 @@ const workItems: WorkItem[] = [
     tags: ["Trading", "Import", "Equipment", "UAE"],
     links: {},
   },
+  // 3
+  {
+    id: "nano-line-industrial",
+    title: "Nano Line Industrial",
+    subtitle: "Bakery Production Lines & Industrial Solutions",
+    role: "Industrial Solutions & Production Lines Development",
+    sector: "Bakery Production Lines",
+    location: "United Arab Emirates / Egypt",
+    year: "Current Focus",
+    priority: "standard",
+    logoText: "NLI",
+    line: "Designing and developing production-line concepts for bread, bakery, and food-manufacturing operations.",
+    description:
+      "An industrial solutions project focused on bakery and bread production lines, production-flow design, machinery coordination, factory layout thinking, and practical manufacturing solutions for bakeries and food producers.",
+    tags: ["Production Lines", "Bakery Equipment", "Industrial Solutions", "Bread Manufacturing"],
+    links: {},
+  },
+  // 4
+  {
+    id: "halsa-bake",
+    title: "Halsa Bake",
+    subtitle: "Healthy Bakery Brand",
+    role: "General Manager / Business Expansion",
+    sector: "Healthy Bread & Clean-Label Bakery",
+    location: "United Arab Emirates",
+    year: "2023 – Present",
+    priority: "standard",
+    logoText: "HB",
+    line: "A healthy bakery brand focused on clean-label breads and market-facing food products.",
+    description:
+      "The consumer-facing healthy bakery direction within the food-industry portfolio — product communication, market presence, promotional activity, and distribution growth.",
+    tags: ["Healthy Bakery", "Clean Label", "Bread Brand", "UAE"],
+    links: {},
+  },
+  // 5
+  {
+    id: "silicon-star",
+    title: "Silicon Star",
+    subtitle: "Silicone & Resin Industrial Products",
+    role: "General Manager",
+    sector: "Industrial Manufacturing",
+    location: "Riyadh, Saudi Arabia",
+    year: "2024 – Present",
+    priority: "standard",
+    logoText: "SS",
+    line: "Industrial manufacturing and specialized silicone/resin product operations.",
+    description:
+      "General management across production planning, manufacturing efficiency, specialized imports, financial and administrative operations, customer relationships, and team capability development.",
+    tags: ["Manufacturing", "Silicone", "Resin", "KSA"],
+    links: {},
+  },
+  // 6
   {
     id: "nano-food-machines",
     title: "Nano Food Machines",
@@ -122,6 +144,7 @@ const workItems: WorkItem[] = [
     tags: ["Machinery", "Sales", "Suppliers", "Egypt"],
     links: {},
   },
+  // 7
   {
     id: "zaid-sanitary",
     title: "Zaid Sanitary Ware & Ceramics",
@@ -138,6 +161,7 @@ const workItems: WorkItem[] = [
     tags: ["Retail", "Supply", "Operations", "Egypt"],
     links: {},
   },
+  // 8
   {
     id: "al-shohail-foundation",
     title: "Al Shohail Foundation",
@@ -147,13 +171,14 @@ const workItems: WorkItem[] = [
     location: "Saudi Arabia",
     year: "2021",
     priority: "standard",
-    logoText: "ASF",
+    logoText: "ASH",
     line: "Supplier relationships, commercial contracts, supply-chain operations, and process redesign.",
     description:
       "A business leadership role across marketing strategies, international supplier relationships, exclusive European commercial contracts, supply-chain operations, process redesign, and consulting.",
     tags: ["Contracts", "Suppliers", "KSA", "Europe"],
     links: {},
   },
+  // 9
   {
     id: "abraj-wasat-delta",
     title: "Abraj Wasat Al-Delta",
@@ -170,6 +195,7 @@ const workItems: WorkItem[] = [
     tags: ["Projects", "Development", "Operations", "Egypt"],
     links: {},
   },
+  // 10
   {
     id: "al-jazeera-pomegranate",
     title: "Al Jazeera Pomegranate Company",

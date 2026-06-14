@@ -51,21 +51,40 @@ export default function ProfessionalJourney() {
           </motion.p>
         </div>
 
+        {/* Main education cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {learningCards.map((card, i) => {
+          {learningCards.filter((c) => c.size !== "compact").map((card, i) => {
             const Icon = learningIcons[card.icon];
             return (
-              <motion.div key={card.title} {...reveal(0.1 + i * 0.06)} className="rounded-2xl border border-white/[0.08] bg-[#0F1724] hover:border-white/[0.16] transition-colors duration-200 p-5 flex flex-col gap-3">
-                <div className="flex items-center gap-3">
-                  <span className="flex-none w-9 h-9 rounded-lg bg-[#3DBA8C]/[0.08] border border-[#3DBA8C]/20 flex items-center justify-center text-[#3DBA8C]">
-                    <Icon size={16} strokeWidth={1.9} aria-hidden />
+              <motion.div key={card.title} {...reveal(0.1 + i * 0.06)} className="rounded-2xl border border-white/[0.08] bg-[#0F1724] hover:border-white/[0.14] transition-colors duration-200 p-5 sm:p-6 flex flex-col gap-4">
+                <div className="flex items-start gap-3">
+                  <span className="flex-none w-10 h-10 rounded-xl bg-[#3DBA8C]/[0.08] border border-[#3DBA8C]/20 flex items-center justify-center text-[#3DBA8C]">
+                    <Icon size={18} strokeWidth={1.7} aria-hidden />
                   </span>
-                  <div className="flex flex-col min-w-0">
+                  <div className="flex flex-col min-w-0 gap-0.5">
                     <p className="text-sm font-semibold text-[#E8EDF2] leading-snug">{card.title}</p>
-                    <p className="text-[11px] text-[#3DBA8C]/90">{card.detail}</p>
+                    <p className="text-[11px] text-[#3DBA8C]/80">{card.detail}</p>
                   </div>
                 </div>
-                <p className="text-xs text-[#94A3B8] leading-relaxed">{card.description}</p>
+                <p className="text-[13px] text-[#94A3B8] leading-relaxed">{card.description}</p>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Compact training cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {learningCards.filter((c) => c.size === "compact").map((card, i) => {
+            const Icon = learningIcons[card.icon];
+            return (
+              <motion.div key={card.title} {...reveal(0.28 + i * 0.05)} className="rounded-xl border border-white/[0.07] bg-white/[0.02] hover:border-white/[0.12] transition-colors duration-200 p-4 flex items-start gap-3">
+                <span className="flex-none w-8 h-8 rounded-lg bg-[#3DBA8C]/[0.06] border border-[#3DBA8C]/15 flex items-center justify-center text-[#3DBA8C]">
+                  <Icon size={14} strokeWidth={1.9} aria-hidden />
+                </span>
+                <div className="flex flex-col min-w-0 gap-0.5">
+                  <p className="text-sm font-medium text-[#E8EDF2] leading-snug">{card.title}</p>
+                  <p className="text-xs text-[#94A3B8]/70 leading-relaxed">{card.description}</p>
+                </div>
               </motion.div>
             );
           })}
