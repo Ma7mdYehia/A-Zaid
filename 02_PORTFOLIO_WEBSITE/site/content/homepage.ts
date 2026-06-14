@@ -1,22 +1,18 @@
 export const hero = {
-  name: "Mohamed Yehia",
-  title: "Growth Marketing, E-commerce & AI Transformation Lead",
-  location: "Based between UAE & Egypt.",
+  name: "Abdulrahman Zaid",
+  title: "MENA Industrial Entrepreneur & Operating Leader",
+  location: "Egypt · Saudi Arabia · United Arab Emirates",
   valueStatement:
-    "15+ years turning marketing and e-commerce into measurable revenue — building the systems, teams, and AI-augmented workflows that make growth repeatable across the UAE, KSA, and Egypt.",
+    "20+ years building, operating, and developing manufacturing, food industries, trading, import, distribution, and commercial ventures across Egypt, Saudi Arabia, and the UAE.",
   credibilityLine:
-    "UAE · KSA · Egypt · 15+ years · D2C + B2B · Growth · E-commerce · Business Systems",
-  statusChip: "Available for senior GCC roles",
-  profileSummary: "Growth · E-commerce · AI-Augmented Operations",
+    "Egypt · KSA · UAE · Manufacturing · Food Industries · Import · Distribution · Operations",
+  statusChip: "Regional business portfolio",
+  profileSummary: "Manufacturing · Trade · Food Industries · Operations",
   ctas: {
-    primary: { label: "View work", href: "#work" },
-    secondary: { label: "Download CV", href: "/files/mohamed-yehia-cv.pdf" },
+    primary: { label: "View portfolio", href: "#work" },
+    secondary: { label: "Start a conversation", href: "#contact" },
   },
 };
-
-/* -------------------------------------------------------------------------- */
-/*  Who I am — merged editorial intro + selected results                       */
-/* -------------------------------------------------------------------------- */
 
 export interface TextSegment {
   text: string;
@@ -29,67 +25,37 @@ export interface ResultCard {
 }
 
 export const whoIAm = {
-  label: "Who I am",
-  // Large left-side display heading; the middle line is accented.
-  headingLines: ["Build", "Growth", "Systems"] as const,
+  label: "Who he is",
+  headingLines: ["Build", "Operate", "Scale"] as const,
   accentLineIndex: 1,
-  // Profile copy — senior, AI-powered, mentor/early-stage positioning.
-  // A few phrases are accent-highlighted (kept to 5).
   introParagraphs: [
     [
-      {
-        text:
-          "I'm Mohamed Yehia — a growth, e-commerce, and business-systems leader with 15+ years across the UAE, KSA, and Egypt. Today, that experience is amplified by ",
-      },
-      { text: "AI-powered execution", accent: true },
-      {
-        text:
-          ": faster research, sharper planning, stronger content systems, better reporting, and more repeatable growth operations.",
-      },
+      { text: "Abdulrahman Zaid is an Egyptian business operator and entrepreneur with more than " },
+      { text: "20 years of regional experience", accent: true },
+      { text: " across Egypt, Saudi Arabia, and the United Arab Emirates." },
     ],
     [
-      { text: "I help " },
-      { text: "founders, startups, and traditional businesses", accent: true },
-      { text: " find the right first steps: " },
-      { text: "building marketing departments from zero", accent: true },
-      {
-        text:
-          ", launching e-commerce channels, introducing digital workflows, and turning scattered activity into a clear operating system.",
-      },
+      { text: "His work sits at the intersection of " },
+      { text: "manufacturing, food production, import, trading, distribution, and commercial operations", accent: true },
+      { text: " — turning business opportunities into working companies, teams, and market presence." },
     ],
     [
-      {
-        text:
-          "Because I've built companies, co-founded ventures, led teams, implemented ERP workflows, and grown both B2B and consumer brands, I can ",
-      },
-      { text: "lead, educate, and mentor teams", accent: true },
-      {
-        text:
-          " through the messy early stages of digital transformation — connecting ",
-      },
-      { text: "strategy, execution, and results", accent: true },
-      { text: "." },
+      { text: "This profile presents him as a " },
+      { text: "MENA industrial entrepreneur and operating leader", accent: true },
+      { text: " with a practical portfolio of ventures, partnerships, and leadership roles across multiple markets." },
     ],
   ] as TextSegment[][],
-  resultsLabel: "Selected results",
+  resultsLabel: "Regional footprint",
   resultCards: [
-    { value: "~USD 5M", label: "Revenue across food industry" },
-    { value: "~USD 2.5M", label: "Revenue across education ventures" },
-    { value: "~USD 1.7M", label: "Revenue across healthcare sector" },
-    { value: "+250M", label: "Organic reach across platforms" },
-    { value: "+5M", label: "Followers across platforms" },
+    { value: "20+", label: "Years of business experience" },
+    { value: "3", label: "Core regional markets" },
+    { value: "7+", label: "Ventures and operating roles" },
+    { value: "100+", label: "Regional team footprint" },
+    { value: "10+", label: "Projects and business expansions" },
   ] as ResultCard[],
 };
 
-/* -------------------------------------------------------------------------- */
-/*  What I do — two operating modes (tabs)                                     */
-/* -------------------------------------------------------------------------- */
-
-export interface WhatIDoCapability {
-  title: string;
-  body: string;
-}
-
+export interface WhatIDoCapability { title: string; body: string; }
 export interface WhatIDoMode {
   id: string;
   label: string;
@@ -100,654 +66,113 @@ export interface WhatIDoMode {
 }
 
 export const whatIDo = {
-  label: "What I do",
+  label: "What he builds",
   intro: [
-    { text: "I combine marketing, creative execution, business systems, and " },
-    { text: "AI-powered operations", accent: true },
-    { text: " to help companies grow with clarity — from " },
-    { text: "first digital steps", accent: true },
-    { text: " to " },
-    { text: "executive-level visibility", accent: true },
-    { text: "." },
+    { text: "A practical operating model across " },
+    { text: "manufacturing, food production, import, distribution, and regional business development", accent: true },
+    { text: " — built around execution, supplier networks, team leadership, and commercial growth." },
   ] as TextSegment[],
-  badge: "AI-powered growth & business operations",
+  badge: "Industrial ventures & operating systems",
   modes: [
     {
-      id: "growth",
-      label: "Marketing & Digital Growth",
-      cardTitle: "Build growth engines that turn attention into revenue.",
-      cardDescription:
-        "I help brands move from scattered marketing activity into structured growth systems — combining performance marketing, content direction, e-commerce journeys, creative testing, and AI-powered execution to create repeatable demand.",
+      id: "manufacturing",
+      label: "Manufacturing & Operations",
+      cardTitle: "Build production systems that can run and scale.",
+      cardDescription: "Work across production planning, quality follow-up, operational efficiency, supply coordination, and team capability building inside manufacturing and food-industry environments.",
       capabilities: [
-        {
-          title: "Build Digital Growth Strategies",
-          body: "Create practical growth plans across paid, organic, content, and e-commerce channels.",
-        },
-        {
-          title: "Run Performance Marketing",
-          body: "Plan and optimize Meta, Google, TikTok, and conversion-focused campaigns.",
-        },
-        {
-          title: "Lead Content & Creative Direction",
-          body: "Turn brand stories into campaigns, visuals, hooks, and content systems.",
-        },
-        {
-          title: "Optimize E-commerce Journeys",
-          body: "Improve product pages, funnels, offers, checkout flow, and customer experience.",
-        },
-        {
-          title: "Build AI-Powered Marketing Workflows",
-          body: "Use AI to speed up research, content production, campaign planning, and reporting.",
-        },
+        { title: "Production Planning", body: "Coordinate production plans, resources, and daily operational priorities." },
+        { title: "Operational Efficiency", body: "Improve workflows, reduce friction, and support better cost and performance control." },
+        { title: "Quality & Standards", body: "Support consistent product quality and production discipline across teams." },
+        { title: "Private Label Readiness", body: "Position food manufacturing capabilities for third-party and contract manufacturing opportunities." },
+        { title: "Team Development", body: "Build operational teams with clearer roles, responsibilities, and follow-up routines." },
       ],
-      tools: [
-        "Meta",
-        "Google Ads",
-        "TikTok",
-        "GA4",
-        "Canva",
-        "Adobe",
-        "CapCut",
-        "ChatGPT",
-        "Claude",
-        "Figma",
-      ],
+      tools: ["Production Plans", "Quality Control", "ERP", "Reporting", "Supplier Coordination", "Team Leadership"],
     },
     {
-      id: "systems",
-      label: "Business Systems & Executive Ops",
-      cardTitle: "Create the systems leaders need to manage growth.",
-      cardDescription:
-        "I support founders, startups, and traditional businesses by building the operating layer behind growth — dashboards, reporting workflows, websites, e-commerce systems, automation, ERP coordination, and executive visibility for better decisions.",
+      id: "business-development",
+      label: "Trade & Business Development",
+      cardTitle: "Turn market opportunities into operating ventures.",
+      cardDescription: "Business development across supplier relationships, commercial contracts, import operations, distribution networks, customer relationships, and regional market expansion.",
       capabilities: [
-        {
-          title: "Build Reporting & Dashboards",
-          body: "Create clear visibility for sales, marketing, revenue, operations, and management decisions.",
-        },
-        {
-          title: "Design Business Workflows",
-          body: "Map daily operations into cleaner processes, ownership, task flow, and follow-up systems.",
-        },
-        {
-          title: "Develop Websites & Digital Platforms",
-          body: "Shape websites, landing pages, e-commerce stores, and digital touchpoints around business goals.",
-        },
-        {
-          title: "Support Apps & Internal Tools",
-          body: "Plan business-facing tools, app concepts, admin flows, and operational interfaces.",
-        },
-        {
-          title: "Guide C-Level Digital Transformation",
-          body: "Help founders and leadership teams understand what to build first, what to automate, and what to measure.",
-        },
+        { title: "Supplier Networks", body: "Build and maintain relationships with local and international suppliers." },
+        { title: "Import & Trading", body: "Support importing specialized products, machinery, materials, and business inputs." },
+        { title: "Commercial Contracts", body: "Negotiate and manage business relationships with clients, partners, and distributors." },
+        { title: "Market Expansion", body: "Open channels, develop distribution reach, and grow customer bases." },
+        { title: "Financial Oversight", body: "Follow business performance, profitability, and management reporting." },
       ],
-      tools: [
-        "Odoo",
-        "Microsoft Dynamics",
-        "Zoho",
-        "ClickUp",
-        "Jira",
-        "WordPress",
-        "Shopify",
-        "Zid",
-        "Salla",
-        "WooCommerce",
-        "n8n",
-        "Apify",
-        "Lovable",
-        "Cursor",
-      ],
+      tools: ["Negotiation", "CRM", "Distribution", "Commercial Reporting", "Market Research", "Partnerships"],
     },
   ] as WhatIDoMode[],
 };
 
-/* -------------------------------------------------------------------------- */
-/*  Operating Stack — tool categories mapped to the two operating modes        */
-/* -------------------------------------------------------------------------- */
-
-export type ToolStackLane = "marketing" | "systems" | "shared";
-
-export interface ToolStackCategory {
-  id: string;
-  title: string;
-  lane: ToolStackLane;
-  laneLabel: string;
-  purpose: string;
-  tools: string[];
-}
-
-export const operatingStackMeta = {
-  eyebrow: "Operating stack",
-  heading: "The stack behind the two operating modes.",
-  intro:
-    "A practical mix of marketing platforms, creative production, AI tools, e-commerce systems, ERP, reporting, and project-management tools used to turn strategy into execution.",
-  note: "Not just tools — an operating stack used across growth, systems, and AI transformation.",
-  lanes: [
-    { id: "marketing" as ToolStackLane, label: "Marketing & Digital Growth" },
-    { id: "shared" as ToolStackLane, label: "Shared AI Layer" },
-    { id: "systems" as ToolStackLane, label: "Business Systems & Executive Ops" },
-  ],
-};
-
-/* Compact strip presentation — short copy + tiny category labels. */
+export type ToolStackLane = "manufacturing" | "trade" | "shared";
+export interface ToolStackCategory { id: string; title: string; lane: ToolStackLane; laneLabel: string; purpose: string; tools: string[]; }
 export const operatingStackStrip = {
   eyebrow: "Operating stack",
-  title: "Tools that power the system",
-  line: "A compact stack across growth, creative, AI, commerce, reporting, and business operations.",
+  title: "Tools that keep the business moving",
+  line: "A compact stack across production, import, CRM, ERP, reporting, team coordination, and commercial execution.",
 };
-
-/** Tiny category labels shown on strip chips, keyed by category id. */
 export const stackCategoryShortLabels: Record<string, string> = {
-  "growth-analytics": "Growth",
-  "creative-production": "Creative",
-  "video-ai-media": "Video",
-  "ecommerce-web": "Web",
-  "ai-research-automation": "AI",
-  "erp-crm-systems": "ERP",
-  "operations-pm": "Ops",
+  "production-operations": "Production",
+  "supplier-import": "Import",
+  "commercial-sales": "Sales",
+  "reporting-systems": "Systems",
+  "team-coordination": "Teams",
 };
-
 export const operatingStackCategories: ToolStackCategory[] = [
-  {
-    id: "growth-analytics",
-    title: "Growth & Analytics",
-    lane: "marketing",
-    laneLabel: "Marketing & Digital Growth",
-    purpose: "Campaigns, tracking, attribution, analytics, and growth decisions.",
-    tools: [
-      "Google Ads",
-      "Google Analytics",
-      "GA4",
-      "Google Tag Manager",
-      "Looker Studio",
-      "Meta Ads Manager",
-      "TikTok Ads",
-    ],
-  },
-  {
-    id: "creative-production",
-    title: "Creative Production",
-    lane: "marketing",
-    laneLabel: "Marketing & Digital Growth",
-    purpose:
-      "Visual direction, campaign assets, brand systems, UI drafts, and creative testing.",
-    tools: [
-      "Adobe Photoshop",
-      "Adobe Illustrator",
-      "Adobe After Effects",
-      "Adobe Premiere Pro",
-      "Adobe XD",
-      "Canva",
-      "Figma",
-    ],
-  },
-  {
-    id: "video-ai-media",
-    title: "Video & AI Media",
-    lane: "marketing",
-    laneLabel: "Marketing & Digital Growth",
-    purpose:
-      "Short-form content, reels, voice, captions, video ads, and AI-assisted media production.",
-    tools: [
-      "CapCut",
-      "Captions",
-      "ElevenLabs",
-      "Higgsfield",
-      "Canva",
-      "Adobe Premiere Pro",
-      "Adobe After Effects",
-    ],
-  },
-  {
-    id: "ecommerce-web",
-    title: "E-commerce & Web Platforms",
-    lane: "marketing",
-    laneLabel: "Marketing & Digital Growth + Business Systems & Executive Ops",
-    purpose:
-      "Websites, landing pages, product journeys, online stores, and commerce operations.",
-    tools: ["WordPress", "Shopify", "Zid", "Salla", "WooCommerce"],
-  },
-  {
-    id: "ai-research-automation",
-    title: "AI Research & Automation",
-    lane: "shared",
-    laneLabel: "Shared AI execution layer",
-    purpose:
-      "Research, planning, writing, workflow automation, creative exploration, scraping, prototyping, and faster execution.",
-    tools: [
-      "ChatGPT",
-      "Claude",
-      "Gemini",
-      "Perplexity",
-      "Apify",
-      "n8n",
-      "Odysseus AI",
-      "Cursor",
-      "Lovable",
-    ],
-  },
-  {
-    id: "erp-crm-systems",
-    title: "ERP / CRM / Business Systems",
-    lane: "systems",
-    laneLabel: "Business Systems & Executive Ops",
-    purpose:
-      "Business operations, CRM, ERP workflows, sales visibility, and digital transformation.",
-    tools: ["Odoo", "Microsoft Dynamics", "Zoho"],
-  },
-  {
-    id: "operations-pm",
-    title: "Operations & Project Management",
-    lane: "systems",
-    laneLabel: "Business Systems & Executive Ops",
-    purpose:
-      "Planning, execution, documentation, task flow, team coordination, and delivery tracking.",
-    tools: ["ClickUp", "Jira", "Mindmap tools", "Microsoft Office"],
-  },
+  { id: "production-operations", title: "Production & Operations", lane: "manufacturing", laneLabel: "Manufacturing & Operations", purpose: "Production planning, quality follow-up, manufacturing efficiency, and operational discipline.", tools: ["Production Planning", "Quality Control", "Operational KPIs", "Cost Control"] },
+  { id: "supplier-import", title: "Supplier & Import Network", lane: "trade", laneLabel: "Trade & Distribution", purpose: "Supplier relations, import operations, product sourcing, and market-ready materials.", tools: ["International Suppliers", "Import Operations", "Supplier Agreements", "Product Sourcing"] },
+  { id: "commercial-sales", title: "Commercial & Sales Operations", lane: "trade", laneLabel: "Trade & Distribution", purpose: "Client relationships, contracts, distribution channels, and market penetration.", tools: ["CRM", "Commercial Contracts", "Distribution Networks", "Customer Base"] },
+  { id: "reporting-systems", title: "Reporting & Business Systems", lane: "shared", laneLabel: "Management Layer", purpose: "Financial follow-up, management reporting, ERP tools, and business visibility.", tools: ["ERP", "Financial Statements", "Dashboards", "Microsoft Office"] },
+  { id: "team-coordination", title: "Team Coordination", lane: "shared", laneLabel: "Management Layer", purpose: "Team leadership, task follow-up, department coordination, and execution rhythm.", tools: ["ClickUp", "Trello", "Asana", "Team Meetings"] },
 ];
 
-/* -------------------------------------------------------------------------- */
-/*  Proof & Voices — client voices (pending verified quotes) + project proof   */
-/* -------------------------------------------------------------------------- */
-
-export interface ProofVoice {
-  sector: string;
-  status: string;
-  text: string;
-  project: string;
-  /** Brand/project monogram — not a person. */
-  initials: string;
-}
-
-export const proofVoices = {
-  label: "Proof",
-  heading: "Client voices and project proof.",
-  subtitle:
-    "A compact view of the people, sectors, and project types behind the work — with verified feedback added only when approved.",
-  voices: [
-    {
-      sector: "Food & FMCG",
-      status: "Verified quote pending",
-      text: "Client feedback will be added here after approval.",
-      project: "HÄLSA Bake / Al Shohail Food Industries",
-      initials: "HB",
-    },
-    {
-      sector: "B2B / Manufacturing",
-      status: "Verified quote pending",
-      text: "Client feedback will be added here after approval.",
-      project: "El Shohail Trading",
-      initials: "ES",
-    },
-    {
-      sector: "Healthcare",
-      status: "Verified quote pending",
-      text: "Client feedback will be added here after approval.",
-      project: "Healthcare growth projects",
-      initials: "HC",
-    },
-  ] as ProofVoice[],
-  projectOverviewLabel: "Project overview",
-  projectOverview: [
-    "Food & FMCG",
-    "B2B / Manufacturing",
-    "Education",
-    "Healthcare",
-    "Agencies & Digital Products",
-    "Mobile Apps",
-    "E-commerce",
-    "AI Operations",
-  ],
-};
-
-/* -------------------------------------------------------------------------- */
-/*  Professional Journey                                                       */
-/* -------------------------------------------------------------------------- */
-
-export interface JourneyItem {
-  id: string;
-  years: string;
-  role: string;
-  company: string;
-  market?: string;
-  achievement: string;
-  /** Short stage label shown on the rail. */
-  category?: string;
-  /** Impact / responsibility points for the details card (existing facts only). */
-  bullets?: string[];
-  /** Focus category tags (descriptive, no claims). */
-  focus?: string[];
-  /** Current ongoing roles get a small accent chip. */
-  current?: boolean;
-  /** True for the umbrella group role — Al-Shehail Group. */
-  isGroup?: boolean;
-  /** Reference to the umbrella group (for nested current roles). */
-  underGroup?: string;
-}
-
-export interface LearningCard {
-  title: string;
-  detail: string;
-  description: string;
-  icon: "university" | "apple" | "hours";
-}
-
+export interface JourneyItem { id: string; years: string; role: string; company: string; market?: string; achievement: string; category?: string; bullets?: string[]; focus?: string[]; current?: boolean; isGroup?: boolean; underGroup?: string; }
+export interface LearningCard { title: string; detail: string; description: string; icon: "university" | "apple" | "hours"; }
 export const journeyEyebrow = "Journey";
-export const journeyHeading =
-  "From self-taught builder to group growth lead.";
-export const journeyIntro =
-  "Nearly two decades across the UAE, KSA, and Egypt — building marketing engines, e-commerce operations, and business systems that connect strategy to execution.";
-export const journeyNote =
-  "Current roles run in parallel — Al-Shehail group companies alongside the Nano Line portfolio.";
-
+export const journeyHeading = "A regional business-building journey.";
+export const journeyIntro = "From Saudi business development in 2004 to active operating roles across Egypt, Saudi Arabia, and the UAE today.";
+export const journeyNote = "Current roles may run in parallel across several companies and markets. Wording should remain tied to approved CV/profile facts.";
 export const learningCards: LearningCard[] = [
-  {
-    title: "Benha University",
-    detail: "B.Sc. in Business / Commerce",
-    description:
-      "Formal academic foundation supporting the business and marketing journey.",
-    icon: "university",
-  },
-  {
-    title: "Apple — AATP",
-    detail: "iOS App Development",
-    description:
-      "Structured creative and digital learning connected to Apple’s training ecosystem.",
-    icon: "apple",
-  },
-  {
-    title: "2500+ self-learning hours",
-    detail: "Continuous, project-led",
-    description:
-      "Independent learning across design, marketing, e-commerce, AI, systems, and business operations.",
-    icon: "hours",
-  },
+  { title: "MBA", detail: "Business Administration · 2015", description: "Management foundation supporting strategy, leadership, operations, and company development.", icon: "university" },
+  { title: "Computer Science", detail: "Bachelor's Degree · 2004", description: "Technical foundation supporting systems thinking, tools, and modern operating workflows.", icon: "university" },
+  { title: "Executive & Entrepreneurship Training", detail: "Business, leadership, English, and entrepreneurship courses", description: "Continuous development across business management, executive leadership, team development, and entrepreneurship.", icon: "hours" },
 ];
-
-// Ordered to match the final CV (01_CV/MOHAMED_YEHIA_FINAL_CV.md) —
-// current roles first, then earlier roles, then compressed early career.
-// All wording is sourced from the final CV; no invented metrics or dates.
 export const journeyItems: JourneyItem[] = [
-  {
-    id: "alshehail-food",
-    years: "May 2024 – Present",
-    role: "Marketing, E-commerce & Business Systems Lead",
-    company: "Al-Shehail Food Industries — HÄLSA Bake",
-    market: "Dubai, UAE",
-    category: "FMCG · Group lead",
-    achievement:
-      "Leads marketing, e-commerce, digital growth, and business systems across Al-Shehail Food Industries, with a strong focus on the HÄLSA Bake clean-label FMCG brand.",
-    bullets: [
-      "Built the digital growth direction for HÄLSA Bake — brand positioning, product communication, content operations, and retail support.",
-      "Launched and optimized the WooCommerce e-commerce platform: product structure, user journey, SEO readiness, and direct-to-consumer sales flow.",
-      "Planned Meta, TikTok, and Google campaign structures for awareness, acquisition, conversion, and retail visibility.",
-      "Generated 15M+ organic reach within 3 months through structured content planning and high-volume creative execution.",
-      "Structured internal reporting covering product data, sales tracking, distribution updates, and KPI monitoring.",
-      "Supported production-to-delivery documentation — product data, quotation support, delivery coordination, and internal records.",
-    ],
-    focus: ["FMCG", "E-commerce", "Organic Growth", "Business Systems"],
-    current: true,
-  },
-  {
-    id: "elshohail",
-    years: "Mar 2021 – Present",
-    role: "Marketing & Business Operations Lead",
-    company: "El Shohail Trading",
-    market: "Riyadh, KSA",
-    category: "B2B operations",
-    achievement:
-      "Leads marketing, e-commerce, and business operations for a B2B food-processing machinery and industrial bakery equipment trading company.",
-    bullets: [
-      "Led the company’s first full Odoo ERP implementation — procurement, inventory, sales, and internal reporting workflows.",
-      "Redesigned the B2B digital presence and launched e-commerce workflows for product discovery, lead generation, and wholesale sales.",
-      "Planned and executed Meta and Google campaigns across machinery, bakery tools, and B2B product categories.",
-      "Strengthened exhibition support, dealer acquisition, and wholesale relationships across Saudi market channels.",
-      "Grew the social footprint to 50K+ targeted followers and 1M+ monthly category reach.",
-      "Supported marketplace and e-commerce operations across Zid, Salla, WooCommerce, Amazon, and Noon.",
-    ],
-    focus: ["B2B", "Odoo ERP", "E-commerce", "Lead Generation"],
-    current: true,
-    underGroup: "Al-Shehail Group",
-  },
-  {
-    id: "nano-line",
-    years: "Dec 2020 – Present",
-    role: "Growth Marketing, Business Systems & Digital Transformation Lead — Portfolio",
-    company: "Nano Line",
-    market: "GCC Region",
-    category: "Portfolio lead",
-    achievement:
-      "Supports a multi-activity business portfolio covering food industries, machinery, production lines, and healthcare.",
-    bullets: [
-      "Supports digital growth and business positioning for Nano Food Machine, Zucchelli Forni, ZadMak, and Al-Amin Clinics.",
-      "Develops websites, product pages, SEO structures, and content systems to improve visibility, trust, and inquiry quality.",
-      "Builds commercial presentation materials and internal reporting concepts for sales, KPI tracking, and management visibility.",
-      "Creates AI-assisted content, website, and workflow systems using ChatGPT, Claude, ClickUp, and GitHub.",
-      "Aligns marketing execution with sales operations, exhibitions, dealer communication, and digital transformation goals.",
-    ],
-    focus: ["Portfolio", "B2B", "AI Workflows", "Web Systems"],
-    current: true,
-  },
-  {
-    id: "ide-eg",
-    years: "Jan 2014 – Dec 2020",
-    role: "Co-Founder & Head of Growth",
-    company: "IDE.eg Group",
-    market: "Cairo, Egypt",
-    category: "Founder · Education",
-    achievement:
-      "Co-founded and scaled education and digital ventures under IDE.eg Group — including IMA, IDE Academy, and FABZ — across programming, technology, and digital learning.",
-    bullets: [
-      "Owned growth strategy across marketing, content, paid acquisition, CRM activity, community building, and student acquisition.",
-      "Built a community of 250K+ and served 5,500+ students across programming, technology, and digital learning tracks.",
-      "Secured Apple Authorized Training Provider alignment through LearnQuest for iOS App Development training.",
-      "Hosted Apple Tech Lead Boris Hernan as part of technology education and community-building initiatives.",
-      "Built partnerships and training relationships with institutions including AUC, GUC, and Ain Shams University.",
-      "Ran structured training cohorts every 45–60 days, connecting curriculum planning, campaigns, and delivery operations.",
-    ],
-    focus: ["Education", "Founder", "Community", "Growth"],
-  },
-  {
-    id: "pointer",
-    years: "Jan 2016 – Dec 2020",
-    role: "Digital Marketing Manager",
-    company: "Pointer Advertising",
-    market: "Cairo, Egypt",
-    category: "Agency",
-    achievement:
-      "Led agency-side digital marketing delivery across healthcare, corporate education, sports, fashion, and performance-driven campaigns.",
-    bullets: [
-      "Planned and executed Meta and Google campaigns covering awareness, engagement, traffic, lead generation, and conversion.",
-      "Built content calendars, campaign concepts, ad copy, approval workflows, and weekly client reporting.",
-      "Coordinated content strategists, designers, media buyers, web developers, and account teams to deliver on schedule.",
-      "Managed or supported projects for Prof. Karim Sabry, Dr. Hussein Ashour, Dr. Tolat El Samni, Dr. Rania Lotfy, and Dr. Osama El Teih.",
-      "Supported campaigns for Atlético Madrid Academy and Gama Academy.",
-    ],
-    focus: ["Agency", "Paid Media", "Healthcare", "Content"],
-  },
-  {
-    id: "mehrat-amal-masr",
-    years: "Early career",
-    role: "Digital Marketing & Campaign Support",
-    company: "Mehrat & Amal Masr",
-    market: "Egypt",
-    category: "Training & development",
-    achievement:
-      "Coordinated social media activity, campaign assets, content planning, and community engagement for professional training and development operations.",
-    bullets: [
-      "Coordinated social media activity and campaign assets.",
-      "Supported content planning for training and development programs.",
-      "Handled community engagement and audience communication.",
-    ],
-    focus: ["Social Media", "Content", "Training"],
-  },
-  {
-    id: "csc-export",
-    years: "Early career",
-    role: "Export Content & Web Support",
-    company: "CSC Export",
-    market: "China · Egypt · Australia · KSA",
-    category: "B2B export",
-    achievement:
-      "Supported international B2B digital content and export-focused web activity across multiple markets.",
-    bullets: [
-      "Maintained export-focused website updates and B2B product presentation.",
-      "Applied SEO basics across international market content.",
-      "Handled online inquiry communication across China, Egypt, Australia, and Saudi Arabia.",
-    ],
-    focus: ["B2B Export", "Web", "SEO"],
-  },
-  {
-    id: "eid-labib",
-    years: "2009–2013",
-    role: "E-commerce & Retail Marketing Support",
-    company: "Eid Labib Group — Hyper Plus & Tajerinn",
-    market: "Egypt",
-    category: "Retail",
-    achievement:
-      "Supported e-commerce content, retail promotions, and customer-facing product communication for a retail group.",
-    bullets: [
-      "Managed product listings, online catalog updates, and retail promotions.",
-      "Ran social media activity for Hyper Plus and Tajerinn.",
-      "Supported customer-facing product communication.",
-    ],
-    focus: ["Retail", "E-commerce", "Social Media"],
-  },
-  {
-    id: "micro4host",
-    years: "2005–2009",
-    role: "Web, Hosting & SEO Specialist",
-    company: "Micro4Host",
-    market: "Egypt",
-    category: "Early foundation",
-    achievement:
-      "Built the early technical foundation in web hosting, website building, and online community development.",
-    bullets: [
-      "Built websites with HTML, CSS, basic PHP, and CMS platforms.",
-      "Ran VBulletin communities and grew early online audiences.",
-      "Learned SEO basics and web hosting operations hands-on.",
-    ],
-    focus: ["Web", "Hosting", "SEO", "Community"],
-  },
+  { id: "silicon-star", years: "2024 – Present", role: "General Manager", company: "Ibrahim Shohail Al-Qaood — Silicon Star Brand", market: "Riyadh, Saudi Arabia", category: "Industrial manufacturing", achievement: "Leads production planning, manufacturing efficiency, administrative and financial operations, specialized silicone and resin imports, client relationships, and team capability development.", bullets: ["Develops production plans and improves manufacturing efficiency.", "Supervises administrative and financial operations.", "Coordinates import of specialized silicone and resin products from leading factories.", "Builds client relationships and team capabilities."], focus: ["Silicone", "Resin", "Manufacturing", "KSA"], current: true },
+  { id: "halsa-food", years: "2023 – Present", role: "General Manager", company: "Halsa Food Industries / Al Shehail Food Industries", market: "United Arab Emirates", category: "Food manufacturing", achievement: "Leads production operations, business expansion strategies, product marketing, market penetration, quality standards, distribution network development, and commercial contracts.", bullets: ["Leads production operations and business expansion strategies.", "Supports product marketing and market penetration.", "Maintains quality alignment with required production standards.", "Develops distribution network and commercial contract opportunities."], focus: ["Food Industries", "FMCG", "Distribution", "UAE"], current: true },
+  { id: "nano-line", years: "2022 – Present", role: "Maintenance & Technical Support Manager", company: "Nano Line Trading Company", market: "United Arab Emirates", category: "Trading & equipment", achievement: "Supports commercial, logistics, import, marketing, technical support, industrial equipment, cost reduction, and product-development operations.", bullets: ["Supports commercial and logistics operations.", "Works across import, marketing, and industrial equipment activity.", "Develops operational systems to improve cost and profitability control."], focus: ["Trading", "Import", "Equipment", "UAE"], current: true },
+  { id: "nano-food-machines", years: "2019 – Present", role: "Administrative Manager & Sales Director", company: "Nano Food Machines", market: "Egypt", category: "Machinery & sales", achievement: "Leads sales teams, annual growth targets, customer-network expansion, supplier relationships, market research, and customer satisfaction operations.", bullets: ["Leads sales team activity and annual growth targets.", "Expands customer network and sales operations.", "Maintains supplier relationships and customer satisfaction."], focus: ["Sales", "Machinery", "Suppliers", "Egypt"], current: true },
+  { id: "zaid-sanitary", years: "2015 – Present", role: "General Manager", company: "Zaid for Sanitary Ware and Ceramics", market: "Delta Region, Egypt", category: "Retail & supply", achievement: "Established and manages daily operations, market share expansion, supplier and client relationships, product development, and financial performance.", bullets: ["Established daily operating structure.", "Expanded market share and business relationships.", "Managed supplier, client, and investor relationships."], focus: ["Retail", "Supply", "Delta", "Egypt"], current: true },
+  { id: "al-shohail-foundation", years: "2021", role: "Executive Director", company: "Al Shohail Foundation", market: "Saudi Arabia", category: "Trading & contracts", achievement: "Led marketing strategies, international supplier relationships, exclusive European commercial contracts, supply-chain operations, process redesign, and consulting.", bullets: ["Built marketing strategies and supplier relationships.", "Managed international commercial contracts.", "Supported supply-chain operations and process redesign."], focus: ["Contracts", "Suppliers", "KSA", "Europe"] },
+  { id: "abraj-wasat-delta", years: "2012 – 2015", role: "Partner & Business Developer", company: "Abraj Wasat Al-Delta", market: "Egypt", category: "Business development", achievement: "Developed business plans, supervised daily operations and teams, supported negotiations, and contributed to more than 10 successful projects.", bullets: ["Developed business growth plans.", "Supervised teams and daily operations.", "Supported negotiations with partners and stakeholders."], focus: ["Projects", "Development", "Operations", "Egypt"] },
+  { id: "al-jazeera-pomegranate", years: "2004 – 2012", role: "Executive Director", company: "Al Jazeera Pomegranate Company", market: "Riyadh, Saudi Arabia", category: "Early regional leadership", achievement: "Opened markets, imported spare parts, expanded branches for fitness-equipment imports, and led field teams and projects.", bullets: ["Developed markets and business opportunities.", "Imported spare parts and expanded related branches.", "Led field teams and project execution."], focus: ["Saudi Arabia", "Import", "Branches", "Teams"] },
 ];
-
-/* -------------------------------------------------------------------------- */
-/*  How I Work                                                                 */
-/* -------------------------------------------------------------------------- */
 
 export const howIWork = {
-  eyebrow: "How I work",
-  heading: "A system-first way to build growth.",
+  eyebrow: "How he operates",
+  heading: "Strategy first. Operations always.",
   body: [
-    "My approach has been the same for nearly two decades: build the system, then make it run. It started in 2005 with self-taught web development, and it now shows up as marketing engines, e-commerce operations, and ERP-led workflows that connect strategy to execution.",
-    "Today that includes working with AI as a daily tool — Claude and ChatGPT to draft and iterate faster, prototyping dashboards and reporting for clearer management visibility, and reusable templates so teams execute more consistently. I track delivery in ClickUp and build in the open on GitHub.",
-    "This site itself is being built that way: AI-assisted and version-tracked — a small example of how I prefer to work.",
+    "Abdulrahman's operating style connects business opportunity with the daily discipline required to make it work: suppliers, production, people, customers, contracts, reporting, and cash-flow awareness.",
+    "He is strongest where strategy needs to become operations — building teams, opening channels, coordinating suppliers, improving systems, and creating a clearer business rhythm across markets.",
+    "The website should show ventures, countries, sectors, and operating proof — not only a list of job titles.",
   ],
   model: [
-    { id: "strategy", title: "Strategy", phrase: "Define the business direction." },
-    { id: "execution", title: "Execution", phrase: "Turn plans into campaigns and workflows." },
-    { id: "systems", title: "Systems", phrase: "Connect e-commerce, ERP, teams, and content." },
-    { id: "visibility", title: "Visibility", phrase: "Track performance with reporting and dashboards." },
+    { id: "strategy", title: "Strategy", phrase: "Define the business opportunity." },
+    { id: "operations", title: "Operations", phrase: "Build the operating system." },
+    { id: "teams", title: "Teams", phrase: "Lead people across markets." },
+    { id: "growth", title: "Growth", phrase: "Expand contracts and distribution." },
   ],
-  badges: ["AI-assisted", "GitHub-tracked", "ClickUp-managed", "Reporting-led"],
+  badges: ["Manufacturing-led", "Partnership-driven", "Team-based", "Regionally focused"],
 };
 
-/* -------------------------------------------------------------------------- */
-/*  Contact CTA                                                                */
-/* -------------------------------------------------------------------------- */
-
-export const contactCTA = {
-  eyebrow: "Contact",
-  headline: "Let’s talk.",
-  body: "Open to senior roles in growth, e-commerce, marketing operations, and digital transformation across the GCC. The fastest way to reach me is by email or LinkedIn.",
-  location: "Based between Ajman, UAE and Cairo, Egypt.",
-};
-
-export interface ContactLink {
-  label: string;
-  type: "email" | "cv" | "social" | "whatsapp";
-  href: string;
-  icon: "mail" | "linkedin" | "download" | "github" | "instagram" | "behance" | "whatsapp";
-  /** Primary actions row (Email / LinkedIn / WhatsApp / Download CV). */
-  isPrimary: boolean;
-  /** No confirmed URL yet — rendered but non-misleading. */
-  isPlaceholder: boolean;
-  /** Opens in a new tab when true. */
-  external?: boolean;
-}
-
-// Confirmed values in use: GitHub (https://github.com/Ma7mdYehia),
-// LinkedIn (https://www.linkedin.com/in/ma7mdyehia/),
-// Instagram (https://www.instagram.com/m7mdyehia),
-// WhatsApp (https://wa.me/201050581448),
-// email (ma7md.yehia@gmail.com), and the CV PDF (public/files/...).
-// TODO: replace the Behance placeholder href with the real profile URL once confirmed:
-//   Behance -> "https://www.behance.net/<handle>"
-// Placeholders point to "#contact" (no fake destination, no new tab).
+export const contactCTA = { eyebrow: "Partnerships", headline: "Build with Abdulrahman.", body: "For manufacturing partnerships, food production opportunities, private label discussions, distribution, import, trading, and regional business development across MENA.", location: "Egypt · Saudi Arabia · United Arab Emirates" };
+export interface ContactLink { label: string; type: "email" | "cv" | "social" | "whatsapp"; href: string; icon: "mail" | "linkedin" | "download" | "github" | "instagram" | "behance" | "whatsapp"; isPrimary: boolean; isPlaceholder: boolean; external?: boolean; }
 export const contactLinks: ContactLink[] = [
-  {
-    label: "Email me",
-    type: "email",
-    href: "mailto:ma7md.yehia@gmail.com",
-    icon: "mail",
-    isPrimary: true,
-    isPlaceholder: false,
-  },
-  {
-    label: "LinkedIn",
-    type: "social",
-    href: "https://www.linkedin.com/in/ma7mdyehia/",
-    icon: "linkedin",
-    isPrimary: true,
-    isPlaceholder: false,
-    external: true,
-  },
-  {
-    label: "WhatsApp",
-    type: "whatsapp",
-    href: "https://wa.me/201050581448",
-    icon: "whatsapp",
-    isPrimary: true,
-    isPlaceholder: false,
-    external: true,
-  },
-  {
-    label: "Download CV",
-    type: "cv",
-    href: "/files/mohamed-yehia-cv.pdf",
-    icon: "download",
-    isPrimary: true,
-    isPlaceholder: false,
-  },
-  {
-    label: "GitHub",
-    type: "social",
-    href: "https://github.com/Ma7mdYehia",
-    icon: "github",
-    isPrimary: false,
-    isPlaceholder: false,
-    external: true,
-  },
-  {
-    label: "Instagram",
-    type: "social",
-    href: "https://www.instagram.com/m7mdyehia",
-    icon: "instagram",
-    isPrimary: false,
-    isPlaceholder: false,
-    external: true,
-  },
-  {
-    label: "Behance",
-    type: "social",
-    href: "#contact",
-    icon: "behance",
-    isPrimary: false,
-    isPlaceholder: true,
-  },
+  { label: "Email", type: "email", href: "mailto:gm@nanoline.ae", icon: "mail", isPrimary: true, isPlaceholder: false },
+  { label: "WhatsApp", type: "whatsapp", href: "https://wa.me/971545130344", icon: "whatsapp", isPrimary: true, isPlaceholder: false, external: true },
+  { label: "LinkedIn", type: "social", href: "#contact", icon: "linkedin", isPrimary: false, isPlaceholder: true },
+  { label: "CV / Profile", type: "cv", href: "#contact", icon: "download", isPrimary: false, isPlaceholder: true },
 ];
-
-export const siteFooter = {
-  copyright:
-    "© Mohamed Yehia · Growth Marketing, E-commerce & AI Transformation · UAE · KSA · Egypt",
-};
+export const siteFooter = { copyright: "© Abdulrahman Zaid · MENA Industrial Entrepreneur & Operating Leader · Egypt · Saudi Arabia · UAE" };
+export const placeholderSections: { id: string; label: string }[] = [];
