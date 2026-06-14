@@ -1,32 +1,18 @@
 "use client";
 
-import Image from "next/image";
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useReveal, filterGridTransition } from "@/lib/motion";
 import { useMouseGlow } from "@/lib/useMouseGlow";
 import { useIsClient } from "@/lib/useIsClient";
 
-/* -------------------------------------------------------------------------- */
-/*  Selected work data                                                         */
-/* -------------------------------------------------------------------------- */
-
-type WorkCategory =
-  | "all"
-  | "featured"
-  | "b2b"
-  | "fmcg"
-  | "education"
-  | "healthcare"
-  | "commerce"
-  | "services";
+type WorkCategory = "all" | "featured" | "manufacturing" | "food" | "trade" | "egypt" | "ksa" | "uae";
 
 interface WorkItem {
   id: string;
   title: string;
   category: Exclude<WorkCategory, "all" | "featured">;
   featured: boolean;
-  image: string;
   business: string;
   location: string;
   year: string;
@@ -37,607 +23,221 @@ interface WorkItem {
 const workFilters: { id: WorkCategory; label: string }[] = [
   { id: "all", label: "All" },
   { id: "featured", label: "Featured" },
-  { id: "b2b", label: "B2B / Manufacturing" },
-  { id: "fmcg", label: "Food & FMCG" },
-  { id: "education", label: "Education" },
-  { id: "healthcare", label: "Healthcare" },
-  { id: "commerce", label: "Commerce & Retail" },
-  { id: "services", label: "Agencies & Services" },
+  { id: "manufacturing", label: "Manufacturing" },
+  { id: "food", label: "Food Industries" },
+  { id: "trade", label: "Trade & Import" },
+  { id: "egypt", label: "Egypt" },
+  { id: "ksa", label: "Saudi Arabia" },
+  { id: "uae", label: "UAE" },
 ];
 
 const workIntro =
-  "A curated view of projects across B2B manufacturing, food and FMCG, education, healthcare, commerce, and agency growth work.";
+  "A curated view of Abdulrahman Zaid's business footprint across manufacturing, food industries, trading, import, distribution, and regional operations.";
 
 const workItems: WorkItem[] = [
-  /* ------------------------------------------------------------------------ */
-  /*  B2B / Manufacturing                                                     */
-  /* ------------------------------------------------------------------------ */
-  {
-    id: "el-shohail-trading",
-    title: "EL Shohail Trading",
-    category: "b2b",
-    featured: true,
-    image: "/images/project-banners/el-shohail.jpeg",
-    business: "Bakery Machinery Trading",
-    location: "Saudi Arabia",
-    year: "2022",
-    line: "Built B2B digital growth, e-commerce, and ERP-led operating workflows.",
-    tags: ["B2B", "E-commerce", "ERP", "Odoo"],
-  },
-  {
-    id: "csc-export-import",
-    title: "CSC Export & Import",
-    category: "b2b",
-    featured: false,
-    image: "/images/project-banners/csc.jpeg",
-    business: "Sourcing & Trading",
-    location: "Egypt",
-    year: "2017",
-    line: "Led digital content, website, and SEO across export markets.",
-    tags: ["Content", "Website", "SEO"],
-  },
-  {
-    id: "zadmak",
-    title: "ZADMAK",
-    category: "b2b",
-    featured: false,
-    image: "/images/project-banners/zadmak.jpeg",
-    business: "Bakery Machinery Manufacture",
-    location: "Egypt",
-    year: "2023",
-    line: "Group marketing and digital support for a bakery-machinery manufacturer.",
-    tags: ["B2B", "Content", "Brand"],
-  },
-  {
-    id: "zucchilli-forni",
-    title: "Zucchilli Forni",
-    category: "b2b",
-    featured: false,
-    image: "/images/project-banners/zucchilli-forni.jpeg",
-    business: "Bakery Machinery Manufacture",
-    location: "Italy",
-    year: "2023",
-    line: "Group marketing and digital-presence support for a bakery-equipment maker.",
-    tags: ["B2B", "Brand", "Website"],
-  },
-  {
-    id: "nano-food-machine",
-    title: "Nano Food Machine",
-    category: "b2b",
-    featured: false,
-    image: "/images/project-banners/nano-food-machine.jpeg",
-    business: "Bakery Machinery Trading",
-    location: "Egypt",
-    year: "2021",
-    line: "Digital marketing and product presentation for bakery-machinery trading.",
-    tags: ["B2B", "Content", "Paid Media"],
-  },
   {
     id: "silicon-star",
     title: "Silicon Star",
-    category: "b2b",
+    category: "manufacturing",
+    featured: true,
+    business: "Silicone & Resin Industrial Products",
+    location: "Riyadh, Saudi Arabia",
+    year: "2024 – Present",
+    line: "General management across production planning, manufacturing efficiency, specialized imports, operations, and client relationships.",
+    tags: ["Manufacturing", "Silicone", "Resin", "KSA"],
+  },
+  {
+    id: "halsa-food",
+    title: "Halsa Food Industries",
+    category: "food",
+    featured: true,
+    business: "Food Manufacturing",
+    location: "United Arab Emirates",
+    year: "2023 – Present",
+    line: "Production operations, market expansion, quality standards, distribution network development, and commercial contracts.",
+    tags: ["Food Industries", "Production", "Distribution", "UAE"],
+  },
+  {
+    id: "al-shehail-contract-manufacturing",
+    title: "Al Shehail Food Industries",
+    category: "food",
+    featured: true,
+    business: "Contract Manufacturing / Private Label Readiness",
+    location: "United Arab Emirates",
+    year: "Current Focus",
+    line: "Positioning the food manufacturing operation for third-party production, private label, and B2B manufacturing partnerships.",
+    tags: ["Private Label", "B2B", "Food Production", "UAE"],
+  },
+  {
+    id: "nano-line",
+    title: "Nano Line Trading Company",
+    category: "trade",
+    featured: true,
+    business: "Trading, Import & Technical Support",
+    location: "United Arab Emirates",
+    year: "2022 – Present",
+    line: "Commercial, logistics, import, marketing, technical support, equipment manufacturing, and product development operations.",
+    tags: ["Trading", "Import", "Equipment", "UAE"],
+  },
+  {
+    id: "nano-food-machines",
+    title: "Nano Food Machines",
+    category: "egypt",
     featured: false,
-    image: "/images/project-banners/silicon-star.jpeg",
-    business: "Building Material Trading",
+    business: "Food Machinery Sales & Administration",
+    location: "Egypt",
+    year: "2019 – Present",
+    line: "Sales leadership, annual growth targets, customer-network expansion, supplier relationships, and market research.",
+    tags: ["Sales", "Machinery", "Suppliers", "Egypt"],
+  },
+  {
+    id: "zaid-sanitary",
+    title: "Zaid Sanitary Ware & Ceramics",
+    category: "egypt",
+    featured: true,
+    business: "Retail, Supply & Operations",
+    location: "Delta Region, Egypt",
+    year: "2015 – Present",
+    line: "Daily operations, market share expansion, supplier and client relationships, product development, and profitability follow-up.",
+    tags: ["Retail", "Supply", "Operations", "Egypt"],
+  },
+  {
+    id: "al-shohail-foundation",
+    title: "Al Shohail Foundation",
+    category: "ksa",
+    featured: false,
+    business: "Commercial Contracts & Suppliers",
     location: "Saudi Arabia",
-    year: "2024",
-    line: "Digital marketing and brand presence for a building-materials trader.",
-    tags: ["B2B", "Content", "Brand"],
-  },
-
-  /* ------------------------------------------------------------------------ */
-  /*  Food & FMCG                                                              */
-  /* ------------------------------------------------------------------------ */
-  {
-    id: "halsa-bake",
-    title: "HÄLSA Bake",
-    category: "fmcg",
-    featured: true,
-    image: "/images/project-banners/halsabake.jpeg",
-    business: "Healthy Bakery",
-    location: "UAE",
-    year: "2025",
-    line: "Launched e-commerce and organic growth systems for a clean-label bakery brand.",
-    tags: ["Growth", "E-commerce", "Organic", "FMCG"],
+    year: "2021",
+    line: "International supplier relationships, exclusive European commercial contracts, supply-chain operations, and process redesign.",
+    tags: ["Contracts", "Suppliers", "KSA", "Europe"],
   },
   {
-    id: "al-shuhail-food-industry",
-    title: "Al Shuhail Food Industry",
-    category: "fmcg",
-    featured: true,
-    image: "/images/project-banners/al-shuhail.jpeg",
-    business: "Bakery Manufacture",
-    location: "UAE",
-    year: "2024",
-    line: "Group brand, marketing, and business-systems support for a bakery manufacturing arm.",
-    tags: ["Brand", "Operations", "FMCG"],
-  },
-
-  /* ------------------------------------------------------------------------ */
-  /*  Commerce & Retail                                                       */
-  /* ------------------------------------------------------------------------ */
-  {
-    id: "tajerinn",
-    title: "Tajerinn",
-    category: "commerce",
+    id: "abraj-wasat-delta",
+    title: "Abraj Wasat Al-Delta",
+    category: "egypt",
     featured: false,
-    image: "/images/project-banners/tajerinn.jpeg",
-    business: "Retail & E-commerce",
+    business: "Business Development & Projects",
     location: "Egypt",
-    year: "2012",
-    line: "Social content, e-commerce promotions, and on-page SEO for a retail group.",
-    tags: ["Content", "E-commerce", "SEO", "Retail"],
+    year: "2012 – 2015",
+    line: "Business development plans, team supervision, negotiations, and contribution to more than 10 successful projects.",
+    tags: ["Business Development", "Projects", "Operations", "Egypt"],
   },
   {
-    id: "hyper-plus",
-    title: "Hyper Plus",
-    category: "commerce",
+    id: "al-jazeera-pomegranate",
+    title: "Al Jazeera Pomegranate Company",
+    category: "ksa",
     featured: false,
-    image: "/images/project-banners/hyperplus.jpeg",
-    business: "Hypermarket Retail",
-    location: "Cairo",
-    year: "2009",
-    line: "Social content, promotions, and website updates for a hypermarket retailer.",
-    tags: ["Content", "Social Media", "Retail"],
-  },
-  {
-    id: "fabz",
-    title: "F A B Z",
-    category: "commerce",
-    featured: false,
-    image: "/images/project-banners/fabz.jpeg",
-    business: "Fashion Brand",
-    location: "Cairo",
-    year: "2018",
-    line: "Agency-side performance campaigns and content for a fashion brand.",
-    tags: ["Paid Media", "Content", "Social Media"],
-  },
-  {
-    id: "ana-couture",
-    title: "ANA Couture",
-    category: "commerce",
-    featured: false,
-    image: "/images/project-banners/ana.jpeg",
-    business: "Fashion & Couture",
-    location: "Cairo",
-    year: "2026",
-    line: "Brand and social growth support for a couture fashion label.",
-    tags: ["Brand", "Social Media", "Content"],
-  },
-  {
-    id: "nano-line-trading",
-    title: "Nano Line Trading",
-    category: "commerce",
-    featured: false,
-    image: "/images/project-banners/nano-line.jpeg",
-    business: "Professional Kitchen Equipment",
-    location: "UAE",
-    year: "2024",
-    line: "Marketplace and storefront support for professional kitchen-equipment trading.",
-    tags: ["E-commerce", "Retail", "Operations"],
-  },
-
-  /* ------------------------------------------------------------------------ */
-  /*  Education                                                                */
-  /* ------------------------------------------------------------------------ */
-  {
-    id: "ide-academy",
-    title: "IDE Academy",
-    category: "education",
-    featured: true,
-    image: "/images/project-banners/ide-academy.jpeg",
-    business: "Software Education",
-    location: "Egypt",
-    year: "2016",
-    line: "Co-founded and scaled a programming academy with Apple AATP authorization.",
-    tags: ["Education", "Growth", "Brand"],
-  },
-  {
-    id: "atletico-de-madrid-academy",
-    title: "Atletico De Madrid Academy",
-    category: "education",
-    featured: false,
-    image: "/images/project-banners/ADMA.jpeg",
-    business: "Sports & Training",
-    location: "Egypt",
-    year: "2018",
-    line: "Agency-side campaigns and content for a sports academy.",
-    tags: ["Paid Media", "Content", "Education"],
-  },
-  {
-    id: "ima-studio",
-    title: "IMA Studio",
-    category: "education",
-    featured: false,
-    image: "/images/project-banners/IMA.jpeg",
-    business: "Beauty & Fashion Training",
-    location: "Egypt",
-    year: "2018",
-    line: "Launched and grew a makeup-and-fashion academy through content-led marketing.",
-    tags: ["Education", "Content", "Social Media"],
-  },
-  {
-    id: "tech-village-academy",
-    title: "Tech Village Academy",
-    category: "education",
-    featured: false,
-    image: "/images/project-banners/techvillage-academy.jpeg",
-    business: "Software Education",
-    location: "Egypt",
-    year: "2015",
-    line: "Marketing and content support for a software-training academy.",
-    tags: ["Education", "Content"],
-  },
-  {
-    id: "gama-academy",
-    title: "Gama Academy",
-    category: "education",
-    featured: false,
-    image: "/images/project-banners/gamaacademy.jpeg",
-    business: "Kids Education",
-    location: "Egypt",
-    year: "2019",
-    line: "Agency-side campaigns and content for a kids’ education brand.",
-    tags: ["Paid Media", "Content", "Education"],
-  },
-  {
-    id: "mehrat",
-    title: "Mehrat",
-    category: "education",
-    featured: false,
-    image: "/images/project-banners/mehrat.jpeg",
-    business: "Business & HR Education",
-    location: "Egypt",
-    year: "2015",
-    line: "Social calendar and paid campaigns for corporate training programs.",
-    tags: ["Social Media", "Paid Media", "Education"],
-  },
-  {
-    id: "swiss-school-of-management",
-    title: "Swiss School Of Management",
-    category: "education",
-    featured: false,
-    image: "/images/project-banners/ssm.jpeg",
-    business: "Business Education",
-    location: "Egypt",
-    year: "2019",
-    line: "Marketing and content support for a business-education school.",
-    tags: ["Education", "Content"],
-  },
-
-  /* ------------------------------------------------------------------------ */
-  /*  Agencies & Services                                                      */
-  /* ------------------------------------------------------------------------ */
-  {
-    id: "pointer-advertising",
-    title: "Pointer Advertising",
-    category: "services",
-    featured: true,
-    image: "/images/project-banners/pointer.jpeg",
-    business: "Social Media Agency",
-    location: "Egypt",
-    year: "2018",
-    line: "Led agency delivery across healthcare, education, fashion, and performance campaigns.",
-    tags: ["Paid Media", "Content", "Operations"],
-  },
-  {
-    id: "el-misk",
-    title: "EL Misk",
-    category: "services",
-    featured: false,
-    image: "/images/project-banners/l-misk.jpeg",
-    business: "UPVC & Window Services",
-    location: "Bahrain",
-    year: "2025",
-    line: "Digital content and web presence for a window-installation services business.",
-    tags: ["Content", "Website", "Social Media"],
-  },
-  {
-    id: "aqua-door",
-    title: "Aqua Door",
-    category: "services",
-    featured: false,
-    image: "/images/project-banners/aqa-door.jpeg",
-    business: "UPVC & Interiors",
-    location: "Egypt",
-    year: "2026",
-    line: "Digital content and web presence for a UPVC and interiors business.",
-    tags: ["Content", "Website", "Social Media"],
-  },
-
-  /* ------------------------------------------------------------------------ */
-  /*  Healthcare                                                               */
-  /* ------------------------------------------------------------------------ */
-  {
-    id: "dr-talat-al-sammy",
-    title: "Dr. Talat AL Sammy",
-    category: "healthcare",
-    featured: false,
-    image: "/images/project-banners/dr.talat.jpeg",
-    business: "Medical Center",
-    location: "Egypt",
-    year: "2017",
-    line: "Agency-side content, paid campaigns, and web presence for a medical practice.",
-    tags: ["Healthcare", "Paid Media", "Content", "Website"],
-  },
-  {
-    id: "dr-rania-lotfy",
-    title: "Dr. Rania Lotfy",
-    category: "healthcare",
-    featured: false,
-    image: "/images/project-banners/dr.rania.jpeg",
-    business: "Medical Center",
-    location: "Egypt",
-    year: "2017",
-    line: "Agency-side content, paid campaigns, and web presence for a medical practice.",
-    tags: ["Healthcare", "Paid Media", "Content"],
-  },
-  {
-    id: "dr-hassan-ashour",
-    title: "Dr. Hassan Ashour",
-    category: "healthcare",
-    featured: false,
-    image: "/images/project-banners/dr.hassanashour.jpeg",
-    business: "Medical Center",
-    location: "Egypt",
-    year: "2016",
-    line: "Agency-side content, paid campaigns, and web presence for a medical practice.",
-    tags: ["Healthcare", "Content", "Website"],
-  },
-  {
-    id: "dr-kareem-sabry",
-    title: "Dr. Kareem Sabry",
-    category: "healthcare",
-    featured: true,
-    image: "/images/project-banners/dr.kareemsabry.jpeg",
-    business: "Medical Center",
-    location: "Egypt",
-    year: "2014",
-    line: "Agency-side content, paid campaigns, and web presence for a medical practice.",
-    tags: ["Healthcare", "Paid Media", "Content", "Website"],
-  },
-  {
-    id: "dr-osama-al-tih",
-    title: "Dr. Osama AL Tih",
-    category: "healthcare",
-    featured: false,
-    image: "/images/project-banners/dr.osamaeltih.jpeg",
-    business: "Medical Center",
-    location: "Egypt",
-    year: "2016",
-    line: "Agency-side content, paid campaigns, and web presence for a medical practice.",
-    tags: ["Healthcare", "Content", "Paid Media"],
-  },
-  {
-    id: "dr-mohamed-reda",
-    title: "Dr. Mohamed Reda",
-    category: "healthcare",
-    featured: false,
-    image: "/images/project-banners/dr.mohamed-reda.jpeg",
-    business: "Medical Center",
-    location: "Egypt",
-    year: "2016",
-    line: "Agency-side content, paid campaigns, and web presence for a medical practice.",
-    tags: ["Healthcare", "Content", "Website"],
-  },
-  {
-    id: "al-safwa-center",
-    title: "AL Safwa Center",
-    category: "healthcare",
-    featured: false,
-    image: "/images/project-banners/al-safwa-center.jpeg",
-    business: "Medical Center",
-    location: "Egypt",
-    year: "2016",
-    line: "Agency-side content, paid campaigns, and web presence for a medical center.",
-    tags: ["Healthcare", "Content", "Website"],
-  },
-  {
-    id: "al-amin-clinics",
-    title: "Al Amin Clinics",
-    category: "healthcare",
-    featured: false,
-    image: "/images/project-banners/al-amin-clinic.jpeg",
-    business: "Medical Center",
-    location: "Saudi Arabia",
-    year: "2022",
-    line: "Group marketing and digital support for a healthcare clinic brand.",
-    tags: ["Healthcare", "Brand", "Content"],
-  },
-  {
-    id: "iumak",
-    title: "IUMAK",
-    category: "healthcare",
-    featured: false,
-    image: "/images/project-banners/iumak.jpeg",
-    business: "Pharmacy Mobile App",
-    location: "Egypt",
-    year: "2020",
-    line: "Supported UI/UX and product direction for a pharmacy mobile app.",
-    tags: ["Product", "UI/UX", "Healthcare"],
+    business: "Import, Branches & Field Teams",
+    location: "Riyadh, Saudi Arabia",
+    year: "2004 – 2012",
+    line: "Market development, spare-parts import, branch expansion for fitness equipment, and field-team leadership.",
+    tags: ["Import", "Branches", "Teams", "KSA"],
   },
 ];
 
-/* -------------------------------------------------------------------------- */
-/*  Card                                                                       */
-/* -------------------------------------------------------------------------- */
-
-function WorkCard({ item, index }: { item: WorkItem; index: number }) {
-  const prefersReduced = useReducedMotion();
-  return (
-    <motion.article
-      {...filterGridTransition(!prefersReduced, index)}
-      data-glow
-      className="mouse-glow-border group relative overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0F1724] shadow-[0_20px_60px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#3DBA8C]/30"
-      aria-label={item.title}
-    >
-      {/* Visual area */}
-      <div className="relative aspect-[16/10] overflow-hidden border-b border-white/[0.06] bg-[#E7EDF3]">
-        <Image
-          src={item.image}
-          alt={`${item.title} project banner`}
-          fill
-          sizes="(min-width: 1024px) 520px, (min-width: 640px) 50vw, 100vw"
-          className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-        />
-        <div className="absolute inset-0 ring-1 ring-inset ring-black/[0.06]" />
-        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#0F1724]/35 to-transparent pointer-events-none" />
-
-        {/* Year chip */}
-        <div className="absolute right-4 top-4 z-10">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/[0.14] bg-[#0F1724]/85 px-2.5 py-1 shadow-[0_10px_30px_rgba(15,23,36,0.22)] backdrop-blur-md">
-            <span className="h-1.5 w-1.5 rounded-full bg-[#3DBA8C]" />
-            <span className="whitespace-nowrap text-[11px] font-semibold tracking-wide text-[#D9F7EA]">
-              {item.year}
-            </span>
-          </span>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="relative flex flex-col gap-3 px-6 pb-6 pt-5">
-        <p className="text-[10.5px] font-medium uppercase leading-snug tracking-[0.14em] text-[#94A3B8]/80">
-          {item.business} · {item.location}
-        </p>
-        <h3 className="text-lg font-semibold leading-snug tracking-tight text-[#E8EDF2] sm:text-xl">
-          {item.title}
-        </h3>
-
-        {/* Role / outcome line */}
-        <p className="text-sm leading-relaxed text-[#94A3B8] line-clamp-2">
-          {item.line}
-        </p>
-
-        {/* Service tags */}
-        <div className="flex flex-wrap gap-1.5 border-t border-white/[0.06] pt-3">
-          {item.tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-white/[0.08] bg-white/[0.03] px-2 py-0.5 text-[10.5px] text-[#94A3B8] sm:px-2.5 sm:py-1 sm:text-[11px]"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
-    </motion.article>
-  );
+function itemMatches(item: WorkItem, active: WorkCategory) {
+  if (active === "all") return true;
+  if (active === "featured") return item.featured;
+  if (active === "uae") return item.location.includes("United Arab Emirates");
+  if (active === "ksa") return item.location.includes("Saudi Arabia") || item.location.includes("Riyadh");
+  if (active === "egypt") return item.location.includes("Egypt");
+  return item.category === active;
 }
 
-/* -------------------------------------------------------------------------- */
-/*  Section                                                                    */
-/* -------------------------------------------------------------------------- */
-
 export default function SelectedWorkSection() {
+  const [active, setActive] = useState<WorkCategory>("featured");
   const reveal = useReveal();
   const glowRef = useMouseGlow<HTMLElement>();
   const isClient = useIsClient();
   const prefersReduced = useReducedMotion();
-  const animatePill = isClient && !prefersReduced;
-  const [active, setActive] = useState<WorkCategory>("featured");
+  const animate = isClient && !prefersReduced;
 
-  const filtered = useMemo(() => {
-    if (active === "all") return workItems;
-    if (active === "featured") return workItems.filter((work) => work.featured);
-    return workItems.filter((work) => work.category === active);
-  }, [active]);
+  const visible = useMemo(() => workItems.filter((item) => itemMatches(item, active)), [active]);
 
   return (
-    <section
-      ref={glowRef}
-      id="work"
-      aria-label="Selected work"
-      className="border-t border-white/[0.06] px-6 py-24 lg:px-24"
-    >
-      <div className="mx-auto flex max-w-6xl flex-col gap-10">
-        {/* Header */}
-        <div className="flex max-w-2xl flex-col gap-3">
-          <motion.p
-            {...reveal(0)}
-            className="text-xs font-medium uppercase tracking-[0.22em] text-[#3DBA8C]"
-          >
-            Selected work
+    <section ref={glowRef} id="work" aria-label="Business portfolio" className="px-6 lg:px-24 py-24 border-t border-white/[0.06]">
+      <div className="max-w-6xl mx-auto flex flex-col gap-10">
+        <div className="flex flex-col gap-4 max-w-3xl">
+          <motion.p {...reveal(0)} className="text-xs text-[#3DBA8C] tracking-[0.22em] uppercase font-medium">
+            Business portfolio
           </motion.p>
-          <motion.h2
-            {...reveal(0.06)}
-            className="text-3xl font-semibold leading-tight tracking-tight text-[#E8EDF2] sm:text-4xl"
-          >
-            Proof across sectors and markets.
+          <motion.h2 {...reveal(0.06)} className="text-3xl sm:text-4xl font-semibold text-[#E8EDF2] leading-tight tracking-tight">
+            Ventures, markets, and operating roles.
           </motion.h2>
-          <motion.p
-            {...reveal(0.12)}
-            className="text-base leading-relaxed text-[#94A3B8] sm:text-lg"
-          >
+          <motion.p {...reveal(0.12)} className="text-base sm:text-lg text-[#94A3B8] leading-relaxed">
             {workIntro}
           </motion.p>
         </div>
 
-        {/* Filter bar */}
-        <motion.div
-          data-glow
-          {...reveal(0.18)}
-          className="mouse-glow-panel rounded-2xl border border-white/[0.08] bg-white/[0.02] p-2 sm:p-2.5"
-        >
-          <div
-            role="tablist"
-            aria-label="Filter selected work"
-            className="relative flex flex-wrap gap-1.5 sm:gap-2"
-          >
-            {workFilters.map((filter) => {
-              const isActive = active === filter.id;
-
-              return (
-                <button
-                  key={filter.id}
-                  role="tab"
-                  aria-selected={isActive}
-                  onClick={() => setActive(filter.id)}
-                  className={[
-                    "relative rounded-full border px-3.5 py-1.5 text-xs font-medium transition-colors duration-200 sm:text-sm",
-                    "focus-visible:ring-2 focus-visible:ring-[#3DBA8C]/60 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1220]",
-                    isActive
-                      ? "border-transparent text-[#3DBA8C]"
-                      : "border-transparent bg-transparent text-[#94A3B8] hover:bg-white/[0.04] hover:text-[#E8EDF2]",
-                  ].join(" ")}
-                >
-                  {isActive && (
-                    <motion.span
-                      layoutId="workFilterPill"
-                      aria-hidden
-                      className="absolute inset-0 rounded-full border border-[#3DBA8C]/45 bg-[#3DBA8C]/15"
-                      transition={
-                        animatePill
-                          ? { type: "spring", stiffness: 420, damping: 34 }
-                          : { duration: 0 }
-                      }
-                    />
-                  )}
-                  <span className="relative z-10">{filter.label}</span>
-                </button>
-              );
-            })}
-          </div>
+        <motion.div {...reveal(0.16)} className="flex flex-wrap gap-2" role="tablist" aria-label="Portfolio filters">
+          {workFilters.map((filter) => {
+            const selected = active === filter.id;
+            return (
+              <button
+                key={filter.id}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                onClick={() => setActive(filter.id)}
+                className={[
+                  "rounded-full border px-4 py-2 text-sm font-medium transition-colors",
+                  selected
+                    ? "border-[#3DBA8C]/60 bg-[#3DBA8C]/[0.12] text-[#3DBA8C]"
+                    : "border-white/[0.09] bg-white/[0.03] text-[#94A3B8] hover:text-[#E8EDF2] hover:border-white/[0.18]",
+                ].join(" ")}
+              >
+                {filter.label}
+              </button>
+            );
+          })}
         </motion.div>
 
-        {/* Result count */}
-        <p className="-mt-4 text-xs text-[#94A3B8]/50">
-          {filtered.length} project{filtered.length === 1 ? "" : "s"}
-        </p>
-
-        {/* Grid */}
-        <motion.div layout className="grid gap-5 sm:grid-cols-2 sm:gap-6">
+        <motion.div data-glow {...reveal(0.2)} className="mouse-glow-panel rounded-3xl border border-[#3DBA8C]/20 bg-white/[0.03] p-4 sm:p-5">
           <AnimatePresence mode="popLayout">
-            {filtered.map((item, i) => (
-              <WorkCard key={item.id} item={item} index={i} />
-            ))}
+            <motion.div layout className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+              {visible.map((item, i) => (
+                <motion.article
+                  key={item.id}
+                  layout
+                  {...filterGridTransition(animate, i)}
+                  className="group relative rounded-2xl border border-white/[0.08] bg-[#0F1724] hover:border-[#3DBA8C]/35 transition-colors overflow-hidden"
+                >
+                  <div className="p-6 flex flex-col gap-5 min-h-[310px]">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex flex-col gap-1">
+                        <p className="text-[11px] text-[#3DBA8C]/90 tracking-[0.18em] uppercase font-medium">{item.year}</p>
+                        <h3 className="text-xl font-semibold text-[#E8EDF2] leading-tight">{item.title}</h3>
+                      </div>
+                      {item.featured && (
+                        <span className="rounded-full border border-[#E0A458]/30 bg-[#E0A458]/[0.08] px-2.5 py-1 text-[10px] font-medium uppercase tracking-wide text-[#E0A458]">
+                          Key
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="h-px bg-white/[0.07]" />
+
+                    <div className="flex flex-col gap-2">
+                      <p className="text-sm font-medium text-[#E8EDF2]">{item.business}</p>
+                      <p className="text-xs text-[#94A3B8]/70">{item.location}</p>
+                    </div>
+
+                    <p className="text-sm text-[#94A3B8] leading-relaxed">{item.line}</p>
+
+                    <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
+                      {item.tags.map((tag) => (
+                        <span key={tag} className="text-[11px] text-[#94A3B8]/80 bg-white/[0.03] border border-white/[0.07] rounded-full px-2.5 py-1">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </motion.article>
+              ))}
+            </motion.div>
           </AnimatePresence>
         </motion.div>
-
-        {filtered.length === 0 && (
-          <p className="py-12 text-center text-sm text-[#94A3B8]/60">
-            No projects in this category yet.
-          </p>
-        )}
       </div>
     </section>
   );
