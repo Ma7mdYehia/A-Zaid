@@ -4,14 +4,18 @@ import { motion, useReducedMotion } from "framer-motion";
 import { hero } from "@/content/homepage";
 import { useIsClient } from "@/lib/useIsClient";
 
-/* Business pillars rendered as floating 3D modules around the AZ core.
-   Visual labels only — no business claims. */
-const PILLARS = [
-  { label: "Manufacturing",   pos: "top-[2%] left-[6%]",      float: "hero-float-a", tilt: "rotate-[-7deg]", dot: "#2F7D5C" },
-  { label: "Food Production", pos: "top-[10%] right-[2%]",    float: "hero-float-b", tilt: "rotate-[6deg]",  dot: "#B88746" },
-  { label: "Import",          pos: "top-[46%] left-[-2%]",    float: "hero-float-c", tilt: "rotate-[-5deg]", dot: "#1F5F46" },
-  { label: "Distribution",    pos: "bottom-[10%] right-[3%]", float: "hero-float-a", tilt: "rotate-[5deg]",  dot: "#2F7D5C" },
-  { label: "Regional Growth", pos: "bottom-[1%] left-[10%]",  float: "hero-float-b", tilt: "rotate-[-4deg]", dot: "#B88746" },
+const PILLS = [
+  { label: "Manufacturing",         pos: "top-[8%]  right-[-6%]", float: "hero-float-a", dot: "#2F7D5C" },
+  { label: "Food Production",       pos: "top-[28%] right-[-10%]", float: "hero-float-b", dot: "#B88746" },
+  { label: "Private Label",         pos: "top-[50%] right-[-4%]",  float: "hero-float-c", dot: "#2F7D5C" },
+  { label: "Import & Distribution", pos: "top-[68%] right-[-8%]",  float: "hero-float-a", dot: "#1F5F46" },
+  { label: "Regional Growth",       pos: "bottom-[6%] right-[-2%]", float: "hero-float-b", dot: "#B88746" },
+] as const;
+
+const STATS = [
+  { value: "20+", label: "Years experience" },
+  { value: "3",   label: "Core markets" },
+  { value: "10+", label: "Ventures & roles" },
 ] as const;
 
 export default function HeroSection() {
@@ -22,18 +26,18 @@ export default function HeroSection() {
   const reveal = (delay = 0) =>
     animate
       ? {
-          initial: { opacity: 0, y: 20 },
+          initial: { opacity: 0, y: 18 },
           animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.5, ease: "easeOut", delay },
+          transition: { duration: 0.55, ease: "easeOut", delay },
         }
       : {};
 
   const popIn = (delay = 0) =>
     animate
       ? {
-          initial: { opacity: 0, y: 14, scale: 0.94 },
-          animate: { opacity: 1, y: 0, scale: 1 },
-          transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] as const, delay },
+          initial: { opacity: 0, scale: 0.92, y: 10 },
+          animate: { opacity: 1, scale: 1, y: 0 },
+          transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const, delay },
         }
       : {};
 
@@ -41,152 +45,161 @@ export default function HeroSection() {
     <section
       id="home"
       aria-label="Introduction"
-      className="relative min-h-[calc(100vh-4rem)] overflow-hidden px-6 lg:px-24 py-16 lg:py-0 flex items-center"
+      className="relative min-h-[calc(100vh-4rem)] flex items-center overflow-hidden px-4 sm:px-6 lg:px-12 py-12 lg:py-0"
     >
-      {/* Soft ambient wash — warm ivory, deep green, muted gold */}
+      {/* Soft blue-ivory gradient field behind the card */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-0"
         style={{
           background:
-            "radial-gradient(60% 55% at 78% 30%, rgba(47,125,92,0.08), transparent 60%), radial-gradient(45% 45% at 90% 80%, rgba(184,135,70,0.06), transparent 65%)",
+            "radial-gradient(70% 65% at 72% 38%, rgba(191,227,244,0.55), transparent 65%), radial-gradient(55% 50% at 20% 70%, rgba(47,125,92,0.06), transparent 60%), radial-gradient(40% 45% at 88% 80%, rgba(184,135,70,0.05), transparent 60%)",
         }}
       />
 
-      <div className="relative z-10 w-full max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-12 lg:gap-10 items-center">
+      <div className="relative z-10 w-full max-w-[1320px] mx-auto">
+        {/* ── Main white card ──────────────────────────────────────────────── */}
+        <motion.div
+          {...(animate
+            ? { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.6, ease: "easeOut", delay: 0.05 } }
+            : {})}
+          className="w-full rounded-3xl bg-white border border-[#DDD4C5] shadow-[0_32px_80px_-24px_rgba(23,32,51,0.12)] overflow-visible"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-[48fr_52fr] min-h-[560px] lg:min-h-[600px]">
 
-        {/* ── Left — content ─────────────────────────────────────────────── */}
-        <div className="flex flex-col items-start gap-6 text-left">
-          <motion.span
-            {...reveal(0.04)}
-            className="inline-flex items-center gap-2 rounded-full border border-[#2F7D5C]/30 bg-[#2F7D5C]/[0.07] px-3 py-1 text-[11px] sm:text-xs font-medium text-[#2F7D5C] tracking-wide"
-          >
-            <span aria-hidden className="w-1.5 h-1.5 rounded-full bg-[#2F7D5C]" />
-            {hero.statusChip}
-          </motion.span>
+            {/* ── Left — content ─────────────────────────────────────────── */}
+            <div className="flex flex-col justify-center gap-6 px-8 sm:px-10 lg:px-14 py-12 lg:py-16">
 
-          <motion.h1
-            {...reveal(0.08)}
-            className="font-display text-[#172033] leading-[0.92] tracking-[0.01em] text-6xl sm:text-7xl xl:text-8xl"
-          >
-            <span className="block">Abdulrahman</span>
-            <span className="block text-[#2F7D5C]">Zaid</span>
-          </motion.h1>
-
-          <motion.p
-            {...reveal(0.18)}
-            className="text-sm sm:text-base lg:text-lg font-medium text-[#2F7D5C] tracking-wide max-w-xl"
-          >
-            {hero.title}
-          </motion.p>
-
-          <motion.p
-            {...reveal(0.24)}
-            className="text-base sm:text-lg text-[#5F6B7A] leading-relaxed max-w-2xl"
-          >
-            {hero.valueStatement}
-          </motion.p>
-
-          <motion.div
-            {...reveal(0.32)}
-            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto mt-1"
-          >
-            <a
-              href={hero.ctas.primary.href}
-              className="soft-light-sweep inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold bg-[#2F7D5C] text-white hover:bg-[#1F5F46] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2F7D5C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F7F3EA]"
-            >
-              {hero.ctas.primary.label}
-            </a>
-            <a
-              href={hero.ctas.secondary.href}
-              className="soft-light-sweep inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold border border-[#DDD4C5] bg-white text-[#172033] hover:border-[#2F7D5C]/40 hover:bg-[#F7F3EA] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2F7D5C]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F7F3EA]"
-            >
-              {hero.ctas.secondary.label}
-            </a>
-          </motion.div>
-
-          <motion.div
-            {...reveal(0.4)}
-            className="inline-flex items-center gap-2 text-xs sm:text-[13px] text-[#5F6B7A] mt-1"
-          >
-            <span aria-hidden className="w-1.5 h-1.5 rounded-full bg-[#2F7D5C]" />
-            {hero.location}
-          </motion.div>
-        </div>
-
-        {/* ── Right — 3D operating-system visual ─────────────────────────── */}
-        <div className="relative flex items-center justify-center order-first lg:order-none">
-          <div className="relative w-full max-w-[360px] sm:max-w-[440px] aspect-square [perspective:1500px]">
-
-            {/* Soft orbit rings */}
-            <div
-              aria-hidden
-              className="absolute inset-[8%] rounded-full border border-[#DDD4C5]/70 hero-spin-slow"
-            />
-            <div
-              aria-hidden
-              className="absolute inset-[20%] rounded-full border border-[#2F7D5C]/15"
-            />
-
-            {/* 3D stage */}
-            <div className="absolute inset-0 [transform-style:preserve-3d] [transform:rotateX(8deg)_rotateY(-16deg)]">
-
-              {/* Central AZ tower — stacked depth layers + face */}
-              <motion.div
-                {...popIn(0.18)}
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hero-float-c"
+              {/* Status chip */}
+              <motion.span
+                {...reveal(0.15)}
+                className="inline-flex self-start items-center gap-2 rounded-full border border-[#2F7D5C]/30 bg-[#2F7D5C]/[0.07] px-3 py-1 text-[11px] sm:text-xs font-medium text-[#2F7D5C] tracking-wide"
               >
-                <div className="relative [transform-style:preserve-3d]">
-                  {/* depth shadow layers */}
-                  <div
-                    aria-hidden
-                    className="absolute inset-0 rounded-3xl bg-[#1F5F46]/25 translate-x-3 translate-y-4 blur-[2px]"
-                  />
-                  <div
-                    aria-hidden
-                    className="absolute inset-0 rounded-3xl bg-[#2F7D5C]/15 translate-x-1.5 translate-y-2"
-                  />
-                  {/* face */}
-                  <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-3xl bg-white border border-[#DDD4C5] shadow-[0_24px_60px_-20px_rgba(31,95,70,0.45)] flex flex-col items-center justify-center gap-2">
-                    {/* gold corner accent */}
-                    <span
-                      aria-hidden
-                      className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-[#B88746]"
-                    />
-                    <span className="font-display text-6xl sm:text-7xl text-[#2F7D5C] leading-none tracking-wide">
-                      AZ
-                    </span>
-                    <span className="text-[9px] uppercase tracking-[0.28em] text-[#7C8794]">
-                      Operating
-                    </span>
-                  </div>
-                </div>
+                <span aria-hidden className="w-1.5 h-1.5 rounded-full bg-[#2F7D5C]" />
+                {hero.statusChip}
+              </motion.span>
+
+              {/* Headline */}
+              <motion.h1
+                {...reveal(0.22)}
+                className="font-display text-[#172033] text-5xl sm:text-6xl xl:text-7xl leading-[0.93] tracking-[0.01em]"
+              >
+                <span className="block">Build operating</span>
+                <span className="block">companies</span>
+                <span className="block text-[#2F7D5C]">across markets.</span>
+              </motion.h1>
+
+              {/* Value statement */}
+              <motion.p
+                {...reveal(0.3)}
+                className="text-sm sm:text-[15px] text-[#5F6B7A] leading-relaxed max-w-lg"
+              >
+                {hero.valueStatement}
+              </motion.p>
+
+              {/* CTAs */}
+              <motion.div
+                {...reveal(0.38)}
+                className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:w-auto"
+              >
+                <a
+                  href={hero.ctas.primary.href}
+                  className="soft-light-sweep inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold bg-[#2F7D5C] text-white hover:bg-[#1F5F46] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2F7D5C] focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                >
+                  {hero.ctas.primary.label}
+                </a>
+                <a
+                  href={hero.ctas.secondary.href}
+                  className="soft-light-sweep inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold border border-[#DDD4C5] bg-[#F7F3EA] text-[#172033] hover:border-[#2F7D5C]/40 hover:bg-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2F7D5C]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+                >
+                  {hero.ctas.secondary.label}
+                </a>
               </motion.div>
 
-              {/* Floating business-pillar modules */}
-              {PILLARS.map((pillar, i) => (
+              {/* Stats row */}
+              <motion.div
+                {...reveal(0.46)}
+                className="flex items-center gap-5 sm:gap-8 pt-2 border-t border-[#EBEBEB]"
+              >
+                {STATS.map((s, i) => (
+                  <div key={s.label} className={`flex flex-col gap-0.5 ${i > 0 ? "pl-5 sm:pl-8 border-l border-[#EBEBEB]" : ""}`}>
+                    <span className="font-display text-3xl sm:text-4xl text-[#172033] leading-none">{s.value}</span>
+                    <span className="text-[10px] sm:text-xs text-[#7C8794] tracking-wide uppercase">{s.label}</span>
+                  </div>
+                ))}
+              </motion.div>
+            </div>
+
+            {/* ── Right — portrait + floating pills ──────────────────────── */}
+            <div className="relative flex items-end justify-center order-first lg:order-none overflow-visible">
+              {/* Portrait area */}
+              <motion.div
+                {...popIn(0.18)}
+                className="relative w-full h-full min-h-[320px] lg:min-h-0"
+              >
+                {/* Portrait placeholder */}
+                <div
+                  aria-hidden
+                  className="absolute inset-0 rounded-tr-3xl lg:rounded-tl-none rounded-tl-3xl lg:rounded-br-3xl"
+                  style={{
+                    background:
+                      "linear-gradient(160deg, rgba(191,227,244,0.55) 0%, rgba(231,244,238,0.60) 45%, rgba(247,243,234,0.80) 100%)",
+                  }}
+                />
+                {/* Inner decorative rings */}
+                <div
+                  aria-hidden
+                  className="absolute inset-[12%] rounded-full border border-[#DDD4C5]/60"
+                />
+                <div
+                  aria-hidden
+                  className="absolute inset-[26%] rounded-full border border-[#2F7D5C]/10"
+                />
+                {/* AZ monogram placeholder */}
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 select-none pointer-events-none">
+                  <span className="font-display text-[80px] sm:text-[100px] lg:text-[120px] text-[#2F7D5C]/20 leading-none tracking-wider">
+                    AZ
+                  </span>
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-[#2F7D5C]/30">
+                    Portrait
+                  </span>
+                </div>
+                {/* TODO: Replace with real portrait */}
+                {/* <Image src="/portrait.jpg" alt="Abdulrahman Zaid" fill className="object-cover object-top rounded-tr-3xl lg:rounded-tl-none rounded-tl-3xl lg:rounded-br-3xl" priority /> */}
+              </motion.div>
+
+              {/* Floating pill labels */}
+              {PILLS.map((pill, i) => (
                 <motion.div
-                  key={pillar.label}
-                  {...popIn(0.3 + i * 0.09)}
-                  className={`absolute ${pillar.pos} ${pillar.float}`}
+                  key={pill.label}
+                  {...popIn(0.34 + i * 0.08)}
+                  className={`absolute ${pill.pos} ${pill.float} z-10`}
+                  style={{ willChange: "transform" }}
                 >
-                  <div
-                    className={`${pillar.tilt} flex items-center gap-2 rounded-xl bg-white border border-[#DDD4C5] px-3 py-2 shadow-[0_12px_28px_-12px_rgba(23,32,51,0.28)]`}
-                  >
+                  <div className="flex items-center gap-2 rounded-full bg-white border border-[#DDD4C5] px-3.5 py-1.5 shadow-[0_8px_24px_-8px_rgba(23,32,51,0.18)] whitespace-nowrap">
                     <span
                       aria-hidden
-                      className="w-1.5 h-1.5 rounded-full"
-                      style={{ backgroundColor: pillar.dot }}
+                      className="w-1.5 h-1.5 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: pill.dot }}
                     />
-                    <span className="text-[11px] sm:text-xs font-semibold text-[#172033] whitespace-nowrap">
-                      {pillar.label}
+                    <span className="text-[11px] sm:text-xs font-semibold text-[#172033]">
+                      {pill.label}
                     </span>
                   </div>
                 </motion.div>
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
+
+        {/* Location line below card */}
+        <motion.div
+          {...reveal(0.54)}
+          className="inline-flex items-center gap-2 mt-5 ml-2 text-xs text-[#5F6B7A]"
+        >
+          <span aria-hidden className="w-1.5 h-1.5 rounded-full bg-[#2F7D5C]" />
+          {hero.location}
+        </motion.div>
       </div>
     </section>
   );
