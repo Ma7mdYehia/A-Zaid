@@ -197,6 +197,41 @@ body {
 }
 
 /* -------------------------------------------------------------------------- */
+/*  Hero 3D operating visual — gentle floating for stacked business modules    */
+/*  Float wrappers carry only translateY so the inner tilt transform is kept.  */
+/* -------------------------------------------------------------------------- */
+@keyframes hero-float-a {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-11px); }
+}
+@keyframes hero-float-b {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(9px); }
+}
+@keyframes hero-float-c {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.hero-float-a { animation: hero-float-a 6s ease-in-out infinite; }
+.hero-float-b { animation: hero-float-b 7.2s ease-in-out infinite; }
+.hero-float-c { animation: hero-float-c 5.4s ease-in-out infinite; }
+
+@keyframes hero-spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.hero-spin-slow { animation: hero-spin-slow 48s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-float-a,
+  .hero-float-b,
+  .hero-float-c,
+  .hero-spin-slow {
+    animation: none;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
 /*  Mouse-follow glow — adapted for light background                           */
 /* -------------------------------------------------------------------------- */
 .mouse-glow-panel {
