@@ -1,16 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { hero } from "@/content/homepage";
 import { useIsClient } from "@/lib/useIsClient";
 
+/* Pills repositioned to clear the face (upper-center area) */
 const PILLS = [
-  { label: "Manufacturing",         pos: "top-[4%]  left-[-4%]",   float: "hero-float-a", dot: "#2F7D5C" },
-  { label: "Food Production",       pos: "top-[22%] right-[-6%]",  float: "hero-float-b", dot: "#B88746" },
-  { label: "Private Label",         pos: "top-[48%] left-[-8%]",   float: "hero-float-c", dot: "#2F7D5C" },
-  { label: "Import & Distribution", pos: "bottom-[18%] right-[-4%]", float: "hero-float-a", dot: "#1F5F46" },
-  { label: "Regional Growth",       pos: "bottom-[2%] left-[2%]",  float: "hero-float-b", dot: "#B88746" },
+  { label: "Manufacturing",         pos: "top-[5%]  left-[-2%]",   float: "hero-float-a", dot: "#2F7D5C" },
+  { label: "Food Production",       pos: "top-[12%] right-[-4%]",  float: "hero-float-b", dot: "#B88746" },
+  { label: "Private Label",         pos: "top-[38%] right-[-6%]",  float: "hero-float-c", dot: "#2F7D5C" },
+  { label: "Import & Distribution", pos: "top-[56%] left-[-6%]",   float: "hero-float-a", dot: "#1F5F46" },
+  { label: "Regional Growth",       pos: "top-[72%] right-[-2%]",  float: "hero-float-b", dot: "#B88746" },
 ] as const;
 
 const STATS = [
@@ -23,6 +25,39 @@ export default function HeroSection() {
   const isClient = useIsClient();
   const prefersReduced = useReducedMotion();
   const animate = isClient && !prefersReduced;
+
+  /* ── One-step scroll: wheel down on hero → jump to #about ─────── */
+  const sectionRef = useRef<HTMLElement>(null);
+  const inViewRef = useRef(false);
+  const cooldownRef = useRef(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const io = new IntersectionObserver(
+      ([entry]) => { inViewRef.current = entry.isIntersecting; },
+      { threshold: 0.4 },
+    );
+    io.observe(section);
+
+    const onWheel = (e: WheelEvent) => {
+      if (!inViewRef.current || cooldownRef.current || e.deltaY <= 0) return;
+      const about = document.getElementById("about");
+      if (!about) return;
+      e.preventDefault();
+      cooldownRef.current = true;
+      about.scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(() => { cooldownRef.current = false; }, 1200);
+    };
+
+    /* non-passive so preventDefault works */
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => {
+      io.disconnect();
+      window.removeEventListener("wheel", onWheel);
+    };
+  }, []);
 
   const reveal = (delay = 0) =>
     animate
@@ -44,11 +79,12 @@ export default function HeroSection() {
 
   return (
     <section
+      ref={sectionRef}
       id="home"
       aria-label="Introduction"
-      className="relative min-h-[calc(100vh-4rem)] flex items-center overflow-hidden px-6 sm:px-8 lg:px-16 py-12 lg:py-0"
+      className="relative min-h-[calc(100vh-4rem)] flex items-center overflow-hidden px-6 sm:px-8 lg:px-16"
     >
-      {/* Soft blue-ivory gradient field — full width, no card wrapper */}
+      {/* Soft blue-ivory gradient field */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-0"
@@ -58,10 +94,10 @@ export default function HeroSection() {
         }}
       />
 
-      <div className="relative z-10 w-full max-w-[1320px] mx-auto grid grid-cols-1 lg:grid-cols-[46fr_54fr] gap-10 lg:gap-12 items-center">
+      <div className="relative z-10 w-full max-w-[1320px] mx-auto grid grid-cols-1 lg:grid-cols-[46fr_54fr] gap-10 lg:gap-4 items-end">
 
-        {/* ── Left — content sits directly on hero background ──────────────── */}
-        <div className="flex flex-col items-start gap-6 text-left order-last lg:order-none">
+        {/* ── Left — content ──────────────────────────────────────────────── */}
+        <div className="flex flex-col items-start gap-6 text-left order-last lg:order-none pb-12 lg:pb-16">
 
           <motion.span
             {...reveal(0.1)}
@@ -127,9 +163,10 @@ export default function HeroSection() {
           </motion.div>
         </div>
 
-        {/* ── Right — real portrait with floating pills ───────────────────── */}
-        <div className="relative flex items-center justify-center order-first lg:order-none">
-          <div className="relative w-full max-w-[420px] sm:max-w-[480px] lg:max-w-[560px] aspect-[4/5]">
+        {/* ── Right — portrait stage, grounded at the bottom ──────────────── */}
+        <div className="relative flex items-end justify-center order-first lg:order-none h-[55vw] sm:h-[60vw] lg:h-[calc(100vh-4rem)] max-h-[700px] lg:max-h-none">
+          {/* Portrait wrapper — full height of the stage */}
+          <div className="relative w-full h-full max-w-[420px] sm:max-w-[520px] lg:max-w-none">
 
             {/* Soft glow behind the person */}
             <div
@@ -137,28 +174,23 @@ export default function HeroSection() {
               className="absolute inset-[6%] rounded-full blur-3xl"
               style={{
                 background:
-                  "radial-gradient(circle at 50% 45%, rgba(191,227,244,0.65) 0%, rgba(231,244,238,0.45) 45%, transparent 70%)",
+                  "radial-gradient(circle at 50% 55%, rgba(191,227,244,0.60) 0%, rgba(231,244,238,0.40) 50%, transparent 72%)",
               }}
             />
-            {/* Faint decorative ring */}
-            <div
-              aria-hidden
-              className="absolute inset-[10%] rounded-full border border-[#DDD4C5]/50"
-            />
 
-            {/* Portrait */}
+            {/* Portrait — anchored to bottom, fills upward */}
             <motion.div {...popIn(0.16)} className="relative z-[1] w-full h-full">
               <Image
                 src="/images/abdulrahman-zaid-hero.png"
                 alt="Abdulrahman Zaid"
                 fill
                 priority
-                sizes="(max-width: 1024px) 80vw, 560px"
-                className="object-contain object-bottom drop-shadow-[0_24px_48px_rgba(23,32,51,0.18)]"
+                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 60vw, 680px"
+                className="object-contain object-bottom drop-shadow-[0_32px_56px_rgba(23,32,51,0.20)]"
               />
             </motion.div>
 
-            {/* Floating pill labels around the portrait */}
+            {/* Floating pill labels — clear of the face (upper third) */}
             {PILLS.map((pill, i) => (
               <motion.div
                 key={pill.label}
@@ -181,6 +213,24 @@ export default function HeroSection() {
           </div>
         </div>
       </div>
+
+      {/* ── Scroll-down indicator — bottom center ───────────────────────── */}
+      <motion.div
+        {...reveal(0.7)}
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
+      >
+        <a
+          href="#about"
+          aria-label="Scroll to profile"
+          className="flex flex-col items-center gap-1.5 text-[#7C8794] hover:text-[#2F7D5C] transition-colors group"
+        >
+          <span className="text-[10px] uppercase tracking-[0.18em] font-medium">Scroll</span>
+          {/* Animated chevron bob */}
+          <span aria-hidden className="scroll-bob flex items-center justify-center w-7 h-7 rounded-full border border-[#DDD4C5] bg-white/70 group-hover:border-[#2F7D5C]/40 transition-colors shadow-sm text-xs leading-none">
+            ↓
+          </span>
+        </a>
+      </motion.div>
     </section>
   );
 }
