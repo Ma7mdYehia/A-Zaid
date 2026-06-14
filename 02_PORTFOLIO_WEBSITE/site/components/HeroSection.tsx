@@ -104,7 +104,7 @@ export default function HeroSection() {
 
           <motion.h1
             {...reveal(0.18)}
-            className="font-display text-[#172033] text-5xl sm:text-6xl xl:text-7xl leading-[0.93] tracking-[0.01em]"
+            className="font-display arabic-hero-heading text-[#172033] text-5xl sm:text-6xl xl:text-7xl leading-[0.93] tracking-[0.01em]"
           >
             {heroHeadingLines.map((line, i) => (
               <span
