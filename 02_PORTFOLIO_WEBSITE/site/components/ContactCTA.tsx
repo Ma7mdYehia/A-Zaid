@@ -9,12 +9,13 @@ import { useMouseGlow } from "@/lib/useMouseGlow";
 export default function ContactCTA() {
   const reveal = useReveal();
   const glowRef = useMouseGlow<HTMLElement>();
-  const primary = contactLinks.filter((l) => l.isPrimary && !l.isPlaceholder);
+
+  const primaryReal = contactLinks.filter((l) => l.isPrimary && !l.isPlaceholder);
+  const primaryPlaceholder = contactLinks.filter((l) => l.isPrimary && l.isPlaceholder);
 
   const primaryClass = (link: ContactLink) => {
     if (link.type === "email")
       return "bg-[#3DBA8C] text-[#0B1220] hover:bg-[#35a87d] focus-visible:ring-2 focus-visible:ring-[#3DBA8C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0B1220]";
-    if (link.type === "cv") return "text-[#94A3B8] hover:text-[#E8EDF2]";
     return "glass glass-hover text-[#E8EDF2]";
   };
 
@@ -33,17 +34,43 @@ export default function ContactCTA() {
             <motion.p {...reveal(0.16)} className="max-w-xl text-base sm:text-lg text-[#94A3B8] leading-relaxed">
               {contactCTA.body}
             </motion.p>
+
             <motion.div {...reveal(0.22)} className="flex flex-col sm:flex-row gap-3 mt-2 w-full sm:w-auto">
-              {primary.map((link) => {
+              {/* Real primary links — Email and WhatsApp */}
+              {primaryReal.map((link) => {
                 const Icon = contactIcons[link.icon];
                 return (
-                  <a key={link.label} {...contactAnchorProps(link)} className={["soft-light-sweep inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-colors", primaryClass(link)].join(" ")}>
+                  <a
+                    key={link.label}
+                    {...contactAnchorProps(link)}
+                    className={[
+                      "soft-light-sweep inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-colors",
+                      primaryClass(link),
+                    ].join(" ")}
+                  >
                     <Icon size={16} strokeWidth={2} aria-hidden />
                     {link.label}
                   </a>
                 );
               })}
+
+              {/* Placeholder primaries — LinkedIn shown as muted coming-soon button */}
+              {primaryPlaceholder.map((link) => {
+                const Icon = contactIcons[link.icon];
+                return (
+                  <span
+                    key={link.label}
+                    aria-disabled="true"
+                    aria-label={`${link.label} — coming soon`}
+                    className="inline-flex cursor-not-allowed items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold border border-white/[0.08] bg-white/[0.03] text-[#94A3B8]/50"
+                  >
+                    <Icon size={16} strokeWidth={2} aria-hidden />
+                    {link.label}
+                  </span>
+                );
+              })}
             </motion.div>
+
             <motion.div {...reveal(0.28)} className="inline-flex items-center gap-2 mt-3">
               <span aria-hidden className="w-1.5 h-1.5 rounded-full bg-[#3DBA8C]" />
               <p className="text-xs sm:text-[13px] text-[#94A3B8]/70">{contactCTA.location}</p>
