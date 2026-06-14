@@ -91,7 +91,7 @@ export default function WhoIAmSection() {
 
             <motion.h2
               {...reveal(0.06)}
-              className="font-display text-[#172033] leading-[0.9] tracking-[0.01em] text-6xl sm:text-7xl lg:text-[5.5rem]"
+              className="font-display arabic-profile-heading text-[#172033] leading-[0.9] tracking-[0.01em] text-6xl sm:text-7xl lg:text-[5.5rem]"
             >
               {whoIAm.headingLines.map((line, i) => (
                 <span
