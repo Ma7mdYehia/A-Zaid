@@ -1,0 +1,83 @@
+import type { ReactNode } from "react";
+
+type PlaceholderTone = "dark" | "light" | "warm";
+type LabelPosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
+
+interface MediaPlaceholderProps {
+  label: string;
+  className?: string;
+  tone?: PlaceholderTone;
+  labelPosition?: LabelPosition;
+  children?: ReactNode;
+}
+
+const toneStyles: Record<PlaceholderTone, { background: string; border: string; text: string; grid: string }> = {
+  dark: {
+    background:
+      "radial-gradient(80% 85% at 74% 42%, rgba(92,139,154,0.48), transparent 66%), linear-gradient(118deg, #102D3A 0%, #173B49 46%, #6A7E80 100%)",
+    border: "border-white/15",
+    text: "text-white/72 bg-[#0E2834]/68 border-white/15",
+    grid: "rgba(255,255,255,0.07)",
+  },
+  light: {
+    background:
+      "radial-gradient(70% 80% at 75% 30%, rgba(47,125,92,0.12), transparent 65%), linear-gradient(135deg, #F8F3E9 0%, #E8E0D3 100%)",
+    border: "border-[#D8CEBE]",
+    text: "text-[#5F6B7A] bg-white/80 border-[#D8CEBE]",
+    grid: "rgba(23,32,51,0.055)",
+  },
+  warm: {
+    background:
+      "radial-gradient(72% 82% at 25% 20%, rgba(184,135,70,0.13), transparent 68%), linear-gradient(135deg, #F3EBDD 0%, #DDD1C0 100%)",
+    border: "border-[#D3C5B2]",
+    text: "text-[#5F6B7A] bg-[#F8F3EA]/85 border-[#D3C5B2]",
+    grid: "rgba(23,32,51,0.05)",
+  },
+};
+
+const labelPositions: Record<LabelPosition, string> = {
+  "top-left": "top-4 left-4",
+  "top-right": "top-4 right-4",
+  "bottom-left": "bottom-4 left-4",
+  "bottom-right": "bottom-4 right-4",
+};
+
+export default function MediaPlaceholder({
+  label,
+  className = "",
+  tone = "light",
+  labelPosition = "bottom-right",
+  children,
+}: MediaPlaceholderProps) {
+  const palette = toneStyles[tone];
+
+  return (
+    <div
+      role="img"
+      aria-label={label}
+      className={`relative overflow-hidden border ${palette.border} ${className}`}
+      style={{ background: palette.background }}
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-70"
+        style={{
+          backgroundImage: `linear-gradient(${palette.grid} 1px, transparent 1px), linear-gradient(90deg, ${palette.grid} 1px, transparent 1px)`,
+          backgroundSize: "42px 42px",
+          maskImage: "linear-gradient(to bottom, rgba(0,0,0,.75), transparent 88%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-[62%] top-1/2 h-[68%] w-[28%] -translate-y-1/2 rounded-[48%] border border-white/10 bg-white/[0.035] blur-[0.2px]"
+      />
+      {children}
+      <span
+        className={`absolute ${labelPositions[labelPosition]} z-20 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] backdrop-blur-md ${palette.text}`}
+      >
+        <span className="h-1.5 w-1.5 rounded-full bg-current opacity-70" aria-hidden />
+        {label}
+      </span>
+    </div>
+  );
+}
