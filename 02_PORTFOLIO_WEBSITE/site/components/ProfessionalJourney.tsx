@@ -2,120 +2,229 @@
 
 import { useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
-import { GraduationCap, Clock, type LucideIcon } from "lucide-react";
+import { BookOpen, Clock, GraduationCap, type LucideIcon } from "lucide-react";
+import MediaPlaceholder from "@/components/MediaPlaceholder";
 import type { LearningCard } from "@/content/homepage";
 import { useIsClient } from "@/lib/useIsClient";
-import { useMouseGlow } from "@/lib/useMouseGlow";
 import { detailPanelSlide } from "@/lib/motion";
-import { useContent } from "@/lib/i18n";
+import { useLanguage } from "@/lib/i18n";
 
 const learningIcons: Record<LearningCard["icon"], LucideIcon> = {
   university: GraduationCap,
-  apple: GraduationCap,
+  apple: BookOpen,
   hours: Clock,
 };
 
 function CurrentChip({ label }: { label: string }) {
   return (
-    <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full border border-[#B88746]/35 bg-[#B88746]/[0.08]" aria-label={label}>
-      <span className="w-1 h-1 rounded-full bg-[#B88746]" />
-      <span className="text-[10px] font-medium text-[#B88746] tracking-wide uppercase">{label}</span>
+    <span
+      className="inline-flex items-center gap-1.5 rounded-full border border-[#B88746]/35 bg-[#B88746]/[0.08] px-2.5 py-1"
+      aria-label={label}
+    >
+      <span className="h-1 w-1 rounded-full bg-[#B88746]" />
+      <span className="text-[9px] font-semibold uppercase tracking-[0.1em] text-[#A87535]">
+        {label}
+      </span>
     </span>
   );
 }
 
 export default function ProfessionalJourney() {
-  const { journeyEyebrow, journeyHeading, journeyIntro, journeyItems, journeyNote, learningCards, ui } = useContent();
+  const { content, locale } = useLanguage();
+  const {
+    journeyEyebrow,
+    journeyHeading,
+    journeyIntro,
+    journeyItems,
+    journeyNote,
+    learningCards,
+    ui,
+  } = content;
   const isClient = useIsClient();
   const prefersReduced = useReducedMotion();
   const shouldAnimate = isClient && !prefersReduced;
   const [active, setActive] = useState(0);
   const role = journeyItems[active];
-  const glowRef = useMouseGlow<HTMLElement>();
+  const mainLearning = learningCards.filter((card) => card.size !== "compact");
+  const compactLearning = learningCards.filter((card) => card.size === "compact");
 
   const reveal = (delay = 0) =>
     shouldAnimate
-      ? ({ initial: { opacity: 0, y: 16 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-60px" }, transition: { duration: 0.45, ease: "easeOut", delay } } as const)
+      ? ({
+          initial: { opacity: 0, y: 16 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true, margin: "-60px" },
+          transition: { duration: 0.45, ease: "easeOut", delay },
+        } as const)
       : ({} as const);
 
   return (
-    <section ref={glowRef} id="experience" aria-label="Professional journey" className="px-6 lg:px-24 py-24 border-t border-[#DDD4C5]">
-      <div className="max-w-6xl mx-auto flex flex-col gap-12">
-        <div className="flex flex-col gap-3 max-w-2xl">
-          <motion.p {...reveal(0)} className="text-xs text-[#2F7D5C] tracking-[0.22em] uppercase font-medium">
+    <section
+      id="experience"
+      aria-label={locale === "ar" ? "المسيرة المهنية" : "Professional journey"}
+      className="border-t border-[#DED5C7] bg-[#FBF8F2] px-6 py-20 sm:py-24 lg:px-10 lg:py-28"
+    >
+      <div className="mx-auto flex max-w-[1180px] flex-col gap-10 lg:gap-12">
+        <div className="flex max-w-[760px] flex-col gap-3.5">
+          <motion.p
+            {...reveal(0)}
+            className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#2F7D5C]"
+          >
             {journeyEyebrow}
           </motion.p>
-          <motion.h2 {...reveal(0.06)} className="text-3xl sm:text-4xl font-semibold text-[#172033] leading-tight tracking-tight">
+          <motion.h2
+            {...reveal(0.06)}
+            className="text-3xl font-semibold leading-tight tracking-[-0.025em] text-[#172033] sm:text-4xl"
+          >
             {journeyHeading}
           </motion.h2>
-          <motion.p {...reveal(0.12)} className="text-base sm:text-lg text-[#5F6B7A] leading-relaxed">
+          <motion.p
+            {...reveal(0.12)}
+            className="max-w-[700px] text-[15px] leading-7 text-[#5F6B7A] sm:text-base"
+          >
             {journeyIntro}
           </motion.p>
         </div>
 
-        {/* Main education cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {learningCards.filter((c) => c.size !== "compact").map((card, i) => {
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          {mainLearning.map((card, index) => {
             const Icon = learningIcons[card.icon];
             return (
-              <motion.div key={card.title} {...reveal(0.1 + i * 0.06)} className="rounded-2xl border border-[#DDD4C5] bg-white hover:border-[#C8BFB0] transition-colors duration-200 p-5 sm:p-6 flex flex-col gap-4">
-                <div className="flex items-start gap-3">
-                  <span className="flex-none w-10 h-10 rounded-xl bg-[#2F7D5C]/[0.07] border border-[#2F7D5C]/20 flex items-center justify-center text-[#2F7D5C]">
-                    <Icon size={18} strokeWidth={1.7} aria-hidden />
-                  </span>
-                  <div className="flex flex-col min-w-0 gap-0.5">
-                    <p className="text-sm font-semibold text-[#172033] leading-snug">{card.title}</p>
-                    <p className="text-[11px] text-[#2F7D5C]/80">{card.detail}</p>
+              <motion.article
+                key={card.title}
+                {...reveal(0.1 + index * 0.06)}
+                className="group overflow-hidden rounded-2xl border border-[#D8CEBE] bg-white shadow-[0_14px_34px_-30px_rgba(23,32,51,0.5)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#2F7D5C]/35 hover:shadow-[0_20px_42px_-30px_rgba(47,125,92,0.28)]"
+              >
+                <MediaPlaceholder
+                  label={locale === "ar" ? "صورة المؤهل — مؤقتة" : "Education image — placeholder"}
+                  tone={index === 1 ? "warm" : "light"}
+                  labelPosition="bottom-left"
+                  className="aspect-[16/9] !border-0 border-b border-[#DED5C7]"
+                >
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/70 bg-white/72 text-[#2F7D5C] shadow-sm backdrop-blur-sm">
+                      <Icon size={23} strokeWidth={1.65} aria-hidden />
+                    </span>
                   </div>
+                </MediaPlaceholder>
+
+                <div className="flex min-h-[154px] flex-col gap-3 p-5">
+                  <div className="flex flex-col gap-1">
+                    <h3 className="text-[16px] font-semibold leading-snug text-[#172033]">
+                      {card.title}
+                    </h3>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#2F7D5C]">
+                      {card.detail}
+                    </p>
+                  </div>
+                  <p className="text-[12.5px] leading-6 text-[#5F6B7A]">
+                    {card.description}
+                  </p>
                 </div>
-                <p className="text-[13px] text-[#5F6B7A] leading-relaxed">{card.description}</p>
-              </motion.div>
+              </motion.article>
             );
           })}
         </div>
 
-        {/* Compact training cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {learningCards.filter((c) => c.size === "compact").map((card, i) => {
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {compactLearning.map((card, index) => {
             const Icon = learningIcons[card.icon];
             return (
-              <motion.div key={card.title} {...reveal(0.28 + i * 0.05)} className="rounded-xl border border-[#DDD4C5]/80 bg-[#F7F3EA] hover:border-[#C8BFB0] transition-colors duration-200 p-4 flex items-start gap-3">
-                <span className="flex-none w-8 h-8 rounded-lg bg-[#2F7D5C]/[0.06] border border-[#2F7D5C]/15 flex items-center justify-center text-[#2F7D5C]">
-                  <Icon size={14} strokeWidth={1.9} aria-hidden />
+              <motion.article
+                key={card.title}
+                {...reveal(0.26 + index * 0.05)}
+                className="flex items-start gap-3 rounded-2xl border border-[#DED5C7] bg-[#F7F3EA] p-4 transition-colors duration-200 hover:border-[#2F7D5C]/30 hover:bg-white"
+              >
+                <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl border border-[#2F7D5C]/18 bg-[#EFF7F2] text-[#2F7D5C]">
+                  <Icon size={15} strokeWidth={1.8} aria-hidden />
                 </span>
-                <div className="flex flex-col min-w-0 gap-0.5">
-                  <p className="text-sm font-medium text-[#172033] leading-snug">{card.title}</p>
-                  <p className="text-xs text-[#7C8794] leading-relaxed">{card.description}</p>
+                <div className="flex min-w-0 flex-col gap-1">
+                  <h3 className="text-[13px] font-semibold leading-snug text-[#172033]">
+                    {card.title}
+                  </h3>
+                  <p className="text-[11px] leading-5 text-[#7C8794]">
+                    {card.description}
+                  </p>
                 </div>
-              </motion.div>
+              </motion.article>
             );
           })}
         </div>
 
-        {/* Timeline panel */}
-        <motion.div data-glow {...reveal(0.16)} className="mouse-glow-panel relative rounded-3xl border border-[#2F7D5C]/20 bg-white overflow-hidden">
-          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-[#2F7D5C]/[0.05] to-transparent" />
-          <div className="relative grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr]">
+        <motion.div
+          {...reveal(0.16)}
+          className="relative overflow-hidden rounded-3xl border border-[#D6CABA] bg-white shadow-[0_22px_50px_-38px_rgba(23,32,51,0.55)]"
+        >
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#2F7D5C]/[0.045] to-transparent"
+          />
 
-            {/* Left — role list */}
+          <div className="relative grid grid-cols-1 lg:grid-cols-[0.92fr_1.08fr]">
             <div className="p-5 sm:p-6 lg:p-7">
               <div className="relative">
-                <div aria-hidden className="absolute left-[17px] top-4 bottom-4 w-px bg-gradient-to-b from-[#DDD4C5]/30 via-[#DDD4C5] to-[#DDD4C5]/30" />
-                <ul role="tablist" aria-label="Career roles" className="flex flex-col gap-1">
-                  {journeyItems.map((item, i) => {
-                    const isActive = active === i;
+                <div
+                  aria-hidden
+                  className="absolute bottom-4 start-[17px] top-4 w-px bg-gradient-to-b from-[#DED5C7]/30 via-[#DED5C7] to-[#DED5C7]/30"
+                />
+                <ul role="tablist" aria-label={locale === "ar" ? "الأدوار المهنية" : "Career roles"} className="flex flex-col gap-1">
+                  {journeyItems.map((item, index) => {
+                    const isActive = active === index;
                     return (
                       <li key={item.id}>
-                        <button type="button" role="tab" aria-selected={isActive} onClick={() => setActive(i)} onMouseEnter={() => setActive(i)} className={["relative w-full text-left pl-10 pr-3 py-3 rounded-xl transition-colors duration-200", isActive ? "bg-[#172033]/[0.04]" : "hover:bg-[#172033]/[0.025]"].join(" ")}>
-                          <span aria-hidden className={["absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 rounded-full border-2 bg-white flex items-center justify-center", isActive ? item.current ? "border-[#B88746]" : "border-[#2F7D5C]" : "border-[#DDD4C5]"].join(" ")}>
-                            {isActive && <span className={["block w-1.5 h-1.5 rounded-full", item.current ? "bg-[#B88746]" : "bg-[#2F7D5C]"].join(" ")} />}
+                        <button
+                          type="button"
+                          role="tab"
+                          aria-selected={isActive}
+                          aria-controls="journey-detail-panel"
+                          onClick={() => setActive(index)}
+                          onMouseEnter={() => setActive(index)}
+                          className={[
+                            "relative w-full rounded-xl py-3 pe-3 ps-10 text-start transition-colors duration-200",
+                            isActive
+                              ? "bg-[#172033]/[0.045]"
+                              : "hover:bg-[#172033]/[0.025]",
+                          ].join(" ")}
+                        >
+                          <span
+                            aria-hidden
+                            className={[
+                              "absolute start-3 top-1/2 flex h-3 w-3 -translate-y-1/2 items-center justify-center rounded-full border-2 bg-white",
+                              isActive
+                                ? item.current
+                                  ? "border-[#B88746]"
+                                  : "border-[#2F7D5C]"
+                                : "border-[#DED5C7]",
+                            ].join(" ")}
+                          >
+                            {isActive && (
+                              <span
+                                className={[
+                                  "block h-1.5 w-1.5 rounded-full",
+                                  item.current ? "bg-[#B88746]" : "bg-[#2F7D5C]",
+                                ].join(" ")}
+                              />
+                            )}
                           </span>
-                          <div className="flex items-center justify-between gap-2">
-                            <span className={["text-sm font-semibold leading-snug", isActive ? "text-[#172033]" : "text-[#5F6B7A]"].join(" ")}>{item.company}</span>
+
+                          <div className="flex items-start justify-between gap-3">
+                            <span
+                              className={[
+                                "text-[13px] font-semibold leading-snug",
+                                isActive ? "text-[#172033]" : "text-[#5F6B7A]",
+                              ].join(" ")}
+                            >
+                              {item.company}
+                            </span>
                             {item.current && <CurrentChip label={ui.currentChip} />}
                           </div>
-                          <div className="text-xs text-[#7C8794] mt-0.5">{item.role}</div>
-                          <div className="text-[11px] text-[#7C8794]/70 mt-0.5">{item.years}{item.category && <span> · {item.category}</span>}</div>
+                          <div className="mt-1 text-[11px] leading-5 text-[#7C8794]">
+                            {item.role}
+                          </div>
+                          <div className="mt-0.5 text-[10px] text-[#7C8794]/75">
+                            {item.years}
+                            {item.category && <span> · {item.category}</span>}
+                          </div>
                         </button>
                       </li>
                     );
@@ -124,35 +233,68 @@ export default function ProfessionalJourney() {
               </div>
             </div>
 
-            {/* Right — detail panel */}
-            <div className="p-5 sm:p-6 lg:p-7 border-t border-[#DDD4C5] lg:border-t-0 lg:border-l lg:border-[#DDD4C5]">
-              <motion.div key={role.id} {...detailPanelSlide(shouldAnimate)} className="relative rounded-2xl border border-[#DDD4C5] bg-[#F7F3EA]/60 p-6 sm:p-7 flex flex-col gap-5 min-h-[300px] lg:h-full lg:min-h-[520px]">
-                <span aria-hidden className="absolute top-5 right-6 font-display text-5xl text-[#172033]/[0.06] leading-none select-none">{String(active + 1).padStart(2, "0")}</span>
-                <div className="flex flex-col gap-1 pr-12">
-                  <div className="flex items-center gap-2.5 flex-wrap">
-                    <span className="text-[11px] text-[#7C8794] tracking-widest uppercase">{role.years}{role.market && <span> · {role.market}</span>}</span>
+            <div className="border-t border-[#DED5C7] p-5 sm:p-6 lg:border-s lg:border-t-0 lg:p-7">
+              <motion.div
+                id="journey-detail-panel"
+                key={role.id}
+                role="tabpanel"
+                {...detailPanelSlide(shouldAnimate)}
+                className="relative flex min-h-[360px] flex-col gap-5 rounded-2xl border border-[#DED5C7] bg-[#FAF7F1] p-6 sm:p-7 lg:min-h-[520px]"
+              >
+                <span
+                  aria-hidden
+                  className="absolute end-6 top-5 select-none font-display text-5xl leading-none text-[#172033]/[0.055]"
+                >
+                  {String(active + 1).padStart(2, "0")}
+                </span>
+
+                <div className="flex flex-col gap-1 pe-12">
+                  <div className="flex flex-wrap items-center gap-2.5">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#7C8794]">
+                      {role.years}
+                      {role.market && <span> · {role.market}</span>}
+                    </span>
                     {role.current && <CurrentChip label={ui.currentChip} />}
                   </div>
-                  <h3 className="text-lg sm:text-xl font-semibold text-[#172033] leading-snug">{role.role}</h3>
-                  <p className="text-sm text-[#2F7D5C] font-medium">{role.company}</p>
+                  <h3 className="text-lg font-semibold leading-snug text-[#172033] sm:text-xl">
+                    {role.role}
+                  </h3>
+                  <p className="text-sm font-semibold text-[#2F7D5C]">{role.company}</p>
                 </div>
-                <div className="flex flex-col gap-1.5">
-                  <p className="text-[10.5px] text-[#2F7D5C]/80 tracking-[0.18em] uppercase font-medium">{ui.operatingFocus}</p>
-                  <p className="text-sm text-[#5F6B7A] leading-relaxed">{role.achievement}</p>
+
+                <div className="flex flex-col gap-2">
+                  <p className="text-[9.5px] font-semibold uppercase tracking-[0.16em] text-[#2F7D5C]/80">
+                    {ui.operatingFocus}
+                  </p>
+                  <p className="text-[13px] leading-6 text-[#5F6B7A]">{role.achievement}</p>
                 </div>
+
                 {role.bullets && role.bullets.length > 0 && (
-                  <ul className="flex flex-col gap-2">
-                    {role.bullets.map((b) => (
-                      <li key={b} className="flex items-start gap-2.5">
-                        <span aria-hidden className="mt-[7px] w-1.5 h-1.5 rounded-full bg-[#2F7D5C]/60 flex-none" />
-                        <span className="text-sm text-[#172033]/90 leading-snug">{b}</span>
+                  <ul className="flex flex-col gap-2.5">
+                    {role.bullets.map((bullet) => (
+                      <li key={bullet} className="flex items-start gap-2.5">
+                        <span
+                          aria-hidden
+                          className="mt-[7px] h-1.5 w-1.5 flex-none rounded-full bg-[#2F7D5C]/60"
+                        />
+                        <span className="text-[12.5px] leading-6 text-[#172033]/88">
+                          {bullet}
+                        </span>
                       </li>
                     ))}
                   </ul>
                 )}
+
                 {role.focus && role.focus.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
-                    {role.focus.map((f) => <span key={f} className="text-[11px] text-[#7C8794] bg-white border border-[#DDD4C5] rounded-full px-2.5 py-1">{f}</span>)}
+                  <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
+                    {role.focus.map((focus) => (
+                      <span
+                        key={focus}
+                        className="rounded-full border border-[#DED5C7] bg-white px-2.5 py-1 text-[10px] text-[#6E786F]"
+                      >
+                        {focus}
+                      </span>
+                    ))}
                   </div>
                 )}
               </motion.div>
@@ -160,7 +302,10 @@ export default function ProfessionalJourney() {
           </div>
         </motion.div>
 
-        <motion.p {...reveal(0.2)} className="text-xs text-[#7C8794]/70 italic leading-relaxed max-w-2xl">
+        <motion.p
+          {...reveal(0.2)}
+          className="max-w-2xl text-[11px] italic leading-5 text-[#7C8794]/75"
+        >
           {journeyNote}
         </motion.p>
       </div>

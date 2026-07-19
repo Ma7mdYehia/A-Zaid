@@ -1,56 +1,51 @@
 "use client";
 
 import { contactIcons, contactAnchorProps } from "@/lib/contactIcons";
-import { useContent } from "@/lib/i18n";
-
-const footerOrder = [
-  "Instagram",
-  "GitHub",
-  "Behance",
-  "Email me",
-  "Download CV",
-];
+import { useLanguage } from "@/lib/i18n";
 
 export default function SiteFooter() {
-  const { siteFooter, contactLinks } = useContent();
-  const orderedLinks = footerOrder
-    .map((label) => contactLinks.find((link) => link.label === label))
-    .filter((link): link is (typeof contactLinks)[number] => Boolean(link));
+  const { content, locale } = useLanguage();
+  const { siteFooter, contactLinks } = content;
+  const realLinks = contactLinks.filter((link) => !link.isPlaceholder);
 
   return (
     <footer
       role="contentinfo"
-      className="px-6 lg:px-24 py-10 border-t border-[#DDD4C5]"
+      className="border-t border-[#DED5C7] bg-[#F4F0E7] px-6 py-8 lg:px-10"
     >
-      <div className="max-w-6xl mx-auto flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-xs text-[#7C8794] leading-relaxed order-2 sm:order-1 text-center sm:text-left">
+      <div className="mx-auto flex max-w-[1180px] flex-col items-center gap-5 sm:flex-row sm:justify-between">
+        <p className="order-2 text-center text-[10.5px] leading-5 text-[#7C8794] sm:order-1 sm:text-start">
           {siteFooter.copyright}
         </p>
 
-        <nav
-          aria-label="Footer links"
-          className="order-1 sm:order-2 flex flex-wrap items-center justify-center gap-1.5"
-        >
-          {orderedLinks.map((link) => {
-            const Icon = contactIcons[link.icon];
-            return (
-              <a
-                key={link.label}
-                {...contactAnchorProps(link)}
-                className="w-9 h-9 rounded-lg border border-[#DDD4C5] bg-white hover:border-[#C8BFB0] hover:bg-[#F7F3EA] flex items-center justify-center text-[#7C8794] hover:text-[#172033] transition-colors"
-              >
-                <Icon size={15} strokeWidth={1.9} aria-hidden />
-              </a>
-            );
-          })}
+        <div className="order-1 flex items-center gap-2 sm:order-2">
+          <nav
+            aria-label={locale === "ar" ? "روابط التواصل" : "Footer links"}
+            className="flex items-center gap-1.5"
+          >
+            {realLinks.map((link) => {
+              const Icon = contactIcons[link.icon];
+              return (
+                <a
+                  key={`${link.type}-${link.label}`}
+                  {...contactAnchorProps(link)}
+                  aria-label={link.label}
+                  className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#D8CEBE] bg-white text-[#7C8794] shadow-[0_8px_18px_-16px_rgba(23,32,51,0.45)] transition-colors hover:border-[#2F7D5C]/35 hover:bg-[#FBF8F2] hover:text-[#2F7D5C]"
+                >
+                  <Icon size={15} strokeWidth={1.9} aria-hidden />
+                </a>
+              );
+            })}
+          </nav>
+
           <a
             href="#home"
-            aria-label="Back to top"
-            className="ml-3 sm:ml-4 w-11 h-11 rounded-xl border border-[#2F7D5C]/40 bg-[#2F7D5C]/[0.07] flex items-center justify-center text-[#2F7D5C] hover:bg-[#2F7D5C]/[0.15] hover:text-[#1F5F46] transition-colors shadow-[0_4px_16px_rgba(47,125,92,0.10)]"
+            aria-label={locale === "ar" ? "العودة إلى الأعلى" : "Back to top"}
+            className="ms-1 flex h-10 w-10 items-center justify-center rounded-xl border border-[#2F7D5C]/35 bg-[#EFF7F2] text-[#2F7D5C] shadow-[0_8px_20px_-16px_rgba(47,125,92,0.55)] transition-colors hover:bg-[#2F7D5C] hover:text-white"
           >
-            <span aria-hidden className="text-lg leading-none">↑</span>
+            <span aria-hidden className="text-base leading-none">↑</span>
           </a>
-        </nav>
+        </div>
       </div>
     </footer>
   );

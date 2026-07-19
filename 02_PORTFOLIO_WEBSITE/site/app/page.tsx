@@ -13,12 +13,11 @@ import SiteFooter from "@/components/SiteFooter";
 
 export default function HomePage() {
   return (
-    <div className="relative min-h-screen bg-[#F7F3EA]">
+    <div className="relative min-h-screen overflow-x-clip bg-[#F4F0E7]">
       <FloatingNav />
 
-      <main className="pt-16">
+      <main>
         <HeroSection />
-
         <WhoIAmSection />
         <WhatIDoOperatingPanel />
         <OperatingStackSection />

@@ -1,27 +1,19 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { motion, useReducedMotion } from "framer-motion";
+import MediaPlaceholder from "@/components/MediaPlaceholder";
 import { useIsClient } from "@/lib/useIsClient";
-import { useContent } from "@/lib/i18n";
-
-/* Pill placement / float config — labels come from localized content */
-const PILL_STYLE = [
-  { pos: "top-[5%]  left-[-2%]",  float: "hero-float-a", dot: "#2F7D5C" },
-  { pos: "top-[12%] right-[-4%]", float: "hero-float-b", dot: "#B88746" },
-  { pos: "top-[38%] right-[-6%]", float: "hero-float-c", dot: "#2F7D5C" },
-  { pos: "top-[56%] left-[-6%]",  float: "hero-float-a", dot: "#1F5F46" },
-  { pos: "top-[72%] right-[-2%]", float: "hero-float-b", dot: "#B88746" },
-] as const;
+import { useLanguage } from "@/lib/i18n";
 
 export default function HeroSection() {
-  const { hero, heroPills, heroStats, heroHeadingLines, ui } = useContent();
+  const { content, locale } = useLanguage();
+  const { hero, heroStats, heroHeadingLines, ui } = content;
   const isClient = useIsClient();
   const prefersReduced = useReducedMotion();
   const animate = isClient && !prefersReduced;
+  const isRtl = locale === "ar";
 
-  /* ── One-step scroll: wheel down on hero → jump to #about ─────── */
   const sectionRef = useRef<HTMLElement>(null);
   const inViewRef = useRef(false);
   const cooldownRef = useRef(false);
@@ -30,26 +22,33 @@ export default function HeroSection() {
     const section = sectionRef.current;
     if (!section) return;
 
-    const io = new IntersectionObserver(
-      ([entry]) => { inViewRef.current = entry.isIntersecting; },
-      { threshold: 0.4 },
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        inViewRef.current = entry.isIntersecting;
+      },
+      { threshold: 0.42 },
     );
-    io.observe(section);
 
-    const onWheel = (e: WheelEvent) => {
-      if (!inViewRef.current || cooldownRef.current || e.deltaY <= 0) return;
+    observer.observe(section);
+
+    const onWheel = (event: WheelEvent) => {
+      if (window.innerWidth < 1024) return;
+      if (!inViewRef.current || cooldownRef.current || event.deltaY <= 0) return;
+
       const about = document.getElementById("about");
       if (!about) return;
-      e.preventDefault();
+
+      event.preventDefault();
       cooldownRef.current = true;
       about.scrollIntoView({ behavior: "smooth", block: "start" });
-      setTimeout(() => { cooldownRef.current = false; }, 1200);
+      window.setTimeout(() => {
+        cooldownRef.current = false;
+      }, 1100);
     };
 
-    /* non-passive so preventDefault works */
     window.addEventListener("wheel", onWheel, { passive: false });
     return () => {
-      io.disconnect();
+      observer.disconnect();
       window.removeEventListener("wheel", onWheel);
     };
   }, []);
@@ -63,53 +62,77 @@ export default function HeroSection() {
         }
       : {};
 
-  const popIn = (delay = 0) =>
-    animate
-      ? {
-          initial: { opacity: 0, scale: 0.92, y: 10 },
-          animate: { opacity: 1, scale: 1, y: 0 },
-          transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] as const, delay },
-        }
-      : {};
+  const sideGradient = isRtl
+    ? "linear-gradient(to left, rgba(8,29,40,0.98) 0%, rgba(8,29,40,0.92) 36%, rgba(8,29,40,0.52) 68%, rgba(8,29,40,0.10) 100%)"
+    : "linear-gradient(to right, rgba(8,29,40,0.98) 0%, rgba(8,29,40,0.92) 36%, rgba(8,29,40,0.52) 68%, rgba(8,29,40,0.10) 100%)";
 
   return (
     <section
       ref={sectionRef}
       id="home"
-      aria-label="Introduction"
-      className="relative min-h-[calc(100vh-4rem)] flex items-center overflow-hidden px-6 sm:px-8 lg:px-16"
+      aria-label={isRtl ? "المقدمة" : "Introduction"}
+      className="relative min-h-[690px] overflow-hidden border-b border-white/[0.12] bg-[#102D3A] pt-20 sm:min-h-[750px] sm:pt-24 lg:min-h-[calc(100vh-8px)]"
     >
-      {/* Soft blue-ivory gradient field */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-0"
-        style={{
-          background:
-            "radial-gradient(65% 60% at 75% 35%, rgba(191,227,244,0.55), transparent 65%), radial-gradient(55% 50% at 18% 75%, rgba(47,125,92,0.06), transparent 60%), radial-gradient(40% 45% at 90% 85%, rgba(184,135,70,0.05), transparent 60%)",
-        }}
+      <MediaPlaceholder
+        label={isRtl ? "صورة الهيرو — مؤقتة" : "Hero image — placeholder"}
+        tone="dark"
+        labelPosition={isRtl ? "bottom-left" : "bottom-right"}
+        focalSide={isRtl ? "left" : "right"}
+        className="absolute inset-0 !border-0"
       />
 
-      <div className="relative z-10 w-full max-w-[1320px] mx-auto grid grid-cols-1 lg:grid-cols-[46fr_54fr] gap-10 lg:gap-4 items-end">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{ background: sideGradient }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(5,20,29,0.34) 0%, rgba(5,20,29,0.04) 32%, rgba(5,20,29,0.08) 68%, rgba(5,20,29,0.72) 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/[0.16]"
+      />
 
-        {/* ── Left — content ──────────────────────────────────────────────── */}
-        <div className="flex flex-col items-start gap-6 text-start order-last lg:order-none pb-12 lg:pb-16">
-
-          <motion.span
-            {...reveal(0.1)}
-            className="inline-flex items-center gap-2 rounded-full border border-[#2F7D5C]/30 bg-[#2F7D5C]/[0.07] px-3 py-1 text-[11px] sm:text-xs font-medium text-[#2F7D5C] tracking-wide"
-          >
-            <span aria-hidden className="w-1.5 h-1.5 rounded-full bg-[#2F7D5C]" />
-            {hero.statusChip}
-          </motion.span>
+      <div className="relative z-10 mx-auto flex min-h-[calc(690px-5rem)] w-full max-w-[1180px] items-center px-6 pb-24 pt-8 sm:min-h-[calc(750px-6rem)] sm:px-8 sm:pb-28 sm:pt-10 lg:min-h-[calc(100vh-6.5rem)] lg:px-10 lg:pb-32 lg:pt-12">
+        <div
+          className={[
+            "flex w-full flex-col items-start gap-4 text-start sm:gap-5",
+            isRtl ? "max-w-[760px] lg:max-w-[800px]" : "max-w-[620px] lg:max-w-[650px]",
+          ].join(" ")}
+        >
+          <motion.div {...reveal(0.08)} className="flex flex-wrap items-center gap-2.5">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.2] bg-white/[0.08] px-3 py-1.5 text-[10px] font-semibold tracking-[0.14em] text-white/[0.84] backdrop-blur-md">
+              <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#64C896]" />
+              {hero.statusChip}
+            </span>
+            <span className="hidden text-[11px] font-medium text-white/[0.5] sm:inline">
+              {hero.title}
+            </span>
+          </motion.div>
 
           <motion.h1
-            {...reveal(0.18)}
-            className="font-display arabic-hero-heading text-[#172033] text-5xl sm:text-6xl xl:text-7xl leading-[0.93] tracking-[0.01em]"
+            {...reveal(0.15)}
+            className={[
+              "font-display w-full text-white",
+              isRtl
+                ? "max-w-[800px] text-[2.65rem] leading-[1.08] sm:text-[3.55rem] lg:text-[4.45rem] xl:text-[4.8rem]"
+                : "text-[3.8rem] leading-[0.88] tracking-[0.005em] sm:text-[5.15rem] lg:text-[6.3rem]",
+            ].join(" ")}
           >
-            {heroHeadingLines.map((line, i) => (
+            {heroHeadingLines.map((line, index) => (
               <span
-                key={i}
-                className={["block", i === heroHeadingLines.length - 1 ? "text-[#2F7D5C]" : ""].join(" ")}
+                key={`${line}-${index}`}
+                className={[
+                  "block",
+                  isRtl ? "sm:whitespace-nowrap" : "",
+                  index === heroHeadingLines.length - 1 ? "text-[#66C996]" : "",
+                ].join(" ")}
               >
                 {line}
               </span>
@@ -117,123 +140,76 @@ export default function HeroSection() {
           </motion.h1>
 
           <motion.p
-            {...reveal(0.26)}
-            className="text-sm sm:text-[15px] text-[#5F6B7A] leading-relaxed max-w-lg"
+            {...reveal(0.23)}
+            className={[
+              "text-sm leading-7 text-white/[0.74] sm:text-[15px]",
+              isRtl ? "max-w-[760px]" : "max-w-[560px]",
+            ].join(" ")}
           >
             {hero.valueStatement}
           </motion.p>
 
           <motion.div
-            {...reveal(0.34)}
-            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto"
+            {...reveal(0.31)}
+            className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row"
           >
             <a
               href={hero.ctas.primary.href}
-              className="soft-light-sweep inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold bg-[#2F7D5C] text-white hover:bg-[#1F5F46] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2F7D5C] focus-visible:ring-offset-2 focus-visible:ring-offset-[#F7F3EA]"
+              className="soft-light-sweep inline-flex min-h-11 items-center justify-center rounded-lg bg-[#2F8A63] px-5 py-3 text-sm font-semibold text-white shadow-[0_12px_30px_-14px_rgba(47,138,99,0.7)] transition-[background-color,transform] hover:-translate-y-0.5 hover:bg-[#267553] focus-visible:ring-2 focus-visible:ring-white/70"
             >
               {hero.ctas.primary.label}
             </a>
             <a
               href={hero.ctas.secondary.href}
-              className="soft-light-sweep inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold border border-[#DDD4C5] bg-white text-[#172033] hover:border-[#2F7D5C]/40 hover:bg-[#F7F3EA] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2F7D5C]/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#F7F3EA]"
+              className="soft-light-sweep inline-flex min-h-11 items-center justify-center rounded-lg border border-white/[0.22] bg-white/[0.08] px-5 py-3 text-sm font-semibold text-white backdrop-blur-md transition-[background-color,transform] hover:-translate-y-0.5 hover:bg-white/[0.14] focus-visible:ring-2 focus-visible:ring-white/70"
             >
               {hero.ctas.secondary.label}
             </a>
           </motion.div>
 
-          {/* Stats row */}
           <motion.div
-            {...reveal(0.42)}
-            className="flex items-center gap-5 sm:gap-8 pt-4 mt-1 border-t border-[#DDD4C5]/70 w-full sm:w-auto"
+            {...reveal(0.39)}
+            className="mt-1 grid w-full max-w-[570px] grid-cols-3 border-t border-white/[0.16] pt-5"
           >
-            {heroStats.map((s, i) => (
-              <div key={s.label} className={`flex flex-col gap-0.5 ${i > 0 ? "pl-5 sm:pl-8 border-l border-[#DDD4C5]/70" : ""}`}>
-                <span className="font-display text-3xl sm:text-4xl text-[#172033] leading-none">{s.value}</span>
-                <span className="text-[10px] sm:text-xs text-[#7C8794] tracking-wide uppercase">{s.label}</span>
+            {heroStats.map((stat, index) => (
+              <div
+                key={stat.label}
+                className={[
+                  "flex min-w-0 flex-col gap-1",
+                  index > 0 ? "border-s border-white/[0.14] ps-4 sm:ps-7" : "pe-4 sm:pe-7",
+                ].join(" ")}
+              >
+                <span className="font-display text-3xl leading-none text-white sm:text-4xl">
+                  {stat.value}
+                </span>
+                <span className="text-[8.5px] font-medium uppercase leading-tight tracking-[0.08em] text-white/[0.5] sm:text-[10px]">
+                  {stat.label}
+                </span>
               </div>
             ))}
           </motion.div>
 
           <motion.div
-            {...reveal(0.5)}
-            className="inline-flex items-center gap-2 mt-1 text-xs text-[#5F6B7A]"
+            {...reveal(0.47)}
+            className="inline-flex items-center gap-2 text-[10.5px] text-white/[0.58] sm:text-[11px]"
           >
-            <span aria-hidden className="w-1.5 h-1.5 rounded-full bg-[#2F7D5C]" />
+            <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#66C996]" />
             {hero.location}
           </motion.div>
         </div>
-
-        {/* ── Right — portrait stage, grounded at the bottom ──────────────── */}
-        <div className="relative flex items-end justify-center order-first lg:order-none h-[55vw] sm:h-[60vw] lg:h-[calc(100vh-4rem)] max-h-[700px] lg:max-h-none">
-          {/* Portrait wrapper — full height of the stage */}
-          <div className="relative w-full h-full max-w-[420px] sm:max-w-[520px] lg:max-w-none">
-
-            {/* Soft glow behind the person */}
-            <div
-              aria-hidden
-              className="absolute inset-[6%] rounded-full blur-3xl"
-              style={{
-                background:
-                  "radial-gradient(circle at 50% 55%, rgba(191,227,244,0.60) 0%, rgba(231,244,238,0.40) 50%, transparent 72%)",
-              }}
-            />
-
-            {/* Portrait — anchored to bottom, fills upward */}
-            <motion.div {...popIn(0.16)} className="relative z-[1] w-full h-full">
-              <Image
-                src="/images/abdulrahman-zaid-hero.png"
-                alt="Abdulrahman Zaid"
-                fill
-                priority
-                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 60vw, 680px"
-                className="object-contain object-bottom drop-shadow-[0_32px_56px_rgba(23,32,51,0.20)]"
-              />
-            </motion.div>
-
-            {/* Floating pill labels — clear of the face (upper third) */}
-            {heroPills.map((label, i) => {
-              const style = PILL_STYLE[i % PILL_STYLE.length];
-              return (
-                <motion.div
-                  key={label}
-                  {...popIn(0.3 + i * 0.08)}
-                  className={`absolute ${style.pos} ${style.float} z-10`}
-                  style={{ willChange: "transform" }}
-                >
-                  <div className="flex items-center gap-2 rounded-full bg-white border border-[#DDD4C5] px-3.5 py-1.5 shadow-[0_8px_24px_-8px_rgba(23,32,51,0.18)] whitespace-nowrap">
-                    <span
-                      aria-hidden
-                      className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                      style={{ backgroundColor: style.dot }}
-                    />
-                    <span className="text-[11px] sm:text-xs font-semibold text-[#172033]">
-                      {label}
-                    </span>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
       </div>
 
-      {/* ── Scroll-down indicator — bottom center ───────────────────────── */}
-      <motion.div
-        {...reveal(0.7)}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10"
+      <motion.a
+        {...reveal(0.65)}
+        href="#about"
+        aria-label={ui.scrollToProfile}
+        className="absolute bottom-8 left-1/2 z-30 hidden -translate-x-1/2 flex-col items-center gap-1 text-white/[0.5] transition-colors hover:text-white/[0.82] lg:flex"
       >
-        <a
-          href="#about"
-          aria-label={ui.scrollToProfile}
-          className="flex flex-col items-center gap-1.5 text-[#7C8794] hover:text-[#2F7D5C] transition-colors group"
-        >
-          <span className="text-[10px] uppercase tracking-[0.18em] font-medium">{ui.scroll}</span>
-          {/* Animated chevron bob */}
-          <span aria-hidden className="scroll-bob flex items-center justify-center w-7 h-7 rounded-full border border-[#DDD4C5] bg-white/70 group-hover:border-[#2F7D5C]/40 transition-colors shadow-sm text-xs leading-none">
-            ↓
-          </span>
-        </a>
-      </motion.div>
+        <span className="text-[9px] font-semibold uppercase tracking-[0.18em]">{ui.scroll}</span>
+        <span className="scroll-bob flex h-7 w-7 items-center justify-center rounded-full border border-white/[0.18] bg-white/[0.07] text-xs backdrop-blur-md">
+          ↓
+        </span>
+      </motion.a>
     </section>
   );
 }

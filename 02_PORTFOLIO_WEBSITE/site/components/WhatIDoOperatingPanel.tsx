@@ -1,8 +1,17 @@
 "use client";
 
+import {
+  Boxes,
+  Factory,
+  Network,
+  Ship,
+  type LucideIcon,
+} from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useIsClient } from "@/lib/useIsClient";
 import { useContent } from "@/lib/i18n";
+
+const CARD_ICONS: LucideIcon[] = [Factory, Boxes, Ship, Network];
 
 export default function WhatIDoOperatingPanel() {
   const { whatIDo, whatIDoHeading, whatIDoCards } = useContent();
@@ -24,80 +33,89 @@ export default function WhatIDoOperatingPanel() {
     <section
       id="capabilities"
       aria-label="What he builds"
-      className="px-6 lg:px-24 py-24 border-t border-[#DDD4C5]"
+      className="border-t border-[#DED5C7] bg-[#FBF8F2] px-6 pb-12 pt-20 sm:pt-24 lg:px-10 lg:pt-28"
     >
-      <div className="max-w-6xl mx-auto flex flex-col gap-14">
-
-        {/* Header */}
-        <div className="flex flex-col gap-5 max-w-3xl">
+      <div className="mx-auto flex max-w-[1180px] flex-col gap-10 lg:gap-12">
+        <div className="mx-auto flex max-w-[760px] flex-col items-center gap-4 text-center">
           <motion.p
             {...reveal(0)}
-            className="text-xs text-[#2F7D5C] tracking-[0.22em] uppercase font-medium"
+            className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#2F7D5C]"
           >
             {whatIDo.label}
           </motion.p>
+
           <motion.h2
             {...reveal(0.06)}
-            className="text-3xl sm:text-4xl font-semibold text-[#172033] tracking-tight leading-tight"
+            className="text-3xl font-semibold leading-tight tracking-[-0.025em] text-[#172033] sm:text-4xl lg:text-[2.65rem]"
           >
             {whatIDoHeading}
           </motion.h2>
+
           <motion.p
             {...reveal(0.12)}
-            className="text-base sm:text-lg text-[#5F6B7A] leading-relaxed"
+            className="max-w-[720px] text-[15px] leading-7 text-[#5F6B7A] sm:text-base"
           >
-            {whatIDo.intro.map((seg, i) =>
-              seg.accent ? (
-                <span key={i} className="text-[#172033] font-medium">
-                  {seg.text}
+            {whatIDo.intro.map((segment, index) =>
+              segment.accent ? (
+                <span key={index} className="font-semibold text-[#172033]">
+                  {segment.text}
                 </span>
               ) : (
-                <span key={i}>{seg.text}</span>
-              )
+                <span key={index}>{segment.text}</span>
+              ),
             )}
           </motion.p>
         </div>
 
-        {/* Capability cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {whatIDoCards.map((card, i) => (
-            <motion.div
-              key={card.id}
-              {...reveal(0.08 + i * 0.07)}
-              className="flex flex-col gap-5 p-6 rounded-2xl border border-[#DDD4C5] bg-white hover:border-[#C8BFB0] hover:bg-[#F7F3EA] transition-colors duration-300"
-            >
-              {/* Monogram badge */}
-              <div className="w-10 h-10 rounded-xl border border-[#2F7D5C]/25 bg-[#2F7D5C]/[0.07] flex items-center justify-center flex-none">
-                <span className="text-[10px] font-bold text-[#2F7D5C] tracking-widest">
-                  {card.monogram}
-                </span>
-              </div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {whatIDoCards.map((card, index) => {
+            const Icon = CARD_ICONS[index % CARD_ICONS.length];
+            return (
+              <motion.article
+                key={card.id}
+                {...reveal(0.08 + index * 0.07)}
+                whileHover={animate ? { y: -4 } : undefined}
+                className="group relative flex min-h-[255px] flex-col overflow-hidden rounded-2xl border border-[#DED5C7] bg-white p-5 shadow-[0_14px_30px_-26px_rgba(23,32,51,0.44)] transition-[transform,border-color,box-shadow] duration-300 hover:border-[#2F7D5C]/35 hover:shadow-[0_18px_36px_-24px_rgba(47,125,92,0.3)]"
+              >
+                <div
+                  aria-hidden
+                  className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#2F7D5C]/[0.05] to-transparent"
+                />
 
-              {/* Title and description */}
-              <div className="flex flex-col gap-2 flex-1">
-                <p className="text-sm font-semibold text-[#172033] leading-snug">
-                  {card.title}
-                </p>
-                <p className="text-[13px] text-[#5F6B7A] leading-relaxed">
-                  {card.description}
-                </p>
-              </div>
+                <div className="relative flex h-full flex-col gap-5">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-full border border-[#2F7D5C]/20 bg-[#EFF7F2] text-[#2F7D5C] transition-transform duration-300 group-hover:scale-105">
+                      <Icon size={18} strokeWidth={1.8} aria-hidden />
+                    </span>
+                    <span className="text-[10px] font-bold tracking-[0.14em] text-[#2F7D5C]/65">
+                      {card.monogram}
+                    </span>
+                  </div>
 
-              {/* Tags */}
-              <div className="flex flex-wrap gap-1.5">
-                {card.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-[10.5px] text-[#7C8794] bg-[#F7F3EA] border border-[#DDD4C5] rounded-full px-2.5 py-1 leading-none"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
+                  <div className="flex flex-1 flex-col gap-2.5">
+                    <h3 className="text-[15px] font-semibold leading-snug text-[#172033]">
+                      {card.title}
+                    </h3>
+                    <p className="text-[12.5px] leading-6 text-[#5F6B7A]">
+                      {card.description}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap gap-1.5 border-t border-[#E7E0D5] pt-4">
+                    {card.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-[#DED5C7] bg-[#FAF7F1] px-2.5 py-1 text-[10px] leading-none text-[#6E786F]"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.article>
+            );
+          })}
         </div>
-
       </div>
     </section>
   );

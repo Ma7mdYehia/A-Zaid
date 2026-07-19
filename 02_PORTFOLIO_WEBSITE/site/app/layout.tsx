@@ -9,6 +9,7 @@ import {
   IBM_Plex_Sans_Arabic,
 } from "next/font/google";
 import "./globals.css";
+import "./neumorphism.css";
 import { LanguageProvider } from "@/lib/i18n";
 
 const geistSans = Geist({

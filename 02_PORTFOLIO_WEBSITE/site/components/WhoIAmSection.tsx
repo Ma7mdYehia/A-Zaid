@@ -1,18 +1,25 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  Building2,
+  Clock3,
+  MapPinned,
+  Network,
+  TrendingUp,
+  type LucideIcon,
+} from "lucide-react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { useIsClient } from "@/lib/useIsClient";
-import { useMouseGlow } from "@/lib/useMouseGlow";
 import { useContent } from "@/lib/i18n";
 
-/* Parse a metric like "~USD 2.5M" / "+250M" into prefix · number · suffix. */
 function parseMetric(value: string) {
-  const m = value.match(/^([^\d]*)([\d.]+)(.*)$/);
-  if (!m) return { prefix: "", target: 0, decimals: 0, suffix: value };
-  const [, prefix, num, suffix] = m;
-  const decimals = num.includes(".") ? num.split(".")[1].length : 0;
-  return { prefix, target: parseFloat(num), decimals, suffix };
+  const match = value.match(/^([^\d]*)([\d.]+)(.*)$/);
+  if (!match) return { prefix: "", target: 0, decimals: 0, suffix: value };
+
+  const [, prefix, number, suffix] = match;
+  const decimals = number.includes(".") ? number.split(".")[1].length : 0;
+  return { prefix, target: parseFloat(number), decimals, suffix };
 }
 
 function MetricValue({ value, play }: { value: string; play: boolean }) {
@@ -27,26 +34,31 @@ function MetricValue({ value, play }: { value: string; play: boolean }) {
       setDisplay(value);
       return;
     }
-    const format = (n: number) =>
-      `${parsed.prefix}${n.toFixed(parsed.decimals)}${parsed.suffix}`;
 
-    let raf = 0;
+    const format = (number: number) =>
+      `${parsed.prefix}${number.toFixed(parsed.decimals)}${parsed.suffix}`;
+
+    let frame = 0;
     const duration = 1200;
     const start = performance.now();
     setDisplay(format(0));
+
     const tick = (now: number) => {
-      const p = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
       setDisplay(format(parsed.target * eased));
-      if (p < 1) raf = requestAnimationFrame(tick);
+      if (progress < 1) frame = requestAnimationFrame(tick);
       else setDisplay(value);
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
   }, [isClient, prefersReduced, play, value, parsed]);
 
   return <>{display}</>;
 }
+
+const METRIC_ICONS: LucideIcon[] = [Clock3, MapPinned, Building2, Network, TrendingUp];
 
 export default function WhoIAmSection() {
   const { whoIAm } = useContent();
@@ -56,7 +68,6 @@ export default function WhoIAmSection() {
 
   const resultsRef = useRef<HTMLDivElement>(null);
   const resultsInView = useInView(resultsRef, { once: true, margin: "-80px" });
-  const glowRef = useMouseGlow<HTMLElement>();
 
   const reveal = (delay = 0) =>
     animate
@@ -70,36 +81,28 @@ export default function WhoIAmSection() {
 
   return (
     <section
-      ref={glowRef}
       id="about"
       aria-label="Who I am"
-      className="px-6 lg:px-24 py-24 lg:py-28 border-t border-[#DDD4C5]"
+      className="border-t border-[#DED5C7] bg-[#F7F3EA] px-6 py-20 sm:py-24 lg:px-10 lg:py-28"
     >
-      <div className="max-w-6xl mx-auto flex flex-col gap-16 lg:gap-20">
-
-        {/* Intro: editorial heading + profile copy */}
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-
-          {/* Left — display heading */}
+      <div className="mx-auto flex max-w-[1180px] flex-col gap-12 lg:gap-14">
+        <div className="grid items-start gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
           <div className="flex flex-col gap-5">
             <motion.p
               {...reveal(0)}
-              className="text-xs text-[#2F7D5C] tracking-[0.22em] uppercase font-medium"
+              className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#2F7D5C]"
             >
               {whoIAm.label}
             </motion.p>
 
             <motion.h2
               {...reveal(0.06)}
-              className="font-display arabic-profile-heading text-[#172033] leading-[0.9] tracking-[0.01em] text-6xl sm:text-7xl lg:text-[5.5rem]"
+              className="font-display arabic-profile-heading text-[4.4rem] leading-[0.86] tracking-[0.005em] text-[#172033] sm:text-[5.35rem] lg:text-[6rem]"
             >
-              {whoIAm.headingLines.map((line, i) => (
+              {whoIAm.headingLines.map((line, index) => (
                 <span
                   key={line}
-                  className={[
-                    "block",
-                    i === whoIAm.accentLineIndex ? "text-[#2F7D5C]" : "",
-                  ].join(" ")}
+                  className={index === whoIAm.accentLineIndex ? "block text-[#2F7D5C]" : "block"}
                 >
                   {line}
                 </span>
@@ -107,74 +110,72 @@ export default function WhoIAmSection() {
             </motion.h2>
           </div>
 
-          {/* Right — profile copy */}
-          <div className="flex flex-col gap-5 lg:pt-3 max-w-xl">
-            {whoIAm.introParagraphs.map((segments, i) => (
+          <div className="flex max-w-[650px] flex-col gap-5 lg:pt-7">
+            {whoIAm.introParagraphs.map((segments, paragraphIndex) => (
               <motion.p
-                key={i}
-                {...reveal(0.12 + i * 0.07)}
-                className="text-base sm:text-lg text-[#5F6B7A] leading-relaxed"
+                key={paragraphIndex}
+                {...reveal(0.12 + paragraphIndex * 0.07)}
+                className="text-[15px] leading-7 text-[#5F6B7A] sm:text-base sm:leading-8"
               >
-                {segments.map((seg, j) =>
-                  seg.accent ? (
-                    <span key={j} className="text-[#2F7D5C] font-medium">
-                      {seg.text}
+                {segments.map((segment, segmentIndex) =>
+                  segment.accent ? (
+                    <span key={segmentIndex} className="font-semibold text-[#172033]">
+                      {segment.text}
                     </span>
                   ) : (
-                    <span key={j}>{seg.text}</span>
-                  )
+                    <span key={segmentIndex}>{segment.text}</span>
+                  ),
                 )}
               </motion.p>
             ))}
           </div>
         </div>
 
-        {/* Metrics */}
-        <div className="flex flex-col gap-7">
+        <div className="flex flex-col gap-5">
           <motion.p
             {...reveal(0.05)}
-            className="text-xs text-[#7C8794] tracking-[0.2em] uppercase font-medium"
+            className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7C8794]"
           >
             {whoIAm.resultsLabel}
           </motion.p>
 
-          <div ref={resultsRef} className="relative group/cards">
-            <div
-              aria-hidden
-              className="pointer-events-none absolute -inset-6 rounded-[2rem] opacity-0 group-hover/cards:opacity-100 transition-opacity duration-500"
-              style={{
-                background:
-                  "radial-gradient(55% 55% at 50% 40%, rgba(47,125,92,0.07), transparent 70%)",
-              }}
-            />
-
-            <div className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-              {whoIAm.resultCards.map((card, i) => (
-                <motion.div
+          <div ref={resultsRef} className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6">
+            {whoIAm.resultCards.map((card, index) => {
+              const Icon = METRIC_ICONS[index % METRIC_ICONS.length];
+              return (
+                <motion.article
                   key={card.label}
-                  data-glow
-                  {...reveal(0.1 + i * 0.06)}
+                  {...reveal(0.1 + index * 0.055)}
                   whileHover={animate ? { y: -3 } : undefined}
                   className={[
-                    "mouse-glow-border rounded-2xl border border-[#DDD4C5] bg-white",
-                    "hover:border-[#2F7D5C]/35 hover:shadow-[0_0_26px_-6px_rgba(47,125,92,0.20)]",
-                    "transition-[border-color,box-shadow] duration-300",
-                    "px-6 py-7 flex flex-col gap-3",
+                    "group relative overflow-hidden rounded-2xl border border-[#DED5C7] bg-white px-5 py-5 shadow-[0_12px_28px_-24px_rgba(23,32,51,0.38)] transition-[transform,border-color,box-shadow] duration-300",
+                    "hover:border-[#2F7D5C]/35 hover:shadow-[0_16px_34px_-22px_rgba(47,125,92,0.3)]",
                     "lg:col-span-2",
-                    i === 3 ? "lg:col-start-2" : "",
+                    index === 3 ? "lg:col-start-2" : "",
                   ].join(" ")}
                 >
-                  <span aria-hidden className="block w-6 h-px bg-[#2F7D5C]/50" />
-                  <span className="font-display text-4xl sm:text-5xl text-[#172033] leading-none tracking-[0.01em] tabular-nums">
-                    <MetricValue value={card.value} play={resultsInView} />
-                  </span>
-                  <p className="text-sm text-[#5F6B7A] leading-snug">{card.label}</p>
-                </motion.div>
-              ))}
-            </div>
+                  <div
+                    aria-hidden
+                    className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#2F7D5C]/[0.045] to-transparent"
+                  />
+                  <div className="relative flex items-start justify-between gap-5">
+                    <div className="flex min-w-0 flex-col gap-2.5">
+                      <span className="font-display text-4xl leading-none tracking-[0.01em] text-[#172033] tabular-nums sm:text-[2.7rem]">
+                        <MetricValue value={card.value} play={resultsInView} />
+                      </span>
+                      <p className="max-w-[180px] text-[12px] leading-5 text-[#5F6B7A]">
+                        {card.label}
+                      </p>
+                    </div>
+                    <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl border border-[#2F7D5C]/20 bg-[#EFF7F2] text-[#2F7D5C] transition-transform duration-300 group-hover:scale-105">
+                      <Icon size={17} strokeWidth={1.8} aria-hidden />
+                    </span>
+                  </div>
+                </motion.article>
+              );
+            })}
           </div>
         </div>
-
       </div>
     </section>
   );

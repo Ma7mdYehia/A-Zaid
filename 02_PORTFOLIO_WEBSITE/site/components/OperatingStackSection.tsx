@@ -1,125 +1,125 @@
 "use client";
 
+import {
+  Activity,
+  BadgeCheck,
+  Calculator,
+  Factory,
+  Globe2,
+  Handshake,
+  Ship,
+  type LucideIcon,
+} from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
 import type { ToolStackCategory } from "@/content/homepage";
-import { useReveal, staggerContainer, staggerItem } from "@/lib/motion";
-import { useMouseGlow } from "@/lib/useMouseGlow";
+import { useReveal } from "@/lib/motion";
 import { useIsClient } from "@/lib/useIsClient";
 import { useContent } from "@/lib/i18n";
 
-interface StripTool {
+interface StackTool {
   name: string;
   categoryLabel: string;
-  logo?: string;
 }
 
 function flattenTools(
   categories: ToolStackCategory[],
-  shortLabels: Record<string, string>
-): StripTool[] {
+  shortLabels: Record<string, string>,
+): StackTool[] {
   const seen = new Set<string>();
-  const out: StripTool[] = [];
+  const tools: StackTool[] = [];
+
   for (const category of categories) {
-    const label = shortLabels[category.id] ?? category.title;
+    const categoryLabel = shortLabels[category.id] ?? category.title;
     for (const name of category.tools) {
       if (seen.has(name)) continue;
       seen.add(name);
-      out.push({ name, categoryLabel: label });
+      tools.push({ name, categoryLabel });
     }
   }
-  return out;
+
+  return tools;
 }
 
-function monogram(name: string): string {
-  const words = name.split(/\s+/).filter(Boolean);
-  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
-  return (words[0][0] + words[1][0]).toUpperCase();
-}
+const TOOL_ICONS: LucideIcon[] = [
+  Factory,
+  BadgeCheck,
+  Activity,
+  Calculator,
+  Globe2,
+  Ship,
+  Handshake,
+];
 
 export default function OperatingStackSection() {
   const { operatingStackCategories, operatingStackStrip, stackCategoryShortLabels } = useContent();
-  const stripTools = flattenTools(operatingStackCategories, stackCategoryShortLabels);
+  const tools = flattenTools(operatingStackCategories, stackCategoryShortLabels).slice(0, 7);
   const reveal = useReveal();
-  const glowRef = useMouseGlow<HTMLElement>();
   const isClient = useIsClient();
   const prefersReduced = useReducedMotion();
   const animate = isClient && !prefersReduced;
 
   return (
     <section
-      ref={glowRef}
       id="tools"
       aria-label="Operating stack"
-      className="px-6 lg:px-24 pb-20 -mt-6"
+      className="bg-[#FBF8F2] px-6 pb-20 pt-4 sm:pb-24 lg:px-10 lg:pb-28"
     >
       <motion.div
-        data-glow
         {...reveal(0)}
-        className="mouse-glow-panel max-w-6xl mx-auto relative rounded-2xl border border-[#DDD4C5] bg-[#F7F3EA]/80 overflow-hidden"
+        className="relative mx-auto max-w-[1180px] overflow-hidden rounded-3xl border border-[#D9CEBE] bg-[#F7F3EA] shadow-[0_18px_46px_-36px_rgba(23,32,51,0.48)]"
       >
-        {/* Header row */}
-        <div className="relative px-5 sm:px-7 pt-5 pb-4 flex flex-col sm:flex-row sm:items-baseline gap-1.5 sm:gap-4">
-          <span className="text-[10.5px] text-[#2F7D5C] tracking-[0.22em] uppercase font-medium flex-none">
-            {operatingStackStrip.eyebrow}
-          </span>
-          <h2 className="text-sm font-semibold text-[#172033] leading-snug flex-none">
-            {operatingStackStrip.title}
-          </h2>
-          <p className="text-xs text-[#5F6B7A] leading-relaxed sm:truncate">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white/80 to-transparent"
+        />
+
+        <div className="relative flex flex-col gap-3 border-b border-[#DED5C7] px-6 py-7 sm:px-8 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
+          <div className="flex max-w-[520px] flex-col gap-2">
+            <span className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#2F7D5C]">
+              {operatingStackStrip.eyebrow}
+            </span>
+            <h2 className="text-2xl font-semibold leading-tight tracking-[-0.02em] text-[#172033] sm:text-[2rem]">
+              {operatingStackStrip.title}
+            </h2>
+          </div>
+          <p className="max-w-[520px] text-[13px] leading-6 text-[#5F6B7A] lg:text-end">
             {operatingStackStrip.line}
           </p>
         </div>
 
-        {/* Scrolling chip track with edge fades */}
-        <div className="relative border-t border-[#DDD4C5]">
-          {/* Edge fades */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-y-0 left-0 w-10 z-10 bg-gradient-to-r from-[#F7F3EA] to-transparent"
-          />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-y-0 right-0 w-10 z-10 bg-gradient-to-l from-[#F7F3EA] to-transparent"
-          />
+        <div className="relative grid grid-cols-1 gap-3 p-5 sm:grid-cols-2 sm:p-7 lg:grid-cols-8 lg:p-8">
+          {tools.map((tool, index) => {
+            const Icon = TOOL_ICONS[index % TOOL_ICONS.length];
+            const centeredLastRow =
+              index === 4
+                ? "lg:col-start-2"
+                : index === 5
+                  ? "lg:col-start-4"
+                  : index === 6
+                    ? "lg:col-start-6"
+                    : "";
 
-          <motion.ul
-            {...staggerContainer(animate, 0.015)}
-            aria-label="Tools in the operating stack"
-            className="no-scrollbar flex gap-2.5 overflow-x-auto px-5 sm:px-7 py-4"
-          >
-            {stripTools.map((tool) => (
-              <motion.li
+            return (
+              <motion.article
                 key={tool.name}
-                {...staggerItem(animate)}
-                className="flex-none flex items-center gap-2.5 rounded-xl border border-[#DDD4C5] bg-white hover:border-[#2F7D5C]/35 transition-colors duration-200 pl-1.5 pr-3.5 py-1.5"
+                {...reveal(0.05 + index * 0.05)}
+                whileHover={animate ? { y: -3 } : undefined}
+                className={`group flex min-h-[116px] flex-col justify-between rounded-2xl border border-[#D8CEBE] bg-white p-4 shadow-[0_12px_28px_-24px_rgba(23,32,51,0.38)] transition-[transform,border-color,box-shadow] duration-300 hover:border-[#2F7D5C]/40 hover:shadow-[0_15px_30px_-22px_rgba(47,125,92,0.28)] lg:col-span-2 ${centeredLastRow}`}
               >
-                {tool.logo ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src={tool.logo}
-                    alt=""
-                    aria-hidden
-                    className="w-7 h-7 rounded-lg object-contain"
-                  />
-                ) : (
-                  <span
-                    aria-hidden
-                    className="flex-none w-7 h-7 rounded-lg bg-[#2F7D5C]/[0.07] border border-[#2F7D5C]/20 flex items-center justify-center text-[9.5px] font-semibold text-[#2F7D5C] tracking-wide select-none"
-                  >
-                    {monogram(tool.name)}
+                <div className="flex items-start justify-between gap-3">
+                  <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#2F7D5C]/20 bg-[#EFF7F2] text-[#2F7D5C] transition-transform duration-300 group-hover:scale-105">
+                    <Icon size={16} strokeWidth={1.8} aria-hidden />
                   </span>
-                )}
-                <span className="flex flex-col leading-none gap-0.5">
-                  <span className="text-[12.5px] font-medium text-[#172033] whitespace-nowrap">
-                    {tool.name}
-                  </span>
-                  <span className="text-[9.5px] text-[#7C8794] uppercase tracking-[0.12em]">
+                  <span className="text-[9px] font-semibold uppercase tracking-[0.12em] text-[#8A938D]">
                     {tool.categoryLabel}
                   </span>
-                </span>
-              </motion.li>
-            ))}
-          </motion.ul>
+                </div>
+                <h3 className="mt-4 text-[12.5px] font-semibold leading-5 text-[#172033]">
+                  {tool.name}
+                </h3>
+              </motion.article>
+            );
+          })}
         </div>
       </motion.div>
     </section>
