@@ -87,7 +87,6 @@ header [aria-pressed="true"] {
 /* Inset information areas */
 #experience [role="tabpanel"],
 #experience [role="tab"][aria-selected="true"],
-#work article > div > div:last-child,
 #contact [aria-disabled="true"] {
   background: linear-gradient(145deg, #eee7dc, #f8f4ed) !important;
   box-shadow:
@@ -142,8 +141,58 @@ main > section:not(#home) .rounded-full.border {
     inset -5px -5px 14px rgba(255, 255, 255, 0.16);
 }
 
-/* Small contact/social buttons */
+/* Portfolio social rows stay clean, with individual raised controls only. */
+#work article [class*="border-t"][class*="pt-"] {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
 #work a[aria-label],
+#work [aria-disabled="true"] {
+  background: linear-gradient(145deg, #faf7f1, #ece4d8) !important;
+  border-color: rgba(255, 255, 255, 0.82) !important;
+  color: #263246 !important;
+  box-shadow:
+    4px 4px 10px rgba(151, 132, 105, 0.18),
+    -4px -4px 10px rgba(255, 255, 255, 0.88),
+    inset 1px 1px 0 rgba(255, 255, 255, 0.82) !important;
+  transition:
+    transform 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    box-shadow 180ms ease !important;
+}
+
+#work a[aria-label]:hover {
+  color: #2f7d5c !important;
+  border-color: rgba(47, 125, 92, 0.3) !important;
+  background: linear-gradient(145deg, #fbfaf6, #e8eee9) !important;
+  transform: translateY(-2px);
+  box-shadow:
+    6px 6px 14px rgba(151, 132, 105, 0.2),
+    -6px -6px 14px rgba(255, 255, 255, 0.94),
+    0 8px 18px -12px rgba(47, 125, 92, 0.55) !important;
+}
+
+#work [aria-disabled="true"] {
+  cursor: default !important;
+  opacity: 0.52;
+}
+
+#work [aria-disabled="true"]:hover {
+  opacity: 0.72;
+  transform: translateY(-1px);
+}
+
+#work a[aria-label]:active {
+  transform: translateY(0);
+  box-shadow:
+    inset 3px 3px 7px rgba(151, 132, 105, 0.16),
+    inset -3px -3px 7px rgba(255, 255, 255, 0.66) !important;
+}
+
+/* Other small contact controls */
 footer a,
 #contact a {
   box-shadow:
@@ -152,7 +201,6 @@ footer a,
     inset 1px 1px 0 rgba(255, 255, 255, 0.72);
 }
 
-#work a[aria-label]:active,
 footer a:active,
 #contact a:active {
   transform: translateY(1px);
