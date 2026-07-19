@@ -186,7 +186,7 @@ export default function HeroSection() {
         {...reveal(0.65)}
         href="#about"
         aria-label={ui.scrollToProfile}
-        className="absolute bottom-5 left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-1 text-white/[0.5] transition-colors hover:text-white/[0.82] lg:flex"
+        className="absolute bottom-20 left-1/2 z-30 hidden -translate-x-1/2 flex-col items-center gap-1 text-white/[0.5] transition-colors hover:text-white/[0.82] lg:flex"
       >
         <span className="text-[9px] font-semibold uppercase tracking-[0.18em]">{ui.scroll}</span>
         <span className="scroll-bob flex h-7 w-7 items-center justify-center rounded-full border border-white/[0.18] bg-white/[0.07] text-xs backdrop-blur-md">
