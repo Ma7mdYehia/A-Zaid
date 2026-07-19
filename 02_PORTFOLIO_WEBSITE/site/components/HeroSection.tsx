@@ -99,8 +99,13 @@ export default function HeroSection() {
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/[0.16]"
       />
 
-      <div className="relative z-10 mx-auto flex min-h-[calc(690px-5rem)] w-full max-w-[1180px] items-end px-6 pb-14 sm:min-h-[calc(750px-6rem)] sm:px-8 sm:pb-20 lg:min-h-[calc(100vh-6.5rem)] lg:px-10 lg:pb-16">
-        <div className="flex w-full max-w-[620px] flex-col items-start gap-5 text-start lg:max-w-[650px]">
+      <div className="relative z-10 mx-auto flex min-h-[calc(690px-5rem)] w-full max-w-[1180px] items-center px-6 pb-24 pt-8 sm:min-h-[calc(750px-6rem)] sm:px-8 sm:pb-28 sm:pt-10 lg:min-h-[calc(100vh-6.5rem)] lg:px-10 lg:pb-32 lg:pt-12">
+        <div
+          className={[
+            "flex w-full flex-col items-start gap-4 text-start sm:gap-5",
+            isRtl ? "max-w-[760px] lg:max-w-[800px]" : "max-w-[620px] lg:max-w-[650px]",
+          ].join(" ")}
+        >
           <motion.div {...reveal(0.08)} className="flex flex-wrap items-center gap-2.5">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.2] bg-white/[0.08] px-3 py-1.5 text-[10px] font-semibold tracking-[0.14em] text-white/[0.84] backdrop-blur-md">
               <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#64C896]" />
@@ -113,12 +118,21 @@ export default function HeroSection() {
 
           <motion.h1
             {...reveal(0.15)}
-            className="font-display arabic-hero-heading text-[3.8rem] leading-[0.88] tracking-[0.005em] text-white sm:text-[5.15rem] lg:text-[6.3rem]"
+            className={[
+              "font-display w-full text-white",
+              isRtl
+                ? "max-w-[800px] text-[2.65rem] leading-[1.08] sm:text-[3.55rem] lg:text-[4.45rem] xl:text-[4.8rem]"
+                : "text-[3.8rem] leading-[0.88] tracking-[0.005em] sm:text-[5.15rem] lg:text-[6.3rem]",
+            ].join(" ")}
           >
             {heroHeadingLines.map((line, index) => (
               <span
                 key={`${line}-${index}`}
-                className={index === heroHeadingLines.length - 1 ? "block text-[#66C996]" : "block"}
+                className={[
+                  "block",
+                  isRtl ? "sm:whitespace-nowrap" : "",
+                  index === heroHeadingLines.length - 1 ? "text-[#66C996]" : "",
+                ].join(" ")}
               >
                 {line}
               </span>
@@ -127,7 +141,10 @@ export default function HeroSection() {
 
           <motion.p
             {...reveal(0.23)}
-            className="max-w-[560px] text-sm leading-7 text-white/[0.74] sm:text-[15px]"
+            className={[
+              "text-sm leading-7 text-white/[0.74] sm:text-[15px]",
+              isRtl ? "max-w-[760px]" : "max-w-[560px]",
+            ].join(" ")}
           >
             {hero.valueStatement}
           </motion.p>
@@ -186,7 +203,7 @@ export default function HeroSection() {
         {...reveal(0.65)}
         href="#about"
         aria-label={ui.scrollToProfile}
-        className="absolute bottom-20 left-1/2 z-30 hidden -translate-x-1/2 flex-col items-center gap-1 text-white/[0.5] transition-colors hover:text-white/[0.82] lg:flex"
+        className="absolute bottom-8 left-1/2 z-30 hidden -translate-x-1/2 flex-col items-center gap-1 text-white/[0.5] transition-colors hover:text-white/[0.82] lg:flex"
       >
         <span className="text-[9px] font-semibold uppercase tracking-[0.18em]">{ui.scroll}</span>
         <span className="scroll-bob flex h-7 w-7 items-center justify-center rounded-full border border-white/[0.18] bg-white/[0.07] text-xs backdrop-blur-md">
