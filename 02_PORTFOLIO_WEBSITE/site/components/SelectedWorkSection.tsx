@@ -10,6 +10,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import MediaPlaceholder from "@/components/MediaPlaceholder";
 import { useReveal } from "@/lib/motion";
 import { useContent } from "@/lib/i18n";
 
@@ -23,11 +24,8 @@ interface ProjectLinkSet {
   whatsapp?: string;
 }
 
-/* Per-project social links keyed by project id (kept out of localized copy). */
 const PROJECT_LINKS: Record<string, ProjectLinkSet> = {};
 
-
-/* ── Social / contact icon row ─────────────────────────────────────────────── */
 type LinkSlot = {
   key: keyof ProjectLinkSet;
   label: string;
@@ -36,23 +34,28 @@ type LinkSlot = {
 };
 
 const LINK_SLOTS: LinkSlot[] = [
-  { key: "website",   label: "Website",          icon: Globe,          href: (v) => v },
-  { key: "instagram", label: "Instagram",         icon: Instagram,      href: (v) => v },
-  { key: "linkedin",  label: "LinkedIn",          icon: Linkedin,       href: (v) => v },
-  { key: "youtube",   label: "YouTube",           icon: Youtube,        href: (v) => v },
-  { key: "email",     label: "Email",             icon: Mail,           href: (v) => `mailto:${v}` },
-  { key: "whatsapp",  label: "WhatsApp / Phone",  icon: MessageCircle,  href: (v) => v },
+  { key: "website", label: "Website", icon: Globe, href: (value) => value },
+  { key: "instagram", label: "Instagram", icon: Instagram, href: (value) => value },
+  { key: "linkedin", label: "LinkedIn", icon: Linkedin, href: (value) => value },
+  { key: "youtube", label: "YouTube", icon: Youtube, href: (value) => value },
+  { key: "email", label: "Email", icon: Mail, href: (value) => `mailto:${value}` },
+  { key: "whatsapp", label: "WhatsApp / Phone", icon: MessageCircle, href: (value) => value },
 ];
 
-function SocialRow({ links, title, notAvailable }: { links: ProjectLinkSet; title: string; notAvailable: string }) {
+function SocialRow({
+  links,
+  title,
+  notAvailable,
+}: {
+  links: ProjectLinkSet;
+  title: string;
+  notAvailable: string;
+}) {
   return (
-    <div className="flex items-center gap-2 pt-1">
+    <div className="flex items-center gap-1.5">
       {LINK_SLOTS.map((slot) => {
         const Icon = slot.icon;
-        const raw =
-          slot.key === "whatsapp"
-            ? links.whatsapp ?? links.phone
-            : links[slot.key];
+        const raw = slot.key === "whatsapp" ? links.whatsapp ?? links.phone : links[slot.key];
 
         if (raw) {
           const href =
@@ -62,15 +65,16 @@ function SocialRow({ links, title, notAvailable }: { links: ProjectLinkSet; titl
                 ? `tel:${raw}`
                 : slot.href(raw);
           const external = /^https?:\/\//.test(href);
+
           return (
             <a
               key={slot.key}
               href={href}
               aria-label={`${title} — ${slot.label}`}
               {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-[#DDD4C5] bg-[#F7F3EA] text-[#7C8794] transition-colors hover:border-[#2F7D5C]/40 hover:text-[#2F7D5C]"
+              className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#D8CEBE] bg-[#FAF7F1] text-[#7C8794] transition-colors hover:border-[#2F7D5C]/40 hover:text-[#2F7D5C]"
             >
-              <Icon className="h-4 w-4" aria-hidden />
+              <Icon className="h-3.5 w-3.5" aria-hidden />
             </a>
           );
         }
@@ -80,9 +84,9 @@ function SocialRow({ links, title, notAvailable }: { links: ProjectLinkSet; titl
             key={slot.key}
             aria-disabled="true"
             aria-label={`${slot.label} — ${notAvailable}`}
-            className="flex h-8 w-8 cursor-not-allowed items-center justify-center rounded-lg border border-[#DDD4C5]/60 bg-[#F7F3EA] text-[#172033]/18"
+            className="flex h-7 w-7 cursor-not-allowed items-center justify-center rounded-lg border border-[#DED5C7]/70 bg-[#FAF7F1] text-[#172033]/15"
           >
-            <Icon className="h-4 w-4" aria-hidden />
+            <Icon className="h-3.5 w-3.5" aria-hidden />
           </span>
         );
       })}
@@ -90,50 +94,47 @@ function SocialRow({ links, title, notAvailable }: { links: ProjectLinkSet; titl
   );
 }
 
-/* Banner / logo placeholder */
-function BannerPlaceholder({
+function ProjectMedia({
   logoText,
   label,
   hero = false,
+  warm = false,
 }: {
   logoText: string;
   label: string;
   hero?: boolean;
+  warm?: boolean;
 }) {
   return (
-    <div
-      aria-hidden
-      className={[
-        "relative flex items-center justify-center overflow-hidden rounded-xl border border-[#DDD4C5]",
-        "bg-gradient-to-br from-[#EFE7DA] via-[#F7F3EA] to-[#E8DFCF]",
-        hero ? "h-40 sm:h-full sm:min-h-[220px]" : "h-28",
-      ].join(" ")}
+    <MediaPlaceholder
+      label={label}
+      tone={hero ? "dark" : warm ? "warm" : "light"}
+      labelPosition="bottom-right"
+      className={hero ? "min-h-[250px] rounded-2xl sm:min-h-[330px] lg:h-full" : "h-[165px] rounded-t-2xl border-x-0 border-t-0"}
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(47,125,92,0.08),transparent_60%)]" />
-      <div className="flex flex-col items-center gap-2">
+      <div className="absolute inset-0 z-10 flex items-center justify-center">
         <span
           className={[
-            "flex items-center justify-center rounded-xl border border-[#2F7D5C]/25 bg-[#2F7D5C]/[0.07] font-bold tracking-widest text-[#2F7D5C]",
-            hero ? "h-16 w-16 text-lg" : "h-12 w-12 text-sm",
+            "flex items-center justify-center rounded-2xl border font-bold tracking-[0.16em] backdrop-blur-md",
+            hero
+              ? "h-20 w-20 border-white/25 bg-white/12 text-lg text-white"
+              : "h-14 w-14 border-[#2F7D5C]/25 bg-white/75 text-sm text-[#2F7D5C]",
           ].join(" ")}
         >
           {logoText}
         </span>
-        <span className="text-[10px] uppercase tracking-[0.2em] text-[#172033]/25">
-          {label}
-        </span>
       </div>
-    </div>
+    </MediaPlaceholder>
   );
 }
 
 function MetaRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col gap-0.5">
-      <span className="text-[10px] uppercase tracking-[0.16em] text-[#7C8794]">
+    <div className="flex min-w-0 flex-col gap-1">
+      <span className="text-[9px] font-semibold uppercase tracking-[0.14em] text-[#8A938D]">
         {label}
       </span>
-      <span className="text-[13px] text-[#172033]">{value}</span>
+      <span className="text-[12px] leading-5 text-[#172033]">{value}</span>
     </div>
   );
 }
@@ -148,136 +149,148 @@ export default function SelectedWorkSection() {
     <section
       id="work"
       aria-label={work.eyebrow}
-      className="px-6 lg:px-24 py-24 border-t border-[#DDD4C5]"
+      className="border-t border-[#DED5C7] bg-[#F7F3EA] px-6 py-20 sm:py-24 lg:px-10 lg:py-28"
     >
-      <div className="max-w-6xl mx-auto flex flex-col gap-12">
-
-        {/* Header */}
-        <div className="flex flex-col gap-4 max-w-3xl">
+      <div className="mx-auto flex max-w-[1180px] flex-col gap-10 lg:gap-12">
+        <div className="flex max-w-[760px] flex-col gap-3.5">
           <motion.p
             {...reveal(0)}
-            className="text-xs text-[#2F7D5C] tracking-[0.22em] uppercase font-medium"
+            className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#2F7D5C]"
           >
             {work.eyebrow}
           </motion.p>
           <motion.h2
             {...reveal(0.06)}
-            className="text-3xl sm:text-4xl font-semibold text-[#172033] leading-tight tracking-tight"
+            className="text-3xl font-semibold leading-tight tracking-[-0.025em] text-[#172033] sm:text-4xl"
           >
             {work.heading}
           </motion.h2>
           <motion.p
             {...reveal(0.12)}
-            className="text-base sm:text-lg text-[#5F6B7A] leading-relaxed"
+            className="max-w-[700px] text-[15px] leading-7 text-[#5F6B7A] sm:text-base"
           >
             {work.intro}
           </motion.p>
         </div>
 
-        {/* Hero project */}
         <motion.article
           {...reveal(0.16)}
-          className="group relative overflow-hidden rounded-3xl border border-[#2F7D5C]/20 bg-white"
+          className="group overflow-hidden rounded-3xl border border-[#CFC3B2] bg-white shadow-[0_20px_48px_-36px_rgba(23,32,51,0.55)]"
         >
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#2F7D5C]/[0.05] to-transparent" />
-          <div className="relative grid grid-cols-1 sm:grid-cols-[0.85fr_1.15fr] gap-6 p-6 sm:p-8">
-            <BannerPlaceholder logoText={hero.logoText} label={work.logoBanner} hero />
+          <div className="grid grid-cols-1 gap-0 lg:grid-cols-[1.03fr_0.97fr]">
+            <div className="p-4 sm:p-5 lg:p-6 lg:pe-0">
+              <ProjectMedia logoText={hero.logoText} label={work.logoBanner} hero />
+            </div>
 
-            <div className="flex flex-col gap-5">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex flex-col gap-1">
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-[#2F7D5C]/90 font-medium">
+            <div className="relative flex flex-col gap-5 px-6 pb-7 pt-5 sm:px-8 sm:pb-8 lg:px-9 lg:py-8">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#2F7D5C]/[0.045] to-transparent"
+              />
+
+              <div className="relative flex items-start justify-between gap-4">
+                <div className="flex min-w-0 flex-col gap-1.5">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[#2F7D5C]">
                     {hero.year}
                   </p>
-                  <h3 className="text-2xl font-semibold leading-tight text-[#172033]">
+                  <h3 className="text-2xl font-semibold leading-tight tracking-[-0.02em] text-[#172033] sm:text-[1.75rem]">
                     {hero.title}
                   </h3>
-                  <p className="text-sm text-[#5F6B7A]">{hero.subtitle}</p>
+                  <p className="text-[13px] leading-5 text-[#5F6B7A]">{hero.subtitle}</p>
                 </div>
-                <span className="flex-none rounded-full border border-[#B88746]/40 bg-[#B88746]/[0.09] px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-[#B88746]">
+                <span className="flex-none rounded-full border border-[#B88746]/40 bg-[#B88746]/[0.09] px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.1em] text-[#A87535]">
                   {work.currentFocus}
                 </span>
               </div>
 
-              <div className="grid grid-cols-2 gap-x-6 gap-y-4 border-y border-[#DDD4C5] py-4">
-                <MetaRow label={work.meta.role}     value={hero.role} />
-                <MetaRow label={work.meta.sector}   value={hero.sector} />
+              <div className="relative grid grid-cols-2 gap-x-6 gap-y-4 border-y border-[#E4DDD2] py-4">
+                <MetaRow label={work.meta.role} value={hero.role} />
+                <MetaRow label={work.meta.sector} value={hero.sector} />
                 <MetaRow label={work.meta.location} value={hero.location} />
-                <MetaRow label={work.meta.year}     value={hero.year} />
+                <MetaRow label={work.meta.year} value={hero.year} />
               </div>
 
-              <p className="text-sm font-medium text-[#172033] leading-relaxed">
-                {hero.line}
-              </p>
-              <p className="text-sm text-[#5F6B7A] leading-relaxed">
-                {hero.description}
-              </p>
+              <div className="relative flex flex-col gap-2.5">
+                <p className="text-[13px] font-semibold leading-6 text-[#172033]">{hero.line}</p>
+                <p className="text-[12.5px] leading-6 text-[#5F6B7A]">{hero.description}</p>
+              </div>
 
-              <div className="flex flex-wrap gap-1.5">
+              <div className="relative flex flex-wrap gap-1.5">
                 {hero.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="rounded-full border border-[#DDD4C5] bg-[#F7F3EA] px-2.5 py-1 text-[11px] text-[#7C8794]"
+                    className="rounded-full border border-[#DED5C7] bg-[#FAF7F1] px-2.5 py-1 text-[10px] text-[#6E786F]"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
 
-              <SocialRow links={linksFor(hero.id)} title={hero.title} notAvailable={ui.notAvailable} />
+              <div className="relative mt-auto border-t border-[#E7E0D5] pt-4">
+                <SocialRow links={linksFor(hero.id)} title={hero.title} notAvailable={ui.notAvailable} />
+              </div>
             </div>
           </div>
         </motion.article>
 
-        {/* Standard project cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-          {rest.map((item, i) => (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {rest.map((item, index) => (
             <motion.article
               key={item.id}
-              {...reveal(0.06 + i * 0.05)}
-              className="group flex flex-col gap-4 rounded-2xl border border-[#DDD4C5] bg-white p-5 transition-colors hover:border-[#2F7D5C]/30 hover:shadow-[0_2px_16px_rgba(47,125,92,0.08)]"
+              {...reveal(0.06 + index * 0.045)}
+              className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#D8CEBE] bg-white shadow-[0_14px_34px_-30px_rgba(23,32,51,0.5)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#2F7D5C]/35 hover:shadow-[0_20px_42px_-30px_rgba(47,125,92,0.3)]"
             >
-              <BannerPlaceholder logoText={item.logoText} label={work.logoBanner} />
+              <ProjectMedia
+                logoText={item.logoText}
+                label={work.logoBanner}
+                warm={index % 3 === 1}
+              />
 
-              <div className="flex flex-col gap-1">
-                <p className="text-[11px] uppercase tracking-[0.18em] text-[#2F7D5C]/90 font-medium">
-                  {item.year}
+              <div className="flex flex-1 flex-col gap-3.5 p-5">
+                <div className="flex flex-col gap-1">
+                  <p className="text-[9.5px] font-semibold uppercase tracking-[0.16em] text-[#2F7D5C]">
+                    {item.year}
+                  </p>
+                  <h3 className="text-[17px] font-semibold leading-snug tracking-[-0.01em] text-[#172033]">
+                    {item.title}
+                  </h3>
+                  <p className="text-[11px] leading-5 text-[#69736E]">{item.subtitle}</p>
+                </div>
+
+                <div className="h-px bg-[#E7E0D5]" />
+
+                <div className="flex flex-col gap-1">
+                  <p className="text-[12px] font-medium leading-5 text-[#172033]">{item.role}</p>
+                  <p className="text-[10.5px] leading-5 text-[#8A938D]">
+                    {item.sector} · {item.location}
+                  </p>
+                </div>
+
+                <p
+                  className="overflow-hidden text-[12px] leading-5 text-[#5F6B7A]"
+                  style={{ display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical" }}
+                >
+                  {item.description}
                 </p>
-                <h3 className="text-lg font-semibold leading-tight text-[#172033]">
-                  {item.title}
-                </h3>
-                <p className="text-xs text-[#5F6B7A]">{item.subtitle}</p>
+
+                <div className="mt-auto flex flex-wrap gap-1.5 pt-1">
+                  {item.tags.slice(0, 3).map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-[#DED5C7] bg-[#FAF7F1] px-2.5 py-1 text-[9.5px] text-[#6E786F]"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="border-t border-[#E7E0D5] pt-3.5">
+                  <SocialRow links={linksFor(item.id)} title={item.title} notAvailable={ui.notAvailable} />
+                </div>
               </div>
-
-              <div className="h-px bg-[#DDD4C5]" />
-
-              <div className="flex flex-col gap-1.5">
-                <p className="text-[13px] text-[#172033]">{item.role}</p>
-                <p className="text-xs text-[#7C8794]">
-                  {item.sector} · {item.location}
-                </p>
-              </div>
-
-              <p className="text-[13px] text-[#5F6B7A] leading-relaxed">
-                {item.description}
-              </p>
-
-              <div className="mt-auto flex flex-wrap gap-1.5 pt-1">
-                {item.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full border border-[#DDD4C5] bg-[#F7F3EA] px-2.5 py-1 text-[11px] text-[#7C8794]"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              <SocialRow links={linksFor(item.id)} title={item.title} notAvailable={ui.notAvailable} />
             </motion.article>
           ))}
         </div>
-
       </div>
     </section>
   );
