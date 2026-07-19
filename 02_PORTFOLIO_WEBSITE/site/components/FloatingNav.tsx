@@ -99,8 +99,8 @@ export default function FloatingNav() {
           className={[
             "pointer-events-auto mx-auto flex h-[54px] max-w-[1240px] items-center justify-between rounded-2xl border px-4 transition-all duration-300 sm:px-5",
             scrolled
-              ? "border-[#D4C8B7] bg-white/96 shadow-[0_12px_32px_-18px_rgba(23,32,51,0.34)] backdrop-blur-xl"
-              : "border-white/70 bg-white/92 shadow-[0_8px_24px_-18px_rgba(23,32,51,0.28)] backdrop-blur-lg",
+              ? "border-[#D4C8B7] bg-white/[0.96] shadow-[0_12px_32px_-18px_rgba(23,32,51,0.34)] backdrop-blur-xl"
+              : "border-white/70 bg-white/[0.92] shadow-[0_8px_24px_-18px_rgba(23,32,51,0.28)] backdrop-blur-lg",
           ].join(" ")}
         >
           <a
@@ -130,7 +130,7 @@ export default function FloatingNav() {
                   className={[
                     "rounded-lg px-2.5 py-1.5 text-[11px] font-semibold transition-colors duration-200 xl:px-3",
                     isContact
-                      ? "ms-1 border border-[#2F7D5C]/35 bg-[#2F7D5C] px-3.5 text-white hover:bg-[#1F5F46]"
+                      ? "ms-1 border border-[#2F7D5C]/[0.35] bg-[#2F7D5C] px-3.5 text-white hover:bg-[#1F5F46]"
                       : isActive
                         ? "bg-[#2F7D5C]/[0.08] text-[#2F7D5C]"
                         : "text-[#69736E] hover:bg-[#172033]/[0.04] hover:text-[#172033]",
@@ -176,7 +176,7 @@ export default function FloatingNav() {
             exit={{ opacity: 0, y: -8, scale: 0.985 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
             aria-label="Mobile navigation"
-            className="fixed left-3 right-3 top-[76px] z-40 flex flex-col rounded-2xl border border-[#D4C8B7] bg-white/98 p-2 shadow-[0_20px_50px_-24px_rgba(23,32,51,0.38)] backdrop-blur-xl lg:hidden"
+            className="fixed left-3 right-3 top-[76px] z-40 flex flex-col rounded-2xl border border-[#D4C8B7] bg-white/[0.98] p-2 shadow-[0_20px_50px_-24px_rgba(23,32,51,0.38)] backdrop-blur-xl lg:hidden"
           >
             {navItems.map((item) => {
               const isContact = item.id === "contact";
