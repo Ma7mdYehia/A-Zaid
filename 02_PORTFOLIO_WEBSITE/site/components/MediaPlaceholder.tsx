@@ -15,29 +15,29 @@ const toneStyles: Record<PlaceholderTone, { background: string; border: string; 
   dark: {
     background:
       "radial-gradient(80% 85% at 74% 42%, rgba(92,139,154,0.48), transparent 66%), linear-gradient(118deg, #102D3A 0%, #173B49 46%, #6A7E80 100%)",
-    border: "border-white/15",
-    text: "text-white/72 bg-[#0E2834]/68 border-white/15",
+    border: "border-white/[0.15]",
+    text: "border-white/[0.15] bg-[#0E2834]/[0.68] text-white/[0.72]",
     grid: "rgba(255,255,255,0.07)",
   },
   light: {
     background:
       "radial-gradient(70% 80% at 75% 30%, rgba(47,125,92,0.12), transparent 65%), linear-gradient(135deg, #F8F3E9 0%, #E8E0D3 100%)",
     border: "border-[#D8CEBE]",
-    text: "text-[#5F6B7A] bg-white/80 border-[#D8CEBE]",
+    text: "border-[#D8CEBE] bg-white/80 text-[#5F6B7A]",
     grid: "rgba(23,32,51,0.055)",
   },
   warm: {
     background:
       "radial-gradient(72% 82% at 25% 20%, rgba(184,135,70,0.13), transparent 68%), linear-gradient(135deg, #F3EBDD 0%, #DDD1C0 100%)",
     border: "border-[#D3C5B2]",
-    text: "text-[#5F6B7A] bg-[#F8F3EA]/85 border-[#D3C5B2]",
+    text: "border-[#D3C5B2] bg-[#F8F3EA]/[0.85] text-[#5F6B7A]",
     grid: "rgba(23,32,51,0.05)",
   },
 };
 
 const labelPositions: Record<LabelPosition, string> = {
-  "top-left": "top-4 left-4",
-  "top-right": "top-4 right-4",
+  "top-left": "left-4 top-4",
+  "top-right": "right-4 top-4",
   "bottom-left": "bottom-4 left-4",
   "bottom-right": "bottom-4 right-4",
 };
@@ -50,6 +50,7 @@ export default function MediaPlaceholder({
   children,
 }: MediaPlaceholderProps) {
   const palette = toneStyles[tone];
+  const fadeMask = "linear-gradient(to bottom, rgba(0,0,0,.75), transparent 88%)";
 
   return (
     <div
@@ -64,7 +65,8 @@ export default function MediaPlaceholder({
         style={{
           backgroundImage: `linear-gradient(${palette.grid} 1px, transparent 1px), linear-gradient(90deg, ${palette.grid} 1px, transparent 1px)`,
           backgroundSize: "42px 42px",
-          maskImage: "linear-gradient(to bottom, rgba(0,0,0,.75), transparent 88%)",
+          maskImage: fadeMask,
+          WebkitMaskImage: fadeMask,
         }}
       />
       <div
