@@ -83,97 +83,106 @@ export default function WhoIAmSection() {
     <section
       id="about"
       aria-label="Who I am"
-      className="border-t border-[#DED5C7] bg-[#F7F3EA] px-6 py-20 sm:py-24 lg:px-10 lg:py-28"
+      className="relative z-20 -mt-10 bg-[#F7F3EA] px-3 sm:-mt-12 sm:px-5 lg:-mt-14 lg:px-8"
     >
-      <div className="mx-auto flex max-w-[1180px] flex-col gap-12 lg:gap-14">
-        <div className="grid items-start gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+      <div
+        className="mx-auto max-w-[1240px] rounded-t-[1.75rem] border-x border-t border-white/70 px-3 pb-20 pt-14 sm:rounded-t-[2rem] sm:px-6 sm:pb-24 sm:pt-16 lg:px-10 lg:pb-28 lg:pt-20"
+        style={{
+          background: "linear-gradient(145deg, #f8f4ed 0%, #eee7dc 100%)",
+          boxShadow:
+            "0 -18px 48px -28px rgba(3,15,23,0.42), 18px 18px 42px rgba(151,132,105,0.18), -12px -12px 30px rgba(255,255,255,0.70), inset 1px 1px 0 rgba(255,255,255,0.86)",
+        }}
+      >
+        <div className="mx-auto flex max-w-[1180px] flex-col gap-12 lg:gap-14">
+          <div className="grid items-start gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+            <div className="flex flex-col gap-5">
+              <motion.p
+                {...reveal(0)}
+                className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#2F7D5C]"
+              >
+                {whoIAm.label}
+              </motion.p>
+
+              <motion.h2
+                {...reveal(0.06)}
+                className="font-display arabic-profile-heading text-[4.4rem] leading-[0.86] tracking-[0.005em] text-[#172033] sm:text-[5.35rem] lg:text-[6rem]"
+              >
+                {whoIAm.headingLines.map((line, index) => (
+                  <span
+                    key={line}
+                    className={index === whoIAm.accentLineIndex ? "block text-[#2F7D5C]" : "block"}
+                  >
+                    {line}
+                  </span>
+                ))}
+              </motion.h2>
+            </div>
+
+            <div className="flex max-w-[650px] flex-col gap-5 lg:pt-7">
+              {whoIAm.introParagraphs.map((segments, paragraphIndex) => (
+                <motion.p
+                  key={paragraphIndex}
+                  {...reveal(0.12 + paragraphIndex * 0.07)}
+                  className="text-[15px] leading-7 text-[#5F6B7A] sm:text-base sm:leading-8"
+                >
+                  {segments.map((segment, segmentIndex) =>
+                    segment.accent ? (
+                      <span key={segmentIndex} className="font-semibold text-[#172033]">
+                        {segment.text}
+                      </span>
+                    ) : (
+                      <span key={segmentIndex}>{segment.text}</span>
+                    ),
+                  )}
+                </motion.p>
+              ))}
+            </div>
+          </div>
+
           <div className="flex flex-col gap-5">
             <motion.p
-              {...reveal(0)}
-              className="text-[10px] font-semibold uppercase tracking-[0.22em] text-[#2F7D5C]"
+              {...reveal(0.05)}
+              className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7C8794]"
             >
-              {whoIAm.label}
+              {whoIAm.resultsLabel}
             </motion.p>
 
-            <motion.h2
-              {...reveal(0.06)}
-              className="font-display arabic-profile-heading text-[4.4rem] leading-[0.86] tracking-[0.005em] text-[#172033] sm:text-[5.35rem] lg:text-[6rem]"
-            >
-              {whoIAm.headingLines.map((line, index) => (
-                <span
-                  key={line}
-                  className={index === whoIAm.accentLineIndex ? "block text-[#2F7D5C]" : "block"}
-                >
-                  {line}
-                </span>
-              ))}
-            </motion.h2>
-          </div>
-
-          <div className="flex max-w-[650px] flex-col gap-5 lg:pt-7">
-            {whoIAm.introParagraphs.map((segments, paragraphIndex) => (
-              <motion.p
-                key={paragraphIndex}
-                {...reveal(0.12 + paragraphIndex * 0.07)}
-                className="text-[15px] leading-7 text-[#5F6B7A] sm:text-base sm:leading-8"
-              >
-                {segments.map((segment, segmentIndex) =>
-                  segment.accent ? (
-                    <span key={segmentIndex} className="font-semibold text-[#172033]">
-                      {segment.text}
-                    </span>
-                  ) : (
-                    <span key={segmentIndex}>{segment.text}</span>
-                  ),
-                )}
-              </motion.p>
-            ))}
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-5">
-          <motion.p
-            {...reveal(0.05)}
-            className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[#7C8794]"
-          >
-            {whoIAm.resultsLabel}
-          </motion.p>
-
-          <div ref={resultsRef} className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6">
-            {whoIAm.resultCards.map((card, index) => {
-              const Icon = METRIC_ICONS[index % METRIC_ICONS.length];
-              return (
-                <motion.article
-                  key={card.label}
-                  {...reveal(0.1 + index * 0.055)}
-                  whileHover={animate ? { y: -3 } : undefined}
-                  className={[
-                    "group relative overflow-hidden rounded-2xl border border-[#DED5C7] bg-white px-5 py-5 shadow-[0_12px_28px_-24px_rgba(23,32,51,0.38)] transition-[transform,border-color,box-shadow] duration-300",
-                    "hover:border-[#2F7D5C]/35 hover:shadow-[0_16px_34px_-22px_rgba(47,125,92,0.3)]",
-                    "lg:col-span-2",
-                    index === 3 ? "lg:col-start-2" : "",
-                  ].join(" ")}
-                >
-                  <div
-                    aria-hidden
-                    className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#2F7D5C]/[0.045] to-transparent"
-                  />
-                  <div className="relative flex items-start justify-between gap-5">
-                    <div className="flex min-w-0 flex-col gap-2.5">
-                      <span className="font-display text-4xl leading-none tracking-[0.01em] text-[#172033] tabular-nums sm:text-[2.7rem]">
-                        <MetricValue value={card.value} play={resultsInView} />
+            <div ref={resultsRef} className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6">
+              {whoIAm.resultCards.map((card, index) => {
+                const Icon = METRIC_ICONS[index % METRIC_ICONS.length];
+                return (
+                  <motion.article
+                    key={card.label}
+                    {...reveal(0.1 + index * 0.055)}
+                    whileHover={animate ? { y: -3 } : undefined}
+                    className={[
+                      "group relative overflow-hidden rounded-2xl border border-[#DED5C7] bg-white px-5 py-5 shadow-[0_12px_28px_-24px_rgba(23,32,51,0.38)] transition-[transform,border-color,box-shadow] duration-300",
+                      "hover:border-[#2F7D5C]/35 hover:shadow-[0_16px_34px_-22px_rgba(47,125,92,0.3)]",
+                      "lg:col-span-2",
+                      index === 3 ? "lg:col-start-2" : "",
+                    ].join(" ")}
+                  >
+                    <div
+                      aria-hidden
+                      className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-[#2F7D5C]/[0.045] to-transparent"
+                    />
+                    <div className="relative flex items-start justify-between gap-5">
+                      <div className="flex min-w-0 flex-col gap-2.5">
+                        <span className="font-display text-4xl leading-none tracking-[0.01em] text-[#172033] tabular-nums sm:text-[2.7rem]">
+                          <MetricValue value={card.value} play={resultsInView} />
+                        </span>
+                        <p className="max-w-[180px] text-[12px] leading-5 text-[#5F6B7A]">
+                          {card.label}
+                        </p>
+                      </div>
+                      <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl border border-[#2F7D5C]/20 bg-[#EFF7F2] text-[#2F7D5C] transition-transform duration-300 group-hover:scale-105">
+                        <Icon size={17} strokeWidth={1.8} aria-hidden />
                       </span>
-                      <p className="max-w-[180px] text-[12px] leading-5 text-[#5F6B7A]">
-                        {card.label}
-                      </p>
                     </div>
-                    <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl border border-[#2F7D5C]/20 bg-[#EFF7F2] text-[#2F7D5C] transition-transform duration-300 group-hover:scale-105">
-                      <Icon size={17} strokeWidth={1.8} aria-hidden />
-                    </span>
-                  </div>
-                </motion.article>
-              );
-            })}
+                  </motion.article>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
