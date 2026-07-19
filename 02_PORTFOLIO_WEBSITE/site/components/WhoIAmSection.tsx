@@ -83,7 +83,7 @@ export default function WhoIAmSection() {
     <section
       id="about"
       aria-label="Who I am"
-      className="relative z-20 -mt-10 bg-[#F7F3EA] px-3 sm:-mt-12 sm:px-5 lg:-mt-14 lg:px-8"
+      className="relative z-20 -mt-4 bg-[#F7F3EA] px-3 sm:-mt-5 sm:px-5 lg:-mt-6 lg:px-8"
     >
       <div
         className="mx-auto max-w-[1240px] rounded-t-[1.75rem] border-x border-t border-white/70 px-3 pb-20 pt-14 sm:rounded-t-[2rem] sm:px-6 sm:pb-24 sm:pt-16 lg:px-10 lg:pb-28 lg:pt-20"
