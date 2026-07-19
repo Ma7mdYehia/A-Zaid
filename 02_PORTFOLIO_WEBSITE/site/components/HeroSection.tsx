@@ -99,7 +99,7 @@ export default function HeroSection() {
         className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/[0.16]"
       />
 
-      <div className="relative z-10 mx-auto flex min-h-[calc(690px-5rem)] w-full max-w-[1180px] items-end px-6 pb-14 sm:min-h-[calc(750px-6rem)] sm:px-8 sm:pb-18 lg:min-h-[calc(100vh-6.5rem)] lg:px-10 lg:pb-16">
+      <div className="relative z-10 mx-auto flex min-h-[calc(690px-5rem)] w-full max-w-[1180px] items-end px-6 pb-14 sm:min-h-[calc(750px-6rem)] sm:px-8 sm:pb-20 lg:min-h-[calc(100vh-6.5rem)] lg:px-10 lg:pb-16">
         <div className="flex w-full max-w-[620px] flex-col items-start gap-5 text-start lg:max-w-[650px]">
           <motion.div {...reveal(0.08)} className="flex flex-wrap items-center gap-2.5">
             <span className="inline-flex items-center gap-2 rounded-full border border-white/[0.2] bg-white/[0.08] px-3 py-1.5 text-[10px] font-semibold tracking-[0.14em] text-white/[0.84] backdrop-blur-md">
