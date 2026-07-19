@@ -2,12 +2,14 @@ import type { ReactNode } from "react";
 
 type PlaceholderTone = "dark" | "light" | "warm";
 type LabelPosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
+type FocalSide = "left" | "right";
 
 interface MediaPlaceholderProps {
   label: string;
   className?: string;
   tone?: PlaceholderTone;
   labelPosition?: LabelPosition;
+  focalSide?: FocalSide;
   children?: ReactNode;
 }
 
@@ -42,43 +44,57 @@ const labelPositions: Record<LabelPosition, string> = {
   "bottom-right": "bottom-4 right-4",
 };
 
+const focalPositions: Record<FocalSide, string> = {
+  left: "left-[10%]",
+  right: "right-[10%]",
+};
+
 export default function MediaPlaceholder({
   label,
   className = "",
   tone = "light",
   labelPosition = "bottom-right",
+  focalSide = "right",
   children,
 }: MediaPlaceholderProps) {
   const palette = toneStyles[tone];
-  const fadeMask = "linear-gradient(to bottom, rgba(0,0,0,.75), transparent 88%)";
+  const fadeMask = "linear-gradient(to bottom, rgba(0,0,0,.78), transparent 90%)";
 
   return (
     <div
       role="img"
       aria-label={label}
+      data-media-placeholder
       className={`relative overflow-hidden border ${palette.border} ${className}`}
       style={{ background: palette.background }}
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-70"
+        className="pointer-events-none absolute inset-0 opacity-55"
         style={{
           backgroundImage: `linear-gradient(${palette.grid} 1px, transparent 1px), linear-gradient(90deg, ${palette.grid} 1px, transparent 1px)`,
-          backgroundSize: "42px 42px",
+          backgroundSize: "44px 44px",
           maskImage: fadeMask,
           WebkitMaskImage: fadeMask,
         }}
       />
+
       <div
         aria-hidden
-        className="pointer-events-none absolute left-[62%] top-1/2 h-[68%] w-[28%] -translate-y-1/2 rounded-[48%] border border-white/10 bg-white/[0.035] blur-[0.2px]"
+        className={`pointer-events-none absolute top-[12%] h-[82%] w-[31%] rounded-[46%_46%_18%_18%] border border-white/[0.11] bg-white/[0.045] shadow-[0_30px_90px_-48px_rgba(0,0,0,0.7)] ${focalPositions[focalSide]}`}
       />
+      <div
+        aria-hidden
+        className={`pointer-events-none absolute bottom-[7%] h-[18%] w-[42%] rounded-[50%] bg-black/[0.12] blur-2xl ${focalPositions[focalSide]}`}
+      />
+
       {children}
+
       <span
-        className={`absolute ${labelPositions[labelPosition]} z-20 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] backdrop-blur-md ${palette.text}`}
+        className={`absolute ${labelPositions[labelPosition]} z-20 inline-flex max-w-[calc(100%-2rem)] items-center gap-2 rounded-full border px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.12em] backdrop-blur-md sm:text-[10px] ${palette.text}`}
       >
-        <span className="h-1.5 w-1.5 rounded-full bg-current opacity-70" aria-hidden />
-        {label}
+        <span className="h-1.5 w-1.5 flex-none rounded-full bg-current opacity-70" aria-hidden />
+        <span className="truncate">{label}</span>
       </span>
     </div>
   );
