@@ -95,11 +95,11 @@ export default function HeroSection() {
       <div className="relative z-10 mx-auto flex min-h-[calc(720px-6rem)] w-full max-w-[1180px] items-end px-6 pb-16 sm:min-h-[calc(760px-6rem)] sm:px-8 sm:pb-20 lg:min-h-[calc(100vh-6.5rem)] lg:px-10 lg:pb-16">
         <div className="flex w-full max-w-[620px] flex-col items-start gap-5 text-start lg:max-w-[650px]">
           <motion.div {...reveal(0.08)} className="flex flex-wrap items-center gap-2.5">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-3 py-1.5 text-[10px] font-semibold tracking-[0.14em] text-white/82 backdrop-blur-md">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/[0.08] px-3 py-1.5 text-[10px] font-semibold tracking-[0.14em] text-white/[0.82] backdrop-blur-md">
               <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#64C896]" />
               {hero.statusChip}
             </span>
-            <span className="hidden text-[11px] font-medium text-white/48 sm:inline">
+            <span className="hidden text-[11px] font-medium text-white/[0.48] sm:inline">
               {hero.title}
             </span>
           </motion.div>
@@ -120,7 +120,7 @@ export default function HeroSection() {
 
           <motion.p
             {...reveal(0.23)}
-            className="max-w-[560px] text-sm leading-7 text-white/72 sm:text-[15px]"
+            className="max-w-[560px] text-sm leading-7 text-white/[0.72] sm:text-[15px]"
           >
             {hero.valueStatement}
           </motion.p>
@@ -137,7 +137,7 @@ export default function HeroSection() {
             </a>
             <a
               href={hero.ctas.secondary.href}
-              className="soft-light-sweep inline-flex items-center justify-center rounded-lg border border-white/22 bg-white/[0.08] px-5 py-3 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/[0.14] focus-visible:ring-2 focus-visible:ring-white/70"
+              className="soft-light-sweep inline-flex items-center justify-center rounded-lg border border-white/[0.22] bg-white/[0.08] px-5 py-3 text-sm font-semibold text-white backdrop-blur-md transition-colors hover:bg-white/[0.14] focus-visible:ring-2 focus-visible:ring-white/70"
             >
               {hero.ctas.secondary.label}
             </a>
@@ -145,20 +145,20 @@ export default function HeroSection() {
 
           <motion.div
             {...reveal(0.39)}
-            className="mt-1 grid w-full max-w-[570px] grid-cols-3 border-t border-white/16 pt-5"
+            className="mt-1 grid w-full max-w-[570px] grid-cols-3 border-t border-white/[0.16] pt-5"
           >
             {heroStats.map((stat, index) => (
               <div
                 key={stat.label}
                 className={[
                   "flex min-w-0 flex-col gap-1",
-                  index > 0 ? "border-s border-white/14 ps-5 sm:ps-7" : "pe-5 sm:pe-7",
+                  index > 0 ? "border-s border-white/[0.14] ps-5 sm:ps-7" : "pe-5 sm:pe-7",
                 ].join(" ")}
               >
                 <span className="font-display text-3xl leading-none text-white sm:text-4xl">
                   {stat.value}
                 </span>
-                <span className="text-[9px] font-medium uppercase leading-tight tracking-[0.08em] text-white/48 sm:text-[10px]">
+                <span className="text-[9px] font-medium uppercase leading-tight tracking-[0.08em] text-white/[0.48] sm:text-[10px]">
                   {stat.label}
                 </span>
               </div>
@@ -167,7 +167,7 @@ export default function HeroSection() {
 
           <motion.div
             {...reveal(0.47)}
-            className="inline-flex items-center gap-2 text-[11px] text-white/56"
+            className="inline-flex items-center gap-2 text-[11px] text-white/[0.56]"
           >
             <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-[#66C996]" />
             {hero.location}
@@ -179,10 +179,10 @@ export default function HeroSection() {
         {...reveal(0.65)}
         href="#about"
         aria-label={ui.scrollToProfile}
-        className="absolute bottom-5 left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-1 text-white/48 transition-colors hover:text-white/80 lg:flex"
+        className="absolute bottom-5 left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-1 text-white/[0.48] transition-colors hover:text-white/80 lg:flex"
       >
         <span className="text-[9px] font-semibold uppercase tracking-[0.18em]">{ui.scroll}</span>
-        <span className="scroll-bob flex h-7 w-7 items-center justify-center rounded-full border border-white/18 bg-white/[0.07] text-xs backdrop-blur-md">
+        <span className="scroll-bob flex h-7 w-7 items-center justify-center rounded-full border border-white/[0.18] bg-white/[0.07] text-xs backdrop-blur-md">
           ↓
         </span>
       </motion.a>
