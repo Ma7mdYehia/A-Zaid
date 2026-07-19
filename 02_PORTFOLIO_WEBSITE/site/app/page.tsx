@@ -13,7 +13,7 @@ import SiteFooter from "@/components/SiteFooter";
 
 export default function HomePage() {
   return (
-    <div className="relative min-h-screen bg-[#F4F0E7]">
+    <div className="relative min-h-screen overflow-x-clip bg-[#F4F0E7]">
       <FloatingNav />
 
       <main>
