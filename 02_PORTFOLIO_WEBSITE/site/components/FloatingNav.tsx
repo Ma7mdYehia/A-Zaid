@@ -5,7 +5,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useLanguage, type Locale } from "@/lib/i18n";
 
-/* Compact EN / AR language switcher */
 function LanguageSwitch({
   locale,
   setLocale,
@@ -13,7 +12,7 @@ function LanguageSwitch({
   className = "",
 }: {
   locale: Locale;
-  setLocale: (l: Locale) => void;
+  setLocale: (locale: Locale) => void;
   ariaLabel: string;
   className?: string;
 }) {
@@ -21,31 +20,29 @@ function LanguageSwitch({
     { value: "en", label: "EN" },
     { value: "ar", label: "AR" },
   ];
+
   return (
     <div
       role="group"
       aria-label={ariaLabel}
-      className={[
-        "inline-flex items-center gap-0.5 rounded-lg border border-[#DDD4C5] bg-white p-0.5",
-        className,
-      ].join(" ")}
+      className={`inline-flex items-center rounded-lg border border-[#D8CEBE] bg-[#F7F3EA] p-0.5 ${className}`}
     >
-      {options.map((opt) => {
-        const isActive = locale === opt.value;
+      {options.map((option) => {
+        const active = locale === option.value;
         return (
           <button
-            key={opt.value}
+            key={option.value}
             type="button"
-            onClick={() => setLocale(opt.value)}
-            aria-pressed={isActive}
+            onClick={() => setLocale(option.value)}
+            aria-pressed={active}
             className={[
-              "px-2.5 py-1 rounded-md text-[12px] font-semibold tracking-wide transition-colors duration-200",
-              isActive
-                ? "bg-[#2F7D5C] text-white"
-                : "text-[#5F6B7A] hover:text-[#172033] hover:bg-[#172033]/[0.05]",
+              "rounded-md px-2 py-1 text-[10px] font-bold tracking-[0.08em] transition-all duration-200",
+              active
+                ? "bg-[#2F7D5C] text-white shadow-sm"
+                : "text-[#6C756F] hover:bg-white hover:text-[#172033]",
             ].join(" ")}
           >
-            {opt.label}
+            {option.label}
           </button>
         );
       })}
@@ -57,22 +54,21 @@ export default function FloatingNav() {
   const { content, locale, setLocale } = useLanguage();
   const navItems = content.ui.nav;
 
-  const [active, setActive]         = useState("home");
+  const [active, setActive] = useState("home");
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled]     = useState(false);
+  const [scrolled, setScrolled] = useState(false);
 
-  /* Shadow / border intensifies slightly on scroll */
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
+    const onScroll = () => setScrolled(window.scrollY > 18);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  /* Highlight the active section via IntersectionObserver */
   useEffect(() => {
     const sections = navItems
-      .map((i) => document.getElementById(i.id))
-      .filter((el): el is HTMLElement => el !== null);
+      .map((item) => document.getElementById(item.id))
+      .filter((element): element is HTMLElement => element !== null);
+
     if (sections.length === 0) return;
 
     const observer = new IntersectionObserver(
@@ -81,14 +77,13 @@ export default function FloatingNav() {
           if (entry.isIntersecting) setActive(entry.target.id);
         }
       },
-      { rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+      { rootMargin: "-42% 0px -42% 0px", threshold: 0 },
     );
 
-    sections.forEach((s) => observer.observe(s));
+    sections.forEach((section) => observer.observe(section));
     return () => observer.disconnect();
   }, [navItems]);
 
-  /* Close mobile menu on resize to desktop */
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth >= 1024) setMobileOpen(false);
@@ -99,31 +94,33 @@ export default function FloatingNav() {
 
   return (
     <>
-      {/* ── Fixed header ─────────────────────────────────────────────────── */}
-      <header
-        className={[
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          scrolled
-            ? "bg-[#F7F3EA]/96 backdrop-blur-md border-b border-[#DDD4C5] shadow-[0_1px_12px_rgba(23,32,51,0.08)]"
-            : "bg-[#F7F3EA]/85 backdrop-blur-sm border-b border-[#DDD4C5]/70",
-        ].join(" ")}
-      >
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
-
-          {/* Name / logo */}
+      <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
+        <div
+          className={[
+            "pointer-events-auto mx-auto flex h-[54px] max-w-[1240px] items-center justify-between rounded-2xl border px-4 transition-all duration-300 sm:px-5",
+            scrolled
+              ? "border-[#D4C8B7] bg-white/96 shadow-[0_12px_32px_-18px_rgba(23,32,51,0.34)] backdrop-blur-xl"
+              : "border-white/70 bg-white/92 shadow-[0_8px_24px_-18px_rgba(23,32,51,0.28)] backdrop-blur-lg",
+          ].join(" ")}
+        >
           <a
             href="#home"
             onClick={() => setActive("home")}
-            className="text-[15px] font-semibold text-[#172033] tracking-tight hover:text-[#2F7D5C] transition-colors duration-200"
+            className="flex min-w-0 items-center gap-2 text-[#172033] transition-colors hover:text-[#2F7D5C]"
           >
-            {content.ui.name}
+            <span className="flex h-7 w-7 flex-none items-center justify-center rounded-lg bg-[#172033] text-[10px] font-bold tracking-wide text-white">
+              AZ
+            </span>
+            <span className="truncate text-[12px] font-bold tracking-[-0.01em] sm:text-[13px]">
+              {content.ui.name}
+            </span>
           </a>
 
-          {/* Desktop links */}
-          <nav aria-label="Site navigation" className="hidden lg:flex items-center gap-0.5">
+          <nav aria-label="Site navigation" className="hidden items-center gap-0.5 lg:flex">
             {navItems.map((item) => {
-              const isActive  = active === item.id;
+              const isActive = active === item.id;
               const isContact = item.id === "contact";
+
               return (
                 <a
                   key={item.id}
@@ -131,12 +128,12 @@ export default function FloatingNav() {
                   aria-current={isActive ? "page" : undefined}
                   onClick={() => setActive(item.id)}
                   className={[
-                    "px-3 py-2 rounded-lg text-[13px] font-medium transition-colors duration-200",
+                    "rounded-lg px-2.5 py-1.5 text-[11px] font-semibold transition-colors duration-200 xl:px-3",
                     isContact
-                      ? "ms-2 px-4 border border-[#2F7D5C] text-[#2F7D5C] hover:bg-[#2F7D5C] hover:text-white"
+                      ? "ms-1 border border-[#2F7D5C]/35 bg-[#2F7D5C] px-3.5 text-white hover:bg-[#1F5F46]"
                       : isActive
-                        ? "text-[#2F7D5C] bg-[#2F7D5C]/[0.08]"
-                        : "text-[#5F6B7A] hover:text-[#172033] hover:bg-[#172033]/[0.04]",
+                        ? "bg-[#2F7D5C]/[0.08] text-[#2F7D5C]"
+                        : "text-[#69736E] hover:bg-[#172033]/[0.04] hover:text-[#172033]",
                   ].join(" ")}
                 >
                   {item.label}
@@ -144,17 +141,15 @@ export default function FloatingNav() {
               );
             })}
 
-            {/* Language switcher */}
             <LanguageSwitch
               locale={locale}
               setLocale={setLocale}
               ariaLabel={content.ui.languageLabel}
-              className="ms-3"
+              className="ms-2"
             />
           </nav>
 
-          {/* Mobile: switcher + burger */}
-          <div className="lg:hidden flex items-center gap-2">
+          <div className="flex items-center gap-2 lg:hidden">
             <LanguageSwitch
               locale={locale}
               setLocale={setLocale}
@@ -162,42 +157,46 @@ export default function FloatingNav() {
             />
             <button
               type="button"
-              onClick={() => setMobileOpen((o) => !o)}
+              onClick={() => setMobileOpen((open) => !open)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
-              className="p-2 rounded-lg text-[#5F6B7A] hover:text-[#172033] hover:bg-[#172033]/[0.05] transition-colors"
+              className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#D8CEBE] bg-[#F7F3EA] text-[#5F6B7A] transition-colors hover:text-[#172033]"
             >
-              {mobileOpen ? <X size={20} strokeWidth={1.9} /> : <Menu size={20} strokeWidth={1.9} />}
+              {mobileOpen ? <X size={18} strokeWidth={2} /> : <Menu size={18} strokeWidth={2} />}
             </button>
           </div>
         </div>
       </header>
 
-      {/* ── Mobile dropdown ──────────────────────────────────────────────── */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.nav
-            initial={{ opacity: 0, y: -6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
+            initial={{ opacity: 0, y: -8, scale: 0.985 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.985 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
             aria-label="Mobile navigation"
-            className="lg:hidden fixed top-16 left-0 right-0 z-40 bg-[#F7F3EA]/98 backdrop-blur-md border-b border-[#DDD4C5] px-5 py-2 flex flex-col shadow-[0_4px_16px_rgba(23,32,51,0.08)]"
+            className="fixed left-3 right-3 top-[76px] z-40 flex flex-col rounded-2xl border border-[#D4C8B7] bg-white/98 p-2 shadow-[0_20px_50px_-24px_rgba(23,32,51,0.38)] backdrop-blur-xl lg:hidden"
           >
             {navItems.map((item) => {
               const isContact = item.id === "contact";
+              const isActive = active === item.id;
+
               return (
                 <a
                   key={item.id}
                   href={item.href}
-                  onClick={() => { setActive(item.id); setMobileOpen(false); }}
+                  onClick={() => {
+                    setActive(item.id);
+                    setMobileOpen(false);
+                  }}
                   className={[
-                    "px-3 py-3 rounded-lg text-sm transition-colors",
+                    "rounded-xl px-4 py-3 text-sm font-medium transition-colors",
                     isContact
-                      ? "mt-1 mb-1 font-semibold text-[#2F7D5C]"
-                      : active === item.id
-                        ? "font-medium text-[#2F7D5C] bg-[#2F7D5C]/[0.07]"
-                        : "text-[#5F6B7A] hover:text-[#172033]",
+                      ? "mt-1 bg-[#2F7D5C] text-center font-semibold text-white"
+                      : isActive
+                        ? "bg-[#2F7D5C]/[0.08] text-[#2F7D5C]"
+                        : "text-[#5F6B7A] hover:bg-[#172033]/[0.04] hover:text-[#172033]",
                   ].join(" ")}
                 >
                   {item.label}
