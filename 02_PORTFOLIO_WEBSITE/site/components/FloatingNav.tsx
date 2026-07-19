@@ -23,6 +23,7 @@ function LanguageSwitch({
 
   return (
     <div
+      dir="ltr"
       role="group"
       aria-label={ariaLabel}
       className={`inline-flex items-center rounded-lg border border-[#D8CEBE] bg-[#F7F3EA] p-0.5 ${className}`}
@@ -53,6 +54,7 @@ function LanguageSwitch({
 export default function FloatingNav() {
   const { content, locale, setLocale } = useLanguage();
   const navItems = content.ui.nav;
+  const isRtl = locale === "ar";
 
   const [active, setActive] = useState("home");
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -92,15 +94,44 @@ export default function FloatingNav() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [locale]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setMobileOpen(false);
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [mobileOpen]);
+
+  const menuLabel = mobileOpen
+    ? isRtl
+      ? "إغلاق القائمة"
+      : "Close menu"
+    : isRtl
+      ? "فتح القائمة"
+      : "Open menu";
+
   return (
     <>
       <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-5">
         <div
           className={[
-            "pointer-events-auto mx-auto flex h-[54px] max-w-[1240px] items-center justify-between rounded-2xl border px-4 transition-all duration-300 sm:px-5",
+            "pointer-events-auto mx-auto flex h-[54px] max-w-[1180px] items-center justify-between rounded-2xl border px-4 transition-all duration-300 sm:px-5",
             scrolled
-              ? "border-[#D4C8B7] bg-white/[0.96] shadow-[0_12px_32px_-18px_rgba(23,32,51,0.34)] backdrop-blur-xl"
-              : "border-white/70 bg-white/[0.92] shadow-[0_8px_24px_-18px_rgba(23,32,51,0.28)] backdrop-blur-lg",
+              ? "border-[#D4C8B7] bg-white/[0.97] shadow-[0_12px_32px_-18px_rgba(23,32,51,0.34)] backdrop-blur-xl"
+              : "border-white/[0.72] bg-white/[0.93] shadow-[0_8px_24px_-18px_rgba(23,32,51,0.28)] backdrop-blur-lg",
           ].join(" ")}
         >
           <a
@@ -116,7 +147,10 @@ export default function FloatingNav() {
             </span>
           </a>
 
-          <nav aria-label="Site navigation" className="hidden items-center gap-0.5 lg:flex">
+          <nav
+            aria-label={isRtl ? "التنقل الرئيسي" : "Site navigation"}
+            className="hidden items-center gap-0.5 lg:flex"
+          >
             {navItems.map((item) => {
               const isActive = active === item.id;
               const isContact = item.id === "contact";
@@ -158,8 +192,9 @@ export default function FloatingNav() {
             <button
               type="button"
               onClick={() => setMobileOpen((open) => !open)}
-              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-label={menuLabel}
               aria-expanded={mobileOpen}
+              aria-controls="mobile-navigation"
               className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#D8CEBE] bg-[#F7F3EA] text-[#5F6B7A] transition-colors hover:text-[#172033]"
             >
               {mobileOpen ? <X size={18} strokeWidth={2} /> : <Menu size={18} strokeWidth={2} />}
@@ -170,40 +205,54 @@ export default function FloatingNav() {
 
       <AnimatePresence>
         {mobileOpen && (
-          <motion.nav
-            initial={{ opacity: 0, y: -8, scale: 0.985 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.985 }}
-            transition={{ duration: 0.18, ease: "easeOut" }}
-            aria-label="Mobile navigation"
-            className="fixed left-3 right-3 top-[76px] z-40 flex flex-col rounded-2xl border border-[#D4C8B7] bg-white/[0.98] p-2 shadow-[0_20px_50px_-24px_rgba(23,32,51,0.38)] backdrop-blur-xl lg:hidden"
-          >
-            {navItems.map((item) => {
-              const isContact = item.id === "contact";
-              const isActive = active === item.id;
+          <>
+            <motion.button
+              type="button"
+              aria-label={isRtl ? "إغلاق القائمة" : "Close navigation"}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.18 }}
+              onClick={() => setMobileOpen(false)}
+              className="fixed inset-0 z-30 bg-[#172033]/[0.18] backdrop-blur-[2px] lg:hidden"
+            />
 
-              return (
-                <a
-                  key={item.id}
-                  href={item.href}
-                  onClick={() => {
-                    setActive(item.id);
-                    setMobileOpen(false);
-                  }}
-                  className={[
-                    "rounded-xl px-4 py-3 text-sm font-medium transition-colors",
-                    isContact
-                      ? "mt-1 bg-[#2F7D5C] text-center font-semibold text-white"
-                      : isActive
-                        ? "bg-[#2F7D5C]/[0.08] text-[#2F7D5C]"
-                        : "text-[#5F6B7A] hover:bg-[#172033]/[0.04] hover:text-[#172033]",
-                  ].join(" ")}
-                >
-                  {item.label}
-                </a>
-              );
-            })}
-          </motion.nav>
+            <motion.nav
+              id="mobile-navigation"
+              initial={{ opacity: 0, y: -8, scale: 0.985 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.985 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
+              aria-label={isRtl ? "قائمة التنقل" : "Mobile navigation"}
+              className="fixed left-3 right-3 top-[76px] z-40 flex max-h-[calc(100vh-92px)] flex-col overflow-y-auto rounded-2xl border border-[#D4C8B7] bg-white/[0.98] p-2 shadow-[0_20px_50px_-24px_rgba(23,32,51,0.38)] backdrop-blur-xl lg:hidden"
+            >
+              {navItems.map((item) => {
+                const isContact = item.id === "contact";
+                const isActive = active === item.id;
+
+                return (
+                  <a
+                    key={item.id}
+                    href={item.href}
+                    onClick={() => {
+                      setActive(item.id);
+                      setMobileOpen(false);
+                    }}
+                    className={[
+                      "rounded-xl px-4 py-3 text-start text-sm font-medium transition-colors",
+                      isContact
+                        ? "mt-1 bg-[#2F7D5C] text-center font-semibold text-white"
+                        : isActive
+                          ? "bg-[#2F7D5C]/[0.08] text-[#2F7D5C]"
+                          : "text-[#5F6B7A] hover:bg-[#172033]/[0.04] hover:text-[#172033]",
+                    ].join(" ")}
+                  >
+                    {item.label}
+                  </a>
+                );
+              })}
+            </motion.nav>
+          </>
         )}
       </AnimatePresence>
     </>
