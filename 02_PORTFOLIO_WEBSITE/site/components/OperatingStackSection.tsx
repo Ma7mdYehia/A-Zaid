@@ -84,27 +84,29 @@ export default function OperatingStackSection() {
             return (
               <motion.article
                 key={tool.name}
+                dir="ltr"
                 {...reveal(0.05 + index * 0.05)}
                 whileHover={animate ? { y: -3 } : undefined}
-                className={`group flex min-h-[116px] flex-col justify-between rounded-2xl border border-[#D8CEBE] bg-white p-4 shadow-[0_12px_28px_-24px_rgba(23,32,51,0.38)] transition-[transform,border-color,box-shadow] duration-300 hover:border-[#2F7D5C]/40 hover:shadow-[0_15px_30px_-22px_rgba(47,125,92,0.28)] lg:col-span-2 ${centeredLastRow}`}
+                className={`group grid min-h-[84px] grid-cols-[40px_minmax(0,1fr)] items-center gap-3 rounded-2xl border border-[#D8CEBE] bg-white px-4 py-3 shadow-[0_12px_28px_-24px_rgba(23,32,51,0.38)] transition-[transform,border-color,box-shadow] duration-300 hover:border-[#2F7D5C]/40 hover:shadow-[0_15px_30px_-22px_rgba(47,125,92,0.28)] lg:col-span-2 ${centeredLastRow}`}
               >
-                <div className="flex items-start justify-between gap-3">
-                  <span className="relative h-10 w-10 overflow-hidden rounded-xl transition-transform duration-300 group-hover:scale-105">
-                    <Image
-                      src={image}
-                      alt=""
-                      fill
-                      sizes="40px"
-                      className="object-contain"
-                    />
-                  </span>
+                <span className="relative h-10 w-10 overflow-hidden rounded-xl transition-transform duration-300 group-hover:scale-105">
+                  <Image
+                    src={image}
+                    alt=""
+                    fill
+                    sizes="40px"
+                    className="object-contain"
+                  />
+                </span>
+
+                <div dir="auto" className="min-w-0 text-right">
                   <span className="text-[9px] font-semibold uppercase tracking-[0.12em] text-[#8A938D]">
                     {tool.categoryLabel}
                   </span>
+                  <h3 className="mt-1 text-[12.5px] font-semibold leading-5 text-[#172033]">
+                    {tool.name}
+                  </h3>
                 </div>
-                <h3 className="mt-4 text-[12.5px] font-semibold leading-5 text-[#172033]">
-                  {tool.name}
-                </h3>
               </motion.article>
             );
           })}
