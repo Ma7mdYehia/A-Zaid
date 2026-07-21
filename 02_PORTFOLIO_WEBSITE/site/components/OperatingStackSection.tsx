@@ -1,17 +1,9 @@
 "use client";
 
-import {
-  Activity,
-  BadgeCheck,
-  Calculator,
-  Factory,
-  Globe2,
-  Handshake,
-  Ship,
-  type LucideIcon,
-} from "lucide-react";
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
 import type { ToolStackCategory } from "@/content/homepage";
+import { TOOL_IMAGES } from "@/lib/imageAssets";
 import { useReveal } from "@/lib/motion";
 import { useIsClient } from "@/lib/useIsClient";
 import { useContent } from "@/lib/i18n";
@@ -39,16 +31,6 @@ function flattenTools(
 
   return tools;
 }
-
-const TOOL_ICONS: LucideIcon[] = [
-  Factory,
-  BadgeCheck,
-  Activity,
-  Calculator,
-  Globe2,
-  Ship,
-  Handshake,
-];
 
 export default function OperatingStackSection() {
   const { operatingStackCategories, operatingStackStrip, stackCategoryShortLabels } = useContent();
@@ -89,7 +71,7 @@ export default function OperatingStackSection() {
 
         <div className="relative grid grid-cols-1 gap-3 p-5 sm:grid-cols-2 sm:p-7 lg:grid-cols-8 lg:p-8">
           {tools.map((tool, index) => {
-            const Icon = TOOL_ICONS[index % TOOL_ICONS.length];
+            const image = TOOL_IMAGES[index % TOOL_IMAGES.length];
             const centeredLastRow =
               index === 4
                 ? "lg:col-start-2"
@@ -107,8 +89,14 @@ export default function OperatingStackSection() {
                 className={`group flex min-h-[116px] flex-col justify-between rounded-2xl border border-[#D8CEBE] bg-white p-4 shadow-[0_12px_28px_-24px_rgba(23,32,51,0.38)] transition-[transform,border-color,box-shadow] duration-300 hover:border-[#2F7D5C]/40 hover:shadow-[0_15px_30px_-22px_rgba(47,125,92,0.28)] lg:col-span-2 ${centeredLastRow}`}
               >
                 <div className="flex items-start justify-between gap-3">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#2F7D5C]/20 bg-[#EFF7F2] text-[#2F7D5C] transition-transform duration-300 group-hover:scale-105">
-                    <Icon size={16} strokeWidth={1.8} aria-hidden />
+                  <span className="relative h-10 w-10 overflow-hidden rounded-xl transition-transform duration-300 group-hover:scale-105">
+                    <Image
+                      src={image}
+                      alt=""
+                      fill
+                      sizes="40px"
+                      className="object-contain"
+                    />
                   </span>
                   <span className="text-[9px] font-semibold uppercase tracking-[0.12em] text-[#8A938D]">
                     {tool.categoryLabel}

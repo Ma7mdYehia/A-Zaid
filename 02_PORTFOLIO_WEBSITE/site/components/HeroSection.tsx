@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
-import MediaPlaceholder from "@/components/MediaPlaceholder";
+import { HERO_IMAGE } from "@/lib/imageAssets";
 import { useIsClient } from "@/lib/useIsClient";
 import { useLanguage } from "@/lib/i18n";
 
@@ -73,12 +74,17 @@ export default function HeroSection() {
       aria-label={isRtl ? "المقدمة" : "Introduction"}
       className="relative min-h-[690px] overflow-hidden border-b border-white/[0.12] bg-[#102D3A] pt-20 sm:min-h-[750px] sm:pt-24 lg:min-h-[calc(100vh-8px)]"
     >
-      <MediaPlaceholder
-        label={isRtl ? "صورة الهيرو — مؤقتة" : "Hero image — placeholder"}
-        tone="dark"
-        labelPosition={isRtl ? "bottom-left" : "bottom-right"}
-        focalSide={isRtl ? "left" : "right"}
-        className="absolute inset-0 !border-0"
+      <Image
+        src={HERO_IMAGE}
+        alt={
+          isRtl
+            ? "عبدالرحمن زيد في مكتبه"
+            : "Abdulrahman Zaid in his office"
+        }
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-[68%_center] sm:object-center"
       />
 
       <div

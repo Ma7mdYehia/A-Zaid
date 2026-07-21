@@ -1,15 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import {
-  Building2,
-  Clock3,
-  MapPinned,
-  Network,
-  TrendingUp,
-  type LucideIcon,
-} from "lucide-react";
+import Image from "next/image";
 import { motion, useInView, useReducedMotion } from "framer-motion";
+import { METRIC_IMAGES } from "@/lib/imageAssets";
 import { useIsClient } from "@/lib/useIsClient";
 import { useContent } from "@/lib/i18n";
 
@@ -57,8 +51,6 @@ function MetricValue({ value, play }: { value: string; play: boolean }) {
 
   return <>{display}</>;
 }
-
-const METRIC_ICONS: LucideIcon[] = [Clock3, MapPinned, Building2, Network, TrendingUp];
 
 export default function WhoIAmSection() {
   const { whoIAm } = useContent();
@@ -141,7 +133,7 @@ export default function WhoIAmSection() {
 
           <div ref={resultsRef} className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-6">
             {whoIAm.resultCards.map((card, index) => {
-              const Icon = METRIC_ICONS[index % METRIC_ICONS.length];
+              const image = METRIC_IMAGES[index % METRIC_IMAGES.length];
               return (
                 <motion.article
                   key={card.label}
@@ -167,8 +159,14 @@ export default function WhoIAmSection() {
                         {card.label}
                       </p>
                     </div>
-                    <span className="flex h-10 w-10 flex-none items-center justify-center rounded-xl border border-[#2F7D5C]/20 bg-[#EFF7F2] text-[#2F7D5C] transition-transform duration-300 group-hover:scale-105">
-                      <Icon size={17} strokeWidth={1.8} aria-hidden />
+                    <span className="relative h-11 w-11 flex-none overflow-hidden rounded-xl transition-transform duration-300 group-hover:scale-105">
+                      <Image
+                        src={image}
+                        alt=""
+                        fill
+                        sizes="44px"
+                        className="object-contain"
+                      />
                     </span>
                   </div>
                 </motion.article>

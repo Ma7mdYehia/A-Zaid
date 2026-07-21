@@ -1,19 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
-import { BookOpen, Clock, GraduationCap, type LucideIcon } from "lucide-react";
-import MediaPlaceholder from "@/components/MediaPlaceholder";
-import type { LearningCard } from "@/content/homepage";
+import { LEARNING_IMAGES } from "@/lib/imageAssets";
 import { useIsClient } from "@/lib/useIsClient";
 import { detailPanelSlide } from "@/lib/motion";
 import { useLanguage } from "@/lib/i18n";
-
-const learningIcons: Record<LearningCard["icon"], LucideIcon> = {
-  university: GraduationCap,
-  apple: BookOpen,
-  hours: Clock,
-};
 
 function CurrentChip({ label }: { label: string }) {
   return (
@@ -45,8 +38,6 @@ export default function ProfessionalJourney() {
   const shouldAnimate = isClient && !prefersReduced;
   const [active, setActive] = useState(0);
   const role = journeyItems[active];
-  const mainLearning = learningCards.filter((card) => card.size !== "compact");
-  const compactLearning = learningCards.filter((card) => card.size === "compact");
 
   const reveal = (delay = 0) =>
     shouldAnimate
@@ -87,68 +78,37 @@ export default function ProfessionalJourney() {
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-          {mainLearning.map((card, index) => {
-            const Icon = learningIcons[card.icon];
-            return (
-              <motion.article
-                key={card.title}
-                {...reveal(0.1 + index * 0.06)}
-                className="group overflow-hidden rounded-2xl border border-[#D8CEBE] bg-white shadow-[0_14px_34px_-30px_rgba(23,32,51,0.5)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#2F7D5C]/35 hover:shadow-[0_20px_42px_-30px_rgba(47,125,92,0.28)]"
-              >
-                <MediaPlaceholder
-                  label={locale === "ar" ? "صورة المؤهل — مؤقتة" : "Education image — placeholder"}
-                  tone={index === 1 ? "warm" : "light"}
-                  labelPosition="bottom-left"
-                  className="aspect-[16/9] !border-0 border-b border-[#DED5C7]"
-                >
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/70 bg-white/72 text-[#2F7D5C] shadow-sm backdrop-blur-sm">
-                      <Icon size={23} strokeWidth={1.65} aria-hidden />
-                    </span>
-                  </div>
-                </MediaPlaceholder>
+          {learningCards.map((card, index) => (
+            <motion.article
+              key={card.title}
+              {...reveal(0.1 + index * 0.05)}
+              className="group overflow-hidden rounded-2xl border border-[#D8CEBE] bg-white shadow-[0_14px_34px_-30px_rgba(23,32,51,0.5)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#2F7D5C]/35 hover:shadow-[0_20px_42px_-30px_rgba(47,125,92,0.28)]"
+            >
+              <div className="relative aspect-[16/9] overflow-hidden border-b border-[#DED5C7] bg-[#EEE8DD]">
+                <Image
+                  src={LEARNING_IMAGES[index % LEARNING_IMAGES.length]}
+                  alt=""
+                  fill
+                  sizes="(min-width: 768px) 33vw, 100vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+                />
+              </div>
 
-                <div className="flex min-h-[154px] flex-col gap-3 p-5">
-                  <div className="flex flex-col gap-1">
-                    <h3 className="text-[16px] font-semibold leading-snug text-[#172033]">
-                      {card.title}
-                    </h3>
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#2F7D5C]">
-                      {card.detail}
-                    </p>
-                  </div>
-                  <p className="text-[12.5px] leading-6 text-[#5F6B7A]">
-                    {card.description}
-                  </p>
-                </div>
-              </motion.article>
-            );
-          })}
-        </div>
-
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          {compactLearning.map((card, index) => {
-            const Icon = learningIcons[card.icon];
-            return (
-              <motion.article
-                key={card.title}
-                {...reveal(0.26 + index * 0.05)}
-                className="flex items-start gap-3 rounded-2xl border border-[#DED5C7] bg-[#F7F3EA] p-4 transition-colors duration-200 hover:border-[#2F7D5C]/30 hover:bg-white"
-              >
-                <span className="flex h-9 w-9 flex-none items-center justify-center rounded-xl border border-[#2F7D5C]/18 bg-[#EFF7F2] text-[#2F7D5C]">
-                  <Icon size={15} strokeWidth={1.8} aria-hidden />
-                </span>
-                <div className="flex min-w-0 flex-col gap-1">
-                  <h3 className="text-[13px] font-semibold leading-snug text-[#172033]">
+              <div className="flex min-h-[154px] flex-col gap-3 p-5">
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-[16px] font-semibold leading-snug text-[#172033]">
                     {card.title}
                   </h3>
-                  <p className="text-[11px] leading-5 text-[#7C8794]">
-                    {card.description}
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-[#2F7D5C]">
+                    {card.detail}
                   </p>
                 </div>
-              </motion.article>
-            );
-          })}
+                <p className="text-[12.5px] leading-6 text-[#5F6B7A]">
+                  {card.description}
+                </p>
+              </div>
+            </motion.article>
+          ))}
         </div>
 
         <motion.div

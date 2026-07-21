@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   Boxes,
   Factory,
@@ -8,6 +9,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { motion, useReducedMotion } from "framer-motion";
+import { CAPABILITY_IMAGES } from "@/lib/imageAssets";
 import { useIsClient } from "@/lib/useIsClient";
 import { useContent } from "@/lib/i18n";
 
@@ -70,6 +72,7 @@ export default function WhatIDoOperatingPanel() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {whatIDoCards.map((card, index) => {
             const Icon = CARD_ICONS[index % CARD_ICONS.length];
+            const image = CAPABILITY_IMAGES[index % CAPABILITY_IMAGES.length];
             return (
               <motion.article
                 key={card.id}
@@ -77,9 +80,16 @@ export default function WhatIDoOperatingPanel() {
                 whileHover={animate ? { y: -4 } : undefined}
                 className="group relative flex min-h-[255px] flex-col overflow-hidden rounded-2xl border border-[#DED5C7] bg-white p-5 shadow-[0_14px_30px_-26px_rgba(23,32,51,0.44)] transition-[transform,border-color,box-shadow] duration-300 hover:border-[#2F7D5C]/35 hover:shadow-[0_18px_36px_-24px_rgba(47,125,92,0.3)]"
               >
+                <Image
+                  src={image}
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 295px, (min-width: 640px) 50vw, 100vw"
+                  className="object-cover object-top opacity-35"
+                />
                 <div
                   aria-hidden
-                  className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#2F7D5C]/[0.05] to-transparent"
+                  className="absolute inset-0 bg-gradient-to-b from-white/15 via-white/80 to-white"
                 />
 
                 <div className="relative flex h-full flex-col gap-5">

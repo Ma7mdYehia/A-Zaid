@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {
   Globe,
   Instagram,
@@ -10,7 +11,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { motion } from "framer-motion";
-import MediaPlaceholder from "@/components/MediaPlaceholder";
+import { VENTURE_IMAGES } from "@/lib/imageAssets";
 import { useReveal } from "@/lib/motion";
 import { useContent } from "@/lib/i18n";
 
@@ -95,36 +96,31 @@ function SocialRow({
 }
 
 function ProjectMedia({
-  logoText,
-  label,
+  title,
+  imageSrc,
   hero = false,
-  warm = false,
 }: {
-  logoText: string;
-  label: string;
+  title: string;
+  imageSrc: string;
   hero?: boolean;
-  warm?: boolean;
 }) {
   return (
-    <MediaPlaceholder
-      label={label}
-      tone={hero ? "dark" : warm ? "warm" : "light"}
-      labelPosition="bottom-right"
-      className={hero ? "min-h-[250px] rounded-2xl sm:min-h-[330px] lg:h-full" : "h-[165px] rounded-t-2xl border-x-0 border-t-0"}
+    <div
+      className={[
+        "relative overflow-hidden bg-[#EEE8DD]",
+        hero
+          ? "min-h-[250px] rounded-2xl sm:min-h-[330px] lg:h-full"
+          : "h-[165px] rounded-t-2xl border-b border-[#DED5C7]",
+      ].join(" ")}
     >
-      <div className="absolute inset-0 z-10 flex items-center justify-center">
-        <span
-          className={[
-            "flex items-center justify-center rounded-2xl border font-bold tracking-[0.16em] backdrop-blur-md",
-            hero
-              ? "h-20 w-20 border-white/25 bg-white/12 text-lg text-white"
-              : "h-14 w-14 border-[#2F7D5C]/25 bg-white/75 text-sm text-[#2F7D5C]",
-          ].join(" ")}
-        >
-          {logoText}
-        </span>
-      </div>
-    </MediaPlaceholder>
+      <Image
+        src={imageSrc}
+        alt={title}
+        fill
+        sizes={hero ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1280px) 33vw, (min-width: 768px) 50vw, 100vw"}
+        className="object-cover transition-transform duration-500 group-hover:scale-[1.025]"
+      />
+    </div>
   );
 }
 
@@ -179,7 +175,11 @@ export default function SelectedWorkSection() {
         >
           <div className="grid grid-cols-1 gap-0 lg:grid-cols-[1.03fr_0.97fr]">
             <div className="p-4 sm:p-5 lg:p-6 lg:pe-0">
-              <ProjectMedia logoText={hero.logoText} label={work.logoBanner} hero />
+              <ProjectMedia
+                title={hero.title}
+                imageSrc={VENTURE_IMAGES[hero.id]}
+                hero
+              />
             </div>
 
             <div className="relative flex flex-col gap-5 px-6 pb-7 pt-5 sm:px-8 sm:pb-8 lg:px-9 lg:py-8">
@@ -241,9 +241,8 @@ export default function SelectedWorkSection() {
               className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#D8CEBE] bg-white shadow-[0_14px_34px_-30px_rgba(23,32,51,0.5)] transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[#2F7D5C]/35 hover:shadow-[0_20px_42px_-30px_rgba(47,125,92,0.3)]"
             >
               <ProjectMedia
-                logoText={item.logoText}
-                label={work.logoBanner}
-                warm={index % 3 === 1}
+                title={item.title}
+                imageSrc={VENTURE_IMAGES[item.id]}
               />
 
               <div className="flex flex-1 flex-col gap-3.5 p-5">
